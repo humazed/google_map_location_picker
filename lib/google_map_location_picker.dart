@@ -46,7 +46,6 @@ class LocationPickerState extends State<LocationPicker> {
               //            onTap: () {},
               child: Ink(
                 width: double.infinity,
-                padding: EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   backgroundBlendMode: BlendMode.multiply,
                   color: Color(0xFFEDEDED),
@@ -55,9 +54,8 @@ class LocationPickerState extends State<LocationPicker> {
                 child: Row(
                   children: <Widget>[
                     IconButton(
-                      onPressed: () {},
+                      onPressed: ()=>Navigator.pop(context),
                       // to remove the default padding
-                      padding: const EdgeInsets.only(),
                       icon: Icon(
                         Icons.arrow_back_ios,
                         size: 18,
