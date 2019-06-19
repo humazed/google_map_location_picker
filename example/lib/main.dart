@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_map_location_picker/google_map_location_picker.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 void main() => runApp(MyApp());
 
@@ -23,7 +24,7 @@ class _MyAppState extends State<MyApp> {
               children: <Widget>[
                 RaisedButton(
                   onPressed: () async {
-                    var result = await LocationPicker.pickLocation(context);
+                    LatLng result = await LocationPicker.pickLocation(context);
                     print("result = ${result}");
                   },
                   child: Text('Pic location'),
