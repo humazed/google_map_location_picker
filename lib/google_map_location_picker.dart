@@ -9,14 +9,26 @@ import 'package:provider/provider.dart';
 import 'location_provider.dart';
 
 class LocationPicker extends StatefulWidget {
+  LocationPicker({
+    Key key,
+    this.initialCenter,
+  });
+
+  final LatLng initialCenter;
+
   @override
   LocationPickerState createState() => LocationPickerState();
 
-  static Future<LatLng> pickLocation(BuildContext context) async {
+  static Future<LatLng> pickLocation(
+    BuildContext context, {
+    LatLng initialCenter = const LatLng(45.521563, -122.677433),
+  }) async {
     var results = await Navigator.of(context).push(
-      new MaterialPageRoute<dynamic>(
+      MaterialPageRoute<dynamic>(
         builder: (BuildContext context) {
-          return LocationPicker();
+          return LocationPicker(
+            initialCenter: initialCenter,
+          );
         },
       ),
     );
@@ -54,7 +66,7 @@ class LocationPickerState extends State<LocationPicker> {
                 child: Row(
                   children: <Widget>[
                     IconButton(
-                      onPressed: ()=>Navigator.pop(context),
+                      onPressed: () => Navigator.pop(context),
                       // to remove the default padding
                       icon: Icon(
                         Icons.arrow_back_ios,
@@ -98,7 +110,9 @@ class LocationPickerState extends State<LocationPicker> {
             ),
           ),
         ),
-        body: Map(center: const LatLng(45.521563, -122.677433)),
+        body: Map(
+          initialCenter: widget.initialCenter,
+        ),
 //      body: MapSample(),
       ),
     );

@@ -12,10 +12,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class Map extends StatefulWidget {
   const Map({
     Key key,
-    this.center,
+    this.initialCenter,
   }) : super(key: key);
 
-  final LatLng center;
+  final LatLng initialCenter;
 
   @override
   MapState createState() => MapState();
@@ -102,12 +102,12 @@ class MapState extends State<Map> {
             onMapCreated: (GoogleMapController controller) {
               mapController.complete(controller);
 
-              _lastMapPosition = widget.center;
+              _lastMapPosition = widget.initialCenter;
               LocationProvider.of(context)
                   .setLastIdleLocation(_lastMapPosition);
             },
             initialCameraPosition: CameraPosition(
-              target: widget.center,
+              target: widget.initialCenter,
               zoom: 11,
             ),
             onCameraMove: (CameraPosition position) {
@@ -178,7 +178,7 @@ class MapState extends State<Map> {
                 FlatButton(
                   child: Text('Ok'),
                   onPressed: () {
-                    final AndroidIntent intent = new AndroidIntent(
+                    final AndroidIntent intent = AndroidIntent(
                         action: 'android.settings.LOCATION_SOURCE_SETTINGS');
 
                     intent.launch();
