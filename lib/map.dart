@@ -6,11 +6,13 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_map_location_picker/location_provider.dart';
+import 'package:google_map_location_picker/utils/loading_builder.dart';
 import 'package:google_map_location_picker/utils/placeholder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 
-class Map extends StatefulWidget {
-  const Map({
+class MapPicker extends StatefulWidget {
+  const MapPicker({
     Key key,
     this.initialCenter,
   }) : super(key: key);
@@ -18,10 +20,10 @@ class Map extends StatefulWidget {
   final LatLng initialCenter;
 
   @override
-  MapState createState() => MapState();
+  MapPickerState createState() => MapPickerState();
 }
 
-class MapState extends State<Map> {
+class MapPickerState extends State<MapPicker> {
   Completer<GoogleMapController> mapController = Completer();
 
   MapType _currentMapType = MapType.normal;
@@ -85,12 +87,7 @@ class MapState extends State<Map> {
           return buildMap();
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pop({'location': _lastMapPosition});
-        },
-        child: Icon(Icons.arrow_forward),
-      ),
+//      floatingActionButton: ,
     );
   }
 
@@ -127,31 +124,96 @@ class MapState extends State<Map> {
           _MapFabs(
             onToggleMapTypePressed: _onToggleMapTypePressed,
           ),
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Icon(Icons.place, size: 56),
-                Container(
-                  decoration: ShapeDecoration(
-                    shadows: [
-                      BoxShadow(
-                        color: Colors.black38,
-                        blurRadius: 4,
-                      ),
-                    ],
-                    shape: CircleBorder(
-                      side: BorderSide(
-                        width: 4,
-                        color: Colors.transparent,
-                      ),
-                    ),
+          pin(),
+          locationCard(),
+        ],
+      ),
+    );
+  }
+
+  Widget locationCard() {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(8, 8, 8, 24),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxHeight: 120),
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: Row(
+                children: <Widget>[
+                  Flexible(
+                    flex: 5,
+                    child: Consumer<LocationProvider>(
+                        builder: (context, locationProvider, _) {
+                      var location = locationProvider.lastIdleLocation;
+                      return FutureLoadingBuilder<List<Placemark>>(
+                          mutable: true,
+                          future: Geolocator().placemarkFromCoordinates(
+                              location?.latitude, location?.longitude),
+                          builder: (context, landmarks) {
+                            String landmarkSt = '';
+
+                            if (landmarks != null && landmarks.isNotEmpty) {
+                              final Placemark pos = landmarks[0];
+                              landmarkSt =
+                                  '${pos.name}, ${pos.thoroughfare}, ${pos.locality}.';
+                            }
+
+                            return Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  landmarkSt,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ],
+                            );
+                          });
+                    }),
                   ),
-                ),
-                SizedBox(height: 56),
-              ],
+                  Spacer(),
+                  FloatingActionButton(
+                    onPressed: () {
+                      Navigator.of(context).pop({'location': _lastMapPosition});
+                    },
+                    child: Icon(Icons.arrow_forward),
+                  ),
+                ],
+              ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Center pin() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Icon(Icons.place, size: 56),
+          Container(
+            decoration: ShapeDecoration(
+              shadows: [
+                BoxShadow(
+                  color: Colors.black38,
+                  blurRadius: 4,
+                ),
+              ],
+              shape: CircleBorder(
+                side: BorderSide(
+                  width: 4,
+                  color: Colors.transparent,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 56),
         ],
       ),
     );

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 typedef WidgetBuilder<T> = Widget Function(BuildContext context, T snapshot);
 
@@ -73,6 +74,12 @@ class _FutureLoadingBuilderState<T> extends State<FutureLoadingBuilder<T>> {
                     'Please check your connection',
                     overflow: TextOverflow.fade,
                   ),
+                );
+              } else if (error is PlatformException &&
+                  error.code == 'ERROR_GEOCODING_COORDINATES') {
+                return Text(
+                  'Connection error, Please check your connection',
+                  overflow: TextOverflow.fade,
                 );
               } else {
                 print('FutureLoadingBuilder#Error: $error');
