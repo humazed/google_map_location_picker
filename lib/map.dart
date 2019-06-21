@@ -145,9 +145,10 @@ class MapPickerState extends State<MapPicker> {
             child: Padding(
               padding: const EdgeInsets.all(8),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Flexible(
-                    flex: 5,
+                    flex: 20,
                     child: Consumer<LocationProvider>(
                         builder: (context, locationProvider, _) {
                       var location = locationProvider.lastIdleLocation;
