@@ -11,16 +11,15 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   LatLng _pickedLocation;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        //        appBar: AppBar(
-//          title: const Text('Plugin example app'),
-//        ),
+        appBar: AppBar(
+          title: const Text('location picker'),
+        ),
         body: Builder(builder: (context) {
           return Center(
             child: Column(
@@ -37,7 +36,7 @@ class _MyAppState extends State<MyApp> {
                       _pickedLocation = result;
                     });
                   },
-                  child: Text('Pic location'),
+                  child: Text('Pick location'),
                 ),
                 Text(_pickedLocation.toString()),
               ],

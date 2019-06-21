@@ -14,3 +14,12 @@
 ## 0.0.5
 
 * updated deps
+
+## 0.1.0
+
+* Added place search feature.
+
+## 0.1.1
+
+* Updated min dart version to 2.2.2.
+* fix some formatting issues.

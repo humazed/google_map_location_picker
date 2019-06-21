@@ -48,8 +48,7 @@ class RichSuggestion extends StatelessWidget {
       );
     }
 
-    String boldText = autoCompleteItem.text.substring(
-        autoCompleteItem.offset,
+    String boldText = autoCompleteItem.text.substring(autoCompleteItem.offset,
         autoCompleteItem.offset + autoCompleteItem.length);
 
     result.add(TextSpan(

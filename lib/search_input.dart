@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 /// Custom Search input field, showing the search and clear icons.
 class SearchInput extends StatefulWidget {
   final ValueChanged<String> onSearchInput;
+  final Key searchInputKey;
 
-  Key searchInputKey;
   SearchInput(
     this.onSearchInput, {
     Key key,
-    this. searchInputKey,
+    this.searchInputKey,
   }) : super(key: key);
 
   @override

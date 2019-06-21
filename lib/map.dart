@@ -118,6 +118,9 @@ class MapPickerState extends State<MapPicker> {
             onCameraMoveStarted: () {
               print("onCameraMoveStarted#_lastMapPosition = $_lastMapPosition");
             },
+//            onTap: (latLng) {
+//              clearOverlay();
+//            },
             mapType: _currentMapType,
             myLocationEnabled: true,
           ),

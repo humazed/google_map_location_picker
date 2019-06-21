@@ -2,11 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_map_location_picker/map.dart';
 import 'package:google_map_location_picker/rich_suggestion.dart';
 import 'package:google_map_location_picker/search_input.dart';
-import 'package:google_map_location_picker/utils/loading_builder.dart';
 import 'package:google_map_location_picker/utils/uuid.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -108,63 +106,10 @@ class LocationPickerState extends State<LocationPicker> {
     );
   }
 
-  Padding buildPadding(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: InkWell(
-        //            onTap: () {},
-        child: Ink(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            backgroundBlendMode: BlendMode.multiply,
-            color: Color(0xFFEDEDED),
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-          ),
-          child: Row(
-            children: <Widget>[
-              IconButton(
-                onPressed: () => Navigator.pop(context),
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  size: 18,
-                  color: Colors.grey,
-                ),
-              ),
-              Flexible(
-                child: Consumer<LocationProvider>(
-                  builder: (context, locationProvider, _) {
-                    var location = locationProvider.lastIdleLocation;
-                    return FutureLoadingBuilder<List<Placemark>>(
-                      mutable: true,
-                      future: Geolocator().placemarkFromCoordinates(
-                          location?.latitude, location?.longitude),
-                      builder: (context, landmarks) {
-                        String landmarkSt = '';
-
-                        if (landmarks != null && landmarks.isNotEmpty) {
-                          final Placemark pos = landmarks[0];
-                          landmarkSt =
-                              '${pos.thoroughfare}, ${pos.thoroughfare}, ${pos.locality}.  ';
-                        }
-
-                        return Text(
-                          landmarkSt,
-//                                      pauseAfterRound: Duration(seconds: 5),
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.grey[700],
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+  @override
+  void dispose() {
+    clearOverlay();
+    super.dispose();
   }
 
   /// Hides the autocomplete overlay
@@ -243,7 +188,7 @@ class LocationPickerState extends State<LocationPicker> {
     var endpoint =
         "https://maps.googleapis.com/maps/api/place/autocomplete/json?" +
             "key=${widget.apiKey}&" +
-            "input={$place}&sessiontoken=${sessionToken}";
+            "input={$place}&sessiontoken=$sessionToken";
 
     if (locationResult != null) {
       endpoint += "&location=${locationResult.latLng.latitude}," +
@@ -355,20 +300,6 @@ class LocationPickerState extends State<LocationPicker> {
     return "${locationResult.name}, ${locationResult.locality}";
   }
 
-  /// Moves the marker to the indicated lat,lng
-  void setMarker(LatLng latLng) {
-    // markers.clear();
-//    setState(() {
-//      markers.clear();
-//      markers.add(
-//        Marker(
-//          markerId: MarkerId("selected-location"),
-//          position: latLng,
-//        ),
-//      );
-//    });
-  }
-
   /// Fetches and updates the nearby places to the provided lat,lng
   void getNearbyPlaces(LatLng latLng) {
     http
@@ -440,8 +371,6 @@ class LocationPickerState extends State<LocationPicker> {
         ),
       );
     });
-
-    setMarker(latLng);
 
     reverseGeocodeLatLng(latLng);
 

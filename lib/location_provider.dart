@@ -9,9 +9,8 @@ class LocationProvider extends ChangeNotifier {
   LatLng _lastIdleLocation;
   LatLng get lastIdleLocation => _lastIdleLocation;
 
-  void setLastIdleLocation(LatLng lastIdleLocation){
+  void setLastIdleLocation(LatLng lastIdleLocation) {
     _lastIdleLocation = lastIdleLocation;
     notifyListeners();
   }
-
 }
