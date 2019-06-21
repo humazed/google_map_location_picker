@@ -1,23 +1,29 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:android_intent/android_intent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_map_location_picker/location_provider.dart';
+import 'package:google_map_location_picker/providers/location_provider.dart';
 import 'package:google_map_location_picker/utils/loading_builder.dart';
 import 'package:google_map_location_picker/utils/placeholder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
+import 'model/location_result.dart';
+
 class MapPicker extends StatefulWidget {
+  final LatLng initialCenter;
+  final String apiKey;
+
   const MapPicker({
     Key key,
     this.initialCenter,
+    this.apiKey,
   }) : super(key: key);
-
-  final LatLng initialCenter;
 
   @override
   MapPickerState createState() => MapPickerState();
@@ -73,21 +79,19 @@ class MapPickerState extends State<MapPicker> {
   Widget build(BuildContext context) {
     _checkGps();
     return Scaffold(
-      body: FutureBuilder<GeolocationStatus>(
+      body: FutureLoadingBuilder<GeolocationStatus>(
         future: Geolocator().checkGeolocationPermissionStatus(),
-        builder:
-            (BuildContext context, AsyncSnapshot<GeolocationStatus> snapshot) {
-          if (!snapshot.hasData || _currentPosition == null) return buildMap();
+        builder: (BuildContext context, GeolocationStatus geolocationStatus) {
+          if (_currentPosition == null) return buildMap();
 
-          if (snapshot.data == GeolocationStatus.denied) {
+          if (geolocationStatus == GeolocationStatus.denied) {
             return const PlaceholderWidget('Access to location denied',
                 'Allow access to the location services for this App using the device settings.');
-          } else if (snapshot.data == GeolocationStatus.disabled) {}
+          } else if (geolocationStatus == GeolocationStatus.disabled) {}
 
           return buildMap();
         },
       ),
-//      floatingActionButton: ,
     );
   }
 
@@ -151,25 +155,17 @@ class MapPickerState extends State<MapPicker> {
                     flex: 20,
                     child: Consumer<LocationProvider>(
                         builder: (context, locationProvider, _) {
-                      var location = locationProvider.lastIdleLocation;
-                      return FutureLoadingBuilder<List<Placemark>>(
+                      return FutureLoadingBuilder<String>(
                           mutable: true,
-                          future: Geolocator().placemarkFromCoordinates(
-                              location?.latitude, location?.longitude),
-                          builder: (context, landmarks) {
-                            String landmarkSt = '';
-
-                            if (landmarks != null && landmarks.isNotEmpty) {
-                              final Placemark pos = landmarks[0];
-                              landmarkSt =
-                                  '${pos.name}, ${pos.thoroughfare}, ${pos.locality}.';
-                            }
+                          future: getAddress(locationProvider.lastIdleLocation),
+                          builder: (context, address) {
+                            LocationProvider.of(context).setAddress(address);
 
                             return Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
-                                  landmarkSt,
+                                  address ?? 'Unnamed place',
                                   style: TextStyle(
                                     fontSize: 18,
                                   ),
@@ -180,12 +176,20 @@ class MapPickerState extends State<MapPicker> {
                     }),
                   ),
                   Spacer(),
-                  FloatingActionButton(
-                    onPressed: () {
-                      Navigator.of(context).pop({'location': _lastMapPosition});
-                    },
-                    child: Icon(Icons.arrow_forward),
-                  ),
+                  Consumer<LocationProvider>(
+                      builder: (context, locationProvider, _) {
+                    return FloatingActionButton(
+                      onPressed: () {
+                        Navigator.of(context).pop({
+                          'location': LocationResult(
+                            latLng: locationProvider.lastIdleLocation,
+                            address: locationProvider.address,
+                          )
+                        });
+                      },
+                      child: Icon(Icons.arrow_forward),
+                    );
+                  }),
                 ],
               ),
             ),
@@ -193,6 +197,20 @@ class MapPickerState extends State<MapPicker> {
         ),
       ),
     );
+  }
+
+  Future<String> getAddress(LatLng location) async {
+    try {
+      var endPoint =
+          'https://maps.googleapis.com/maps/api/geocode/json?latlng=${location?.latitude},${location?.longitude}&key=${widget.apiKey}';
+      var response = jsonDecode((await http.get(endPoint)).body);
+
+      return response['results'][0]['formatted_address'];
+    } catch (e) {
+      print(e);
+    }
+
+    return null;
   }
 
   Center pin() {

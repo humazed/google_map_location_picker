@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_map_location_picker/google_map_location_picker.dart';
+import 'package:google_map_location_picker/model/location_result.dart';
 import 'package:google_map_location_picker_example/keys.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -11,7 +12,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  LatLng _pickedLocation;
+  LocationResult _pickedLocation;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class _MyAppState extends State<MyApp> {
               children: <Widget>[
                 RaisedButton(
                   onPressed: () async {
-                    LatLng result = await LocationPicker.pickLocation(
+                    LocationResult result = await LocationPicker.pickLocation(
                       context,
                       apiKey,
                     );

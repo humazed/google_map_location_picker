@@ -23,3 +23,8 @@
 
 * Updated min dart version to 2.2.2.
 * fix some formatting issues.
+
+## 0.2.0
+
+* now retuning the address plus LatLng
+* do the reverse geocoding with google web api instead of the native lib. 

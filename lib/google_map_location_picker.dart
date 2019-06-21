@@ -10,7 +10,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
-import 'location_provider.dart';
+import 'package:google_map_location_picker/providers/location_provider.dart';
 import 'model/auto_comp_iete_item.dart';
 import 'model/location_result.dart';
 import 'model/nearby_place.dart';
@@ -36,7 +36,7 @@ class LocationPicker extends StatefulWidget {
   ///
   /// [initialCenter] The geographical location that the camera is pointing at.
   ///
-  static Future<LatLng> pickLocation(
+  static Future<LocationResult> pickLocation(
     BuildContext context,
     String apiKey, {
     LatLng initialCenter = const LatLng(45.521563, -122.677433),
@@ -100,6 +100,7 @@ class LocationPickerState extends State<LocationPicker> {
           body: MapPicker(
             initialCenter: widget.initialCenter,
             key: mapKey,
+              apiKey:widget.apiKey,
           ),
         );
       }),
@@ -285,20 +286,20 @@ class LocationPickerState extends State<LocationPicker> {
   /// that the user selects from the nearby list (and expects to see that as a
   /// result, instead of road name). If no name is found from the nearby list,
   /// then the road name returned is used instead.
-  String getLocationName() {
-    if (locationResult == null) {
-      return "Unnamed location";
-    }
-
-    for (NearbyPlace np in nearbyPlaces) {
-      if (np.latLng == locationResult.latLng) {
-        locationResult.name = np.name;
-        return np.name;
-      }
-    }
-
-    return "${locationResult.name}, ${locationResult.locality}";
-  }
+//  String getLocationName() {
+//    if (locationResult == null) {
+//      return "Unnamed location";
+//    }
+//
+//    for (NearbyPlace np in nearbyPlaces) {
+//      if (np.latLng == locationResult.latLng) {
+//        locationResult.name = np.name;
+//        return np.name;
+//      }
+//    }
+//
+//    return "${locationResult.name}, ${locationResult.locality}";
+//  }
 
   /// Fetches and updates the nearby places to the provided lat,lng
   void getNearbyPlaces(LatLng latLng) {
@@ -351,8 +352,7 @@ class LocationPickerState extends State<LocationPicker> {
 
       setState(() {
         locationResult = LocationResult();
-        locationResult.name = road;
-        locationResult.locality = locality;
+        locationResult.address = road;
         locationResult.latLng = latLng;
       });
     }

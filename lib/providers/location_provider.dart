@@ -13,4 +13,11 @@ class LocationProvider extends ChangeNotifier {
     _lastIdleLocation = lastIdleLocation;
     notifyListeners();
   }
+  String _address;
+  String get address => _address;
+
+  void setAddress(String address) {
+    _address = address;
+    notifyListeners();
+  }
 }
