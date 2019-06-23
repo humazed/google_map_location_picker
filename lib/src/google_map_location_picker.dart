@@ -347,8 +347,8 @@ class LocationPickerState extends State<LocationPicker> {
 
       String road =
           responseJson['results'][0]['address_components'][0]['short_name'];
-      String locality =
-          responseJson['results'][0]['address_components'][1]['short_name'];
+//      String locality =
+//          responseJson['results'][0]['address_components'][1]['short_name'];
 
       setState(() {
         locationResult = LocationResult();
