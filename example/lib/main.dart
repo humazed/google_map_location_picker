@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_map_location_picker/google_map_location_picker.dart';
-import 'package:google_map_location_picker/model/location_result.dart';
 import 'package:google_map_location_picker_example/keys.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 void main() => runApp(MyApp());
 
@@ -17,6 +15,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'location picker',
       home: Scaffold(
         appBar: AppBar(
           title: const Text('location picker'),
@@ -32,10 +31,8 @@ class _MyAppState extends State<MyApp> {
                       context,
                       apiKey,
                     );
-                    print("result = ${result}");
-                    setState(() {
-                      _pickedLocation = result;
-                    });
+                    print("result = $result");
+                    setState(() => _pickedLocation = result);
                   },
                   child: Text('Pick location'),
                 ),

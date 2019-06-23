@@ -134,7 +134,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.2.0"
+    version: "1.0.0"
   google_maps_flutter:
     dependency: transitive
     description:
@@ -198,6 +198,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.12.5"
+  memoize:
+    dependency: transitive
+    description:
+      name: memoize
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   meta:
     dependency: transitive
     description:

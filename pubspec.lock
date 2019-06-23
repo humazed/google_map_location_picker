@@ -184,6 +184,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.12.5"
+  memoize:
+    dependency: "direct main"
+    description:
+      name: memoize
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   meta:
     dependency: transitive
     description:

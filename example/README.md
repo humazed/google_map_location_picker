@@ -1,16 +1,51 @@
-# google_map_location_picker_example
+# example/dio.dart
 
-Demonstrates how to use the google_map_location_picker plugin.
+```dart
+import 'package:flutter/material.dart';
+import 'package:google_map_location_picker/google_map_location_picker.dart';
+import 'package:google_map_location_picker_example/keys.dart';
 
-## Getting Started
+void main() => runApp(MyApp());
 
-This project is a starting point for a Flutter application.
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
 
-A few resources to get you started if this is your first Flutter project:
+class _MyAppState extends State<MyApp> {
+  LocationResult _pickedLocation;
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'location picker',
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('location picker'),
+        ),
+        body: Builder(builder: (context) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                RaisedButton(
+                  onPressed: () async {
+                    LocationResult result = await LocationPicker.pickLocation(
+                      context,
+                      apiKey,
+                    );
+                    print("result = $result");
+                    setState(() => _pickedLocation = result);
+                  },
+                  child: Text('Pick location'),
+                ),
+                Text(_pickedLocation.toString()),
+              ],
+            ),
+          );
+        }),
+      ),
+    );
+  }
+}
+```

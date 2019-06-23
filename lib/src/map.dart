@@ -6,9 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_map_location_picker/providers/location_provider.dart';
-import 'package:google_map_location_picker/utils/loading_builder.dart';
-import 'package:google_map_location_picker/utils/placeholder.dart';
+import 'package:google_map_location_picker/src/providers/location_provider.dart';
+import 'package:google_map_location_picker/src/utils/loading_builder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -38,13 +37,13 @@ class MapPickerState extends State<MapPicker> {
 
   Position _currentPosition;
 
+  String _address;
+
   void _onToggleMapTypePressed() {
     final MapType nextType =
         MapType.values[(_currentMapType.index + 1) % MapType.values.length];
 
-    setState(() {
-      _currentMapType = nextType;
-    });
+    setState(() => _currentMapType = nextType);
   }
 
   Future<void> _initCurrentLocation() async {
@@ -65,8 +64,9 @@ class MapPickerState extends State<MapPicker> {
 
     setState(() => _currentPosition = currentPosition);
 
-    moveToCurrentLocation(
-        LatLng(_currentPosition.latitude, _currentPosition.longitude));
+    if (currentPosition != null)
+      moveToCurrentLocation(
+          LatLng(currentPosition.latitude, currentPosition.longitude));
   }
 
   @override
@@ -78,20 +78,14 @@ class MapPickerState extends State<MapPicker> {
   @override
   Widget build(BuildContext context) {
     _checkGps();
+    _checkGeolocationPermission();
     return Scaffold(
-      body: FutureLoadingBuilder<GeolocationStatus>(
-        future: Geolocator().checkGeolocationPermissionStatus(),
-        builder: (BuildContext context, GeolocationStatus geolocationStatus) {
-          if (_currentPosition == null) return buildMap();
+      body: Builder(builder: (context) {
+        if (_currentPosition == null)
+          return const Center(child: CircularProgressIndicator());
 
-          if (geolocationStatus == GeolocationStatus.denied) {
-            return const PlaceholderWidget('Access to location denied',
-                'Allow access to the location services for this App using the device settings.');
-          } else if (geolocationStatus == GeolocationStatus.disabled) {}
-
-          return buildMap();
-        },
-      ),
+        return buildMap();
+      }),
     );
   }
 
@@ -144,23 +138,22 @@ class MapPickerState extends State<MapPicker> {
       child: Padding(
         padding: const EdgeInsets.fromLTRB(8, 8, 8, 24),
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: 120),
+          constraints: BoxConstraints(maxHeight: 125),
           child: Card(
             child: Padding(
               padding: const EdgeInsets.all(8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Flexible(
-                    flex: 20,
-                    child: Consumer<LocationProvider>(
-                        builder: (context, locationProvider, _) {
-                      return FutureLoadingBuilder<String>(
+              child: Consumer<LocationProvider>(
+                  builder: (context, locationProvider, _) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Flexible(
+                      flex: 20,
+                      child: FutureLoadingBuilder<String>(
                           mutable: true,
                           future: getAddress(locationProvider.lastIdleLocation),
                           builder: (context, address) {
-                            LocationProvider.of(context).setAddress(address);
-
+                            _address = address;
                             return Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -172,26 +165,23 @@ class MapPickerState extends State<MapPicker> {
                                 ),
                               ],
                             );
-                          });
-                    }),
-                  ),
-                  Spacer(),
-                  Consumer<LocationProvider>(
-                      builder: (context, locationProvider, _) {
-                    return FloatingActionButton(
+                          }),
+                    ),
+                    Spacer(),
+                    FloatingActionButton(
                       onPressed: () {
                         Navigator.of(context).pop({
                           'location': LocationResult(
                             latLng: locationProvider.lastIdleLocation,
-                            address: locationProvider.address,
+                            address: _address,
                           )
                         });
                       },
-                      child: Icon(Icons.arrow_forward),
-                    );
-                  }),
-                ],
-              ),
+                      child: Icon(Icons.arrow_forward, color: Colors.white),
+                    ),
+                  ],
+                );
+              }),
             ),
           ),
         ),
@@ -248,11 +238,51 @@ class MapPickerState extends State<MapPicker> {
     ));
   }
 
+  var dialogOpen;
+  Future _checkGeolocationPermission() async {
+    print('MapPickerState._checkGeolocationPermission');
+    print("dialogOpen == null = ${dialogOpen == null}");
+    var geolocationStatus =
+        await Geolocator().checkGeolocationPermissionStatus();
+
+    if (geolocationStatus == GeolocationStatus.denied && dialogOpen == null) {
+      print('showDialog');
+      dialogOpen = showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Access to location denied"),
+            content: const Text('Allow access to the location services.'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Ok'),
+                onPressed: () {
+                  Navigator.of(context, rootNavigator: true).pop();
+                  _initCurrentLocation();
+                  dialogOpen = null;
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } else if (geolocationStatus == GeolocationStatus.disabled) {
+    } else if (geolocationStatus == GeolocationStatus.granted) {
+      if (dialogOpen != null) {
+        Navigator.of(context, rootNavigator: true).pop();
+        Navigator.of(context).pop();
+        dialogOpen = null;
+      }
+    }
+  }
+
   Future _checkGps() async {
     if (!(await Geolocator().isLocationServiceEnabled())) {
       if (Theme.of(context).platform == TargetPlatform.android) {
         showDialog(
           context: context,
+          barrierDismissible: false,
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text("Can't get gurrent location"),
@@ -298,7 +328,7 @@ class _MapFabs extends StatelessWidget {
             onPressed: onToggleMapTypePressed,
             materialTapTargetSize: MaterialTapTargetSize.padded,
             mini: true,
-            child: const Icon(Icons.layers, size: 28),
+            child: const Icon(Icons.layers, size: 28, color: Colors.white),
             heroTag: "layers",
           ),
         ],

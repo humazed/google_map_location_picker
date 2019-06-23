@@ -85,9 +85,9 @@ class _FutureLoadingBuilderState<T> extends State<FutureLoadingBuilder<T>> {
                 print('FutureLoadingBuilder#Error: $error');
                 return Center(child: Text('Unknown error'));
               }
+            } else {
+              return widget.builder(context, snapshot.data);
             }
-
-            return widget.builder(context, snapshot.data);
         }
       },
     );
