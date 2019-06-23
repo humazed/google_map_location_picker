@@ -1,3 +1,7 @@
+## 1.0.3
+
+* remove some useless logging.
+
 ## 1.0.2
 
 * fix the address card mix height it and sometimes it's cutout.

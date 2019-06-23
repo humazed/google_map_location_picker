@@ -240,8 +240,6 @@ class MapPickerState extends State<MapPicker> {
 
   var dialogOpen;
   Future _checkGeolocationPermission() async {
-    print('MapPickerState._checkGeolocationPermission');
-    print("dialogOpen == null = ${dialogOpen == null}");
     var geolocationStatus =
         await Geolocator().checkGeolocationPermissionStatus();
 
