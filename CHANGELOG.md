@@ -1,3 +1,7 @@
+## 1.0.4
+
+* remove ConstrainedBox around address card as the font changes sometimes cutouts happen.
+
 ## 1.0.3
 
 * remove some useless logging.

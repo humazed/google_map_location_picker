@@ -8,10 +8,11 @@ typedef WidgetBuilder<T> = Widget Function(BuildContext context, T snapshot);
 class FutureLoadingBuilder<T> extends StatefulWidget {
   const FutureLoadingBuilder({
     Key key,
-    this.future,
-    this.initialData,
+    @required this.future,
     @required this.builder,
+    this.initialData,
     this.mutable = false,
+    this.loadingIndicator,
   })  : assert(builder != null),
         super(key: key);
 
@@ -38,6 +39,8 @@ class FutureLoadingBuilder<T> extends StatefulWidget {
   /// set to false if the future will change.
   final bool mutable;
 
+  final Widget loadingIndicator;
+
   @override
   _FutureLoadingBuilderState<T> createState() =>
       _FutureLoadingBuilderState<T>();
@@ -62,7 +65,8 @@ class _FutureLoadingBuilderState<T> extends State<FutureLoadingBuilder<T>> {
           case ConnectionState.none:
           case ConnectionState.active:
           case ConnectionState.waiting:
-            return Center(child: CircularProgressIndicator());
+            return widget.loadingIndicator ??
+                Center(child: CircularProgressIndicator());
           case ConnectionState.done:
             if (snapshot.hasError) {
               var error = snapshot.error;

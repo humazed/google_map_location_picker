@@ -137,52 +137,55 @@ class MapPickerState extends State<MapPicker> {
       alignment: Alignment.bottomCenter,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(8, 8, 8, 24),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: 130),
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: Consumer<LocationProvider>(
-                  builder: (context, locationProvider, _) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Flexible(
-                      flex: 20,
-                      child: FutureLoadingBuilder<String>(
-                          mutable: true,
-                          future: getAddress(locationProvider.lastIdleLocation),
-                          builder: (context, address) {
-                            _address = address;
-                            return Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  address ?? 'Unnamed place',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Consumer<LocationProvider>(
+                builder: (context, locationProvider, _) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Flexible(
+                    flex: 20,
+                    child: FutureLoadingBuilder<String>(
+                        future: getAddress(locationProvider.lastIdleLocation),
+                        mutable: true,
+                        loadingIndicator: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            CircularProgressIndicator(),
+                          ],
+                        ),
+                        builder: (context, address) {
+                          _address = address;
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                address ?? 'Unnamed place',
+                                style: TextStyle(
+                                  fontSize: 18,
                                 ),
-                              ],
-                            );
-                          }),
-                    ),
-                    Spacer(),
-                    FloatingActionButton(
-                      onPressed: () {
-                        Navigator.of(context).pop({
-                          'location': LocationResult(
-                            latLng: locationProvider.lastIdleLocation,
-                            address: _address,
-                          )
-                        });
-                      },
-                      child: Icon(Icons.arrow_forward, color: Colors.white),
-                    ),
-                  ],
-                );
-              }),
-            ),
+                              ),
+                            ],
+                          );
+                        }),
+                  ),
+                  Spacer(),
+                  FloatingActionButton(
+                    onPressed: () {
+                      Navigator.of(context).pop({
+                        'location': LocationResult(
+                          latLng: locationProvider.lastIdleLocation,
+                          address: _address,
+                        )
+                      });
+                    },
+                    child: Icon(Icons.arrow_forward, color: Colors.white),
+                  ),
+                ],
+              );
+            }),
           ),
         ),
       ),
