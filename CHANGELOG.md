@@ -1,3 +1,7 @@
+## 1.0.2
+
+* fix the address card mix height it and sometimes it's cutout.
+
 ## 1.0.1
 
 * remove unused code.

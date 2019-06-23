@@ -138,7 +138,7 @@ class MapPickerState extends State<MapPicker> {
       child: Padding(
         padding: const EdgeInsets.fromLTRB(8, 8, 8, 24),
         child: ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: 125),
+          constraints: BoxConstraints(maxHeight: 130),
           child: Card(
             child: Padding(
               padding: const EdgeInsets.all(8),
