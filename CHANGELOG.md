@@ -1,5 +1,9 @@
 ## 1.0.4
 
+* updated google_maps_flutter: ^0.5.19
+
+## 1.0.4
+
 * remove ConstrainedBox around address card as the font changes sometimes cutouts happen.
 
 ## 1.0.3
