@@ -4,6 +4,13 @@ Location picker using the official [google_maps_flutter](https://pub.dev/package
 
 I made This plugin because google deprecated [Place Picker](https://developers.google.com/places/android-sdk/placepicker). 
 
+<p>
+  <img src="art/location_picker.gif" width=265/>
+  <img src="art/Screenshot_1.png" width=265 />
+  <img src="art/Screenshot_2.png" width=265 />
+</p>
+
+
 ## Getting Started
 
 Get an API key at <https://cloud.google.com/maps-platform/>.
