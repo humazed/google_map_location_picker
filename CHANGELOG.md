@@ -1,4 +1,4 @@
-## 1.0.4
+## 1.0.5
 
 * updated google_maps_flutter: ^0.5.19
 
