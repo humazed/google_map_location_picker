@@ -1,3 +1,7 @@
+## 1.0.5+1
+
+* updated google_maps_flutter: ^0.5.19+2
+
 ## 1.0.5
 
 * updated google_maps_flutter: ^0.5.19
