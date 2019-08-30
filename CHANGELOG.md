@@ -1,3 +1,7 @@
+## 2.0.0+3
+
+* updated Readme to reflect the latest version of the lib.
+
 ## 2.0.0+2
 
 * updated dependencies to the latest version.
