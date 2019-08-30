@@ -70,10 +70,7 @@ with the key `io.flutter.embedded_views_preview` and the value `YES`.
 
 ## Using
 
-## ⚡️ Import
 For message localization inside the library please add in `MaterialApp`
-
-## 🎮 How To Use
 
 ```dart
 import 'package:google_map_location_picker/generated/i18n.dart' as location_picker;
