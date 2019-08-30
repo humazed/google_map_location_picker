@@ -141,41 +141,41 @@ class LocationPickerState extends State<LocationPicker> {
 
     overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
-            top: appBarBox.size.height,
-            width: size.width,
-            child: Material(
-              elevation: 1,
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                  vertical: 16,
-                  horizontal: 24,
+        top: appBarBox.size.height,
+        width: size.width,
+        child: Material(
+          elevation: 1,
+          child: Container(
+            padding: EdgeInsets.symmetric(
+              vertical: 16,
+              horizontal: 24,
+            ),
+            color: Colors.white,
+            child: Row(
+              children: <Widget>[
+                SizedBox(
+                  height: 24,
+                  width: 24,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 3,
+                  ),
                 ),
-                color: Colors.white,
-                child: Row(
-                  children: <Widget>[
-                    SizedBox(
-                      height: 24,
-                      width: 24,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 3,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 24,
-                    ),
-                    Expanded(
-                      child: Text(
-                        "Finding place...",
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                    )
-                  ],
+                SizedBox(
+                  width: 24,
                 ),
-              ),
+                Expanded(
+                  child: Text(
+                    "Finding place...",
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                )
+              ],
             ),
           ),
+        ),
+      ),
     );
 
     Overlay.of(context).insert(overlayEntry);
@@ -266,16 +266,16 @@ class LocationPickerState extends State<LocationPicker> {
 
     overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
-            width: size.width,
-            top: appBarBox.size.height,
-            child: Material(
-              elevation: 1,
-              color: Colors.white,
-              child: Column(
-                children: suggestions,
-              ),
-            ),
+        width: size.width,
+        top: appBarBox.size.height,
+        child: Material(
+          elevation: 1,
+          color: Colors.white,
+          child: Column(
+            children: suggestions,
           ),
+        ),
+      ),
     );
 
     Overlay.of(context).insert(overlayEntry);

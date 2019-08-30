@@ -7,6 +7,7 @@ class LocationProvider extends ChangeNotifier {
       Provider.of<LocationProvider>(context);
 
   LatLng _lastIdleLocation;
+
   LatLng get lastIdleLocation => _lastIdleLocation;
 
   void setLastIdleLocation(LatLng lastIdleLocation) {
