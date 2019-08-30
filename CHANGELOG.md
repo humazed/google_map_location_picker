@@ -1,3 +1,8 @@
+## 2.0.0
+
+* Fix permission error dialog.
+* Added arabic lionization.
+
 ## 1.0.5+3
 
 * updated dependencies to the latest version.
