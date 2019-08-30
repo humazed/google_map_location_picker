@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:google_map_location_picker/generated/i18n.dart' as location_picker;
+import 'package:google_map_location_picker/generated/i18n.dart'
+    as location_picker;
 import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:google_map_location_picker_example/keys.dart';
+
+import 'generated/i18n.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,13 +23,14 @@ class _MyAppState extends State<MyApp> {
       title: 'location picker',
       localizationsDelegates: const [
         location_picker.S.delegate,
+        S.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const <Locale>[
-        Locale("en"),
-        Locale("ar"),
+        Locale('en', ''),
+        Locale('ar', ''),
       ],
       home: Scaffold(
         appBar: AppBar(

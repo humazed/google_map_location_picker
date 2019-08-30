@@ -83,8 +83,8 @@ MaterialApp(
     GlobalCupertinoLocalizations.delegate,
   ],
   supportedLocales: const <Locale>[
-    Locale("en"),
-    Locale("ar"),
+    Locale('en', ''),
+    Locale('ar', ''),
   ],
   home: ...
 )
