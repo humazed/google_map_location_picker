@@ -80,39 +80,6 @@ class LocationPickerState extends State<LocationPicker> {
 
   bool hasSearchTerm = false;
 
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(builder: (_) => LocationProvider()),
-      ],
-      child: Builder(builder: (context) {
-        return Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            iconTheme: IconThemeData(color: Colors.black),
-            key: appBarKey,
-            title: SearchInput(
-              (input) => searchPlace(input),
-              key: searchInputKey,
-            ),
-          ),
-          body: MapPicker(
-            initialCenter: widget.initialCenter,
-            key: mapKey,
-            apiKey: widget.apiKey,
-          ),
-        );
-      }),
-    );
-  }
-
-  @override
-  void dispose() {
-    clearOverlay();
-    super.dispose();
-  }
-
   /// Hides the autocomplete overlay
   void clearOverlay() {
     if (overlayEntry != null) {
@@ -375,5 +342,38 @@ class LocationPickerState extends State<LocationPicker> {
     reverseGeocodeLatLng(latLng);
 
     getNearbyPlaces(latLng);
+  }
+
+  @override
+  void dispose() {
+    clearOverlay();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(builder: (_) => LocationProvider()),
+      ],
+      child: Builder(builder: (context) {
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            iconTheme: IconThemeData(color: Colors.black),
+            key: appBarKey,
+            title: SearchInput(
+              (input) => searchPlace(input),
+              key: searchInputKey,
+            ),
+          ),
+          body: MapPicker(
+            initialCenter: widget.initialCenter,
+            key: mapKey,
+            apiKey: widget.apiKey,
+          ),
+        );
+      }),
+    );
   }
 }

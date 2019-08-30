@@ -2,5 +2,8 @@
   "please_check_your_connection": "تأكد من وجود انترنت",
   "server_error": "خطأ من الخادم حاول مرة اخري",
   "access_to_location_denied": "تم رفض إذن الوصل الي الموقع الجغرافي",
-  "allow_access_to_the_location_services": "من فضلك قم بقبول إذن الوصول الي الموقع الجغرافي"
+  "allow_access_to_the_location_services": "من فضلك قم بقبول إذن الوصول الي الموقع الجغرافي",
+  "ok": "حسنا",
+  "cant_get_current_location": "لا يمكن الحصول علي الموقع الجغرافي الحالي",
+  "please_make_sure_you_enable_gps_and_try_again": "الرجاء التاكد من تفعيل الGPS و المحاولة مرة أخري"
 }

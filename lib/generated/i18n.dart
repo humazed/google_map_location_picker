@@ -23,7 +23,10 @@ class S implements WidgetsLocalizations {
 
   String get access_to_location_denied => "Access to location denied";
   String get allow_access_to_the_location_services => "Allow access to the location services.";
+  String get cant_get_current_location => "Can't get current location";
+  String get ok => "Ok";
   String get please_check_your_connection => "Please check your connection";
+  String get please_make_sure_you_enable_gps_and_try_again => "Please make sure you enable GPS and try again";
   String get server_error => "Server error";
 }
 
@@ -34,13 +37,19 @@ class $ar extends S {
   TextDirection get textDirection => TextDirection.rtl;
 
   @override
+  String get cant_get_current_location => "لا يمكن الحصول علي الموقع الجغرافي الحالي";
+  @override
   String get access_to_location_denied => "تم رفض إذن الوصل الي الموقع الجغرافي";
   @override
   String get allow_access_to_the_location_services => "من فضلك قم بقبول إذن الوصول الي الموقع الجغرافي";
   @override
   String get server_error => "خطأ من الخادم حاول مرة اخري";
   @override
+  String get ok => "حسنا";
+  @override
   String get please_check_your_connection => "تأكد من وجود انترنت";
+  @override
+  String get please_make_sure_you_enable_gps_and_try_again => "الرجاء التاكد من تفعيل الGPS و المحاولة مرة أخري";
 }
 
 class $en extends S {

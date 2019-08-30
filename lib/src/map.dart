@@ -255,14 +255,14 @@ class MapPickerState extends State<MapPicker> {
         barrierDismissible: false,
         builder: (context) {
           return AlertDialog(
-            title: Text(S.of(context)?.access_to_location_denied ??
+            title: Text(S.of(context).access_to_location_denied ??
                 'Access to location denied'),
             content: Text(
                 S.of(context)?.allow_access_to_the_location_services ??
                     'Allow access to the location services.'),
             actions: <Widget>[
               FlatButton(
-                child: Text('Ok'),
+                child: Text(S.of(context)?.ok ?? 'Ok'),
                 onPressed: () {
                   Navigator.of(context, rootNavigator: true).pop();
                   _initCurrentLocation();
@@ -291,9 +291,12 @@ class MapPickerState extends State<MapPicker> {
           barrierDismissible: false,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text("Can't get gurrent location"),
-              content:
-                  const Text('Please make sure you enable GPS and try again'),
+              title: Text(S.of(context)?.cant_get_current_location ??
+                  "Can't get current location"),
+              content: Text(S
+                      .of(context)
+                      ?.please_make_sure_you_enable_gps_and_try_again ??
+                  'Please make sure you enable GPS and try again'),
               actions: <Widget>[
                 FlatButton(
                   child: Text('Ok'),
