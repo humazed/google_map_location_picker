@@ -120,3 +120,12 @@ The following permissions are defined in the package manifest, and are automatic
 
 `android.permission.ACCESS_NETWORK_STATE` Allows the API to check the connection status in order to determine whether data can be downloaded.
 
+
+### Credits
+
+The google map from [Flutter's](https://github.com/flutter) [google_maps_flutter](https://pub.dev/packages/google_maps_flutter) package
+
+current location and permission from [BaseflowIT's](https://github.com/BaseflowIT) [flutter-geolocator](https://github.com/baseflowit/flutter-geolocator) package.
+
+The search bar from [Degreat's](https://github.com/blackmann) [locationpicker](https://github.com/blackmann/locationpicker) package.
+
