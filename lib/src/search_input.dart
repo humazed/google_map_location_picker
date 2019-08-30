@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:google_map_location_picker/generated/i18n.dart';
 
 /// Custom Search input field, showing the search and clear icons.
 class SearchInput extends StatefulWidget {
@@ -78,7 +79,7 @@ class SearchInputState extends State {
           Expanded(
             child: TextField(
               decoration: InputDecoration(
-                hintText: "Search place",
+                hintText: S.of(context)?.search_place ?? 'Search place',
                 border: InputBorder.none,
               ),
               controller: editController,

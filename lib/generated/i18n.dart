@@ -27,6 +27,7 @@ class S implements WidgetsLocalizations {
   String get ok => "Ok";
   String get please_check_your_connection => "Please check your connection";
   String get please_make_sure_you_enable_gps_and_try_again => "Please make sure you enable GPS and try again";
+  String get search_place => "Search place";
   String get server_error => "Server error";
 }
 
@@ -44,6 +45,8 @@ class $ar extends S {
   String get allow_access_to_the_location_services => "من فضلك قم بقبول إذن الوصول الي الموقع الجغرافي";
   @override
   String get server_error => "خطأ من الخادم حاول مرة اخري";
+  @override
+  String get search_place => "إبحث بإسم المكان";
   @override
   String get ok => "حسنا";
   @override

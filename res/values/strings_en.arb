@@ -4,5 +4,6 @@
   "allow_access_to_the_location_services": "Allow access to the location services.",
   "ok": "Ok",
   "cant_get_current_location": "Can't get current location",
-  "please_make_sure_you_enable_gps_and_try_again": "Please make sure you enable GPS and try again"
+  "please_make_sure_you_enable_gps_and_try_again": "Please make sure you enable GPS and try again",
+  "search_place": "Search place"
 }
