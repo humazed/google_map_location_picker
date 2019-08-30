@@ -5,9 +5,9 @@ Location picker using the official [google_maps_flutter](https://pub.dev/package
 I made This plugin because google deprecated [Place Picker](https://developers.google.com/places/android-sdk/placepicker). 
 
 <p>
-  <img src="art/location_picker.gif" width=265/>
-  <img src="art/Screenshot_1.png" width=265 />
-  <img src="art/Screenshot_2.png" width=265 />
+  <img src="https://github.com/humazed/google_map_location_picker/art/location_picker.gif?raw=true" width=265/>
+  <img src="https://github.com/humazed/google_map_location_picker/art/Screenshot_1.png?raw=true" width=265 />
+  <img src="https://github.com/humazed/google_map_location_picker/art/Screenshot_2.png?raw=true" width=265 />
 </p>
 
 
@@ -69,6 +69,30 @@ Opt-in to the embedded views preview by adding a boolean property to the app's `
 with the key `io.flutter.embedded_views_preview` and the value `YES`.
 
 ## Using
+
+## ⚡️ Import
+For message localization inside the library please add in `MaterialApp`
+
+## 🎮 How To Use
+
+```dart
+import 'package:google_map_location_picker/generated/i18n.dart' as location_picker;
+
+MaterialApp(
+  localizationsDelegates: const [
+    location_picker.S.delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+  ],
+  supportedLocales: const <Locale>[
+    Locale("en"),
+    Locale("ar"),
+  ],
+  home: ...
+)
+```
+
 
 ```dart
 import 'package:google_map_location_picker/google_map_location_picker.dart';

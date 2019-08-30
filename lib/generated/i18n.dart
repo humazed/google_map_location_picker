@@ -21,6 +21,8 @@ class S implements WidgetsLocalizations {
   @override
   TextDirection get textDirection => TextDirection.ltr;
 
+  String get access_to_location_denied => "Access to location denied";
+  String get allow_access_to_the_location_services => "Allow access to the location services.";
   String get please_check_your_connection => "Please check your connection";
   String get server_error => "Server error";
 }
@@ -31,6 +33,10 @@ class $ar extends S {
   @override
   TextDirection get textDirection => TextDirection.rtl;
 
+  @override
+  String get access_to_location_denied => "تم رفض إذن الوصل الي الموقع الجغرافي";
+  @override
+  String get allow_access_to_the_location_services => "من فضلك قم بقبول إذن الوصول الي الموقع الجغرافي";
   @override
   String get server_error => "خطأ من الخادم حاول مرة اخري";
   @override

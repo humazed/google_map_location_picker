@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_map_location_picker/generated/i18n.dart';
 import 'package:google_map_location_picker/src/providers/location_provider.dart';
 import 'package:google_map_location_picker/src/utils/loading_builder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -242,6 +243,7 @@ class MapPickerState extends State<MapPicker> {
   }
 
   var dialogOpen;
+
   Future _checkGeolocationPermission() async {
     var geolocationStatus =
         await Geolocator().checkGeolocationPermissionStatus();
@@ -253,8 +255,11 @@ class MapPickerState extends State<MapPicker> {
         barrierDismissible: false,
         builder: (context) {
           return AlertDialog(
-            title: Text("Access to location denied"),
-            content: const Text('Allow access to the location services.'),
+            title: Text(S.of(context)?.access_to_location_denied ??
+                'Access to location denied'),
+            content: Text(
+                S.of(context)?.allow_access_to_the_location_services ??
+                    'Allow access to the location services.'),
             actions: <Widget>[
               FlatButton(
                 child: Text('Ok'),
