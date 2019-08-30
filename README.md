@@ -5,9 +5,9 @@ Location picker using the official [google_maps_flutter](https://pub.dev/package
 I made This plugin because google deprecated [Place Picker](https://developers.google.com/places/android-sdk/placepicker). 
 
 <p>
-  <img src="https://github.com/humazed/google_map_location_picker/art/location_picker.gif?raw=true" width=265/>
-  <img src="https://github.com/humazed/google_map_location_picker/art/Screenshot_1.png?raw=true" width=265 />
-  <img src="https://github.com/humazed/google_map_location_picker/art/Screenshot_2.png?raw=true" width=265 />
+  <img src="https://raw.githubusercontent.com/humazed/google_map_location_picker/master/art/location_picker.gif" width=265/>
+  <img src="https://raw.githubusercontent.com/humazed/google_map_location_picker/master/art/Screenshot_1.png" width=265 />
+  <img src="https://raw.githubusercontent.com/humazed/google_map_location_picker/master/art/Screenshot_2.png" width=265 />
 </p>
 
 
