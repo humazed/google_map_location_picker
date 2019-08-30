@@ -1,3 +1,7 @@
+## 1.0.5+3
+
+* updated dependencies to the latest version.
+
 ## 1.0.5+2
 
 * updated google_maps_flutter: ^0.5.20+2
