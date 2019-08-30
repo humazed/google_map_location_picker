@@ -9,6 +9,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_map_location_picker/generated/i18n.dart';
 import 'package:google_map_location_picker/src/providers/location_provider.dart';
 import 'package:google_map_location_picker/src/utils/loading_builder.dart';
+import 'package:google_map_location_picker/src/utils/log.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -47,18 +48,19 @@ class MapPickerState extends State<MapPicker> {
     setState(() => _currentMapType = nextType);
   }
 
+  // this also checks for location permission.
   Future<void> _initCurrentLocation() async {
     Position currentPosition;
     try {
       currentPosition = await Geolocator()
           .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
 
-      print("position = $currentPosition");
+      d("position = $currentPosition");
 
       setState(() => _currentPosition = currentPosition);
     } on PlatformException catch (e) {
       currentPosition = null;
-      print("_initCurrentLocation#e = $e");
+      d("_initCurrentLocation#e = $e");
     }
 
     if (!mounted) return;
@@ -249,7 +251,7 @@ class MapPickerState extends State<MapPicker> {
         await Geolocator().checkGeolocationPermissionStatus();
 
     if (geolocationStatus == GeolocationStatus.denied && dialogOpen == null) {
-      print('showDialog');
+      d('showDialog');
       dialogOpen = showDialog(
         context: context,
         barrierDismissible: false,
@@ -275,9 +277,9 @@ class MapPickerState extends State<MapPicker> {
       );
     } else if (geolocationStatus == GeolocationStatus.disabled) {
     } else if (geolocationStatus == GeolocationStatus.granted) {
+      d('GeolocationStatus.granted');
       if (dialogOpen != null) {
         Navigator.of(context, rootNavigator: true).pop();
-        Navigator.of(context).pop();
         dialogOpen = null;
       }
     }
