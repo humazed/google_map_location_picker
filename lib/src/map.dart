@@ -331,8 +331,8 @@ class _MapFabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      alignment: AlignmentDirectional.topEnd,
-      margin: const EdgeInsetsDirectional.only(top: 64, end: 8),
+      alignment: Alignment.topRight,
+      margin: const EdgeInsets.only(top: 64, right: 8),
       child: Column(
         children: <Widget>[
           FloatingActionButton(
