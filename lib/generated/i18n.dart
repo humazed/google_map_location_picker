@@ -59,6 +59,30 @@ class $en extends S {
   const $en();
 }
 
+class $tr extends S {
+  const $tr();
+
+  @override
+  TextDirection get textDirection => TextDirection.ltr;
+
+  @override
+  String get cant_get_current_location => "Geçerli konum alınamıyor";
+  @override
+  String get access_to_location_denied => "Konum erişimi reddedildi";
+  @override
+  String get allow_access_to_the_location_services => "Konum servislerine izin verin.";
+  @override
+  String get server_error => "Sunucu hatası";
+  @override
+  String get search_place => "Konum ara";
+  @override
+  String get ok => "Tamam";
+  @override
+  String get please_check_your_connection => "Lütfen bağlantınızı kontrol edin";
+  @override
+  String get please_make_sure_you_enable_gps_and_try_again => "Lütfen GPS’i etkinleştirin ve tekrar deneyin.";
+}
+
 class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
   const GeneratedLocalizationsDelegate();
 
@@ -66,6 +90,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
     return const <Locale>[
       Locale("ar", ""),
       Locale("en", ""),
+      Locale("tr", ""),
     ];
   }
 
@@ -95,6 +120,9 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
           return SynchronousFuture<S>(S.current);
         case "en":
           S.current = const $en();
+          return SynchronousFuture<S>(S.current);
+        case "tr":
+          S.current = const $tr();
           return SynchronousFuture<S>(S.current);
         default:
           // NO-OP.
