@@ -1,3 +1,7 @@
+## 2.0.1
+
+* I added Turkish language file thanks @furkankurt.
+
 ## 2.0.0+3
 
 * updated Readme to reflect the latest version of the lib.
