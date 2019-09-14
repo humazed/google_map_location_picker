@@ -10,6 +10,35 @@ I made This plugin because google deprecated [Place Picker](https://developers.g
   <img src="https://raw.githubusercontent.com/humazed/google_map_location_picker/master/art/Screenshot_2.png" width=265 />
 </p>
 
+## Using
+
+For message localization inside the library please add in `MaterialApp`
+
+```dart
+import 'package:google_map_location_picker/generated/i18n.dart' as location_picker;
+
+MaterialApp(
+  localizationsDelegates: const [
+    location_picker.S.delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+  ],
+  supportedLocales: const <Locale>[
+    Locale('en', ''),
+    Locale('ar', ''),
+  ],
+  home: ...
+)
+```
+
+
+```dart
+import 'package:google_map_location_picker/google_map_location_picker.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+LocationResult result = await LocationPicker.pickLocation(context, apiKey);
+```
 
 ## Getting Started
 
@@ -67,36 +96,6 @@ import GoogleMaps
 ```
 Opt-in to the embedded views preview by adding a boolean property to the app's `Info.plist` file
 with the key `io.flutter.embedded_views_preview` and the value `YES`.
-
-## Using
-
-For message localization inside the library please add in `MaterialApp`
-
-```dart
-import 'package:google_map_location_picker/generated/i18n.dart' as location_picker;
-
-MaterialApp(
-  localizationsDelegates: const [
-    location_picker.S.delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-  ],
-  supportedLocales: const <Locale>[
-    Locale('en', ''),
-    Locale('ar', ''),
-  ],
-  home: ...
-)
-```
-
-
-```dart
-import 'package:google_map_location_picker/google_map_location_picker.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-
-LocationResult result = await LocationPicker.pickLocation(context, apiKey);
-```
 
 ### Note
 The following permissions are not required to use Google Maps Android API v2, but are recommended.
