@@ -43,7 +43,8 @@ LocationResult result = await LocationPicker.pickLocation(context, apiKey);
 ## Getting Started
 
 Get an API key at <https://cloud.google.com/maps-platform/>.
-and don't forget to enable 
+
+and don't forget to enable in <https://console.cloud.google.com/google/maps-apis/>
 - Maps SDK for Android
 - Maps SDK for iOS
 - Places API
