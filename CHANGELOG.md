@@ -1,3 +1,7 @@
+## 2.0.2
+
+* added Portuguese translation thanks @mariosemedo.
+
 ## 2.0.1
 
 * I added Turkish language file thanks @furkankurt.
