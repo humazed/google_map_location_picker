@@ -1,4 +1,5 @@
-{  "please_check_your_connection": "Por favor, verifique sua conexão",
+{
+  "please_check_your_connection": "Por favor, verifique sua conexão",
   "server_error": "Erro de servidor",
   "access_to_location_denied": "Acesso ao local negado",
   "allow_access_to_the_location_services": "Permitir acesso aos serviços de localização.",
