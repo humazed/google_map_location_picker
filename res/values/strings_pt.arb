@@ -1,0 +1,9 @@
+{  "please_check_your_connection": "Por favor, verifique sua conexão",
+  "server_error": "Erro de servidor",
+  "access_to_location_denied": "Acesso ao local negado",
+  "allow_access_to_the_location_services": "Permitir acesso aos serviços de localização.",
+  "ok": "Ok",
+  "cant_get_current_location": "Não é possível obter a localização atual",
+  "please_make_sure_you_enable_gps_and_try_again": "Certifique-se de ativar o GPS e tente novamente",
+  "search_place": "Pesquisar endereço"
+}
