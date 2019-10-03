@@ -1,3 +1,7 @@
+## 2.0.2+1
+
+* fix minor typo in Portuguese translation.
+
 ## 2.0.2
 
 * added Portuguese translation thanks @mariosemedo.

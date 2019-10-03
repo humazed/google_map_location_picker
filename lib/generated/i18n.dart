@@ -70,7 +70,7 @@ class $pt extends S {
   @override
   String get server_error => "Erro de servidor";
   @override
-  String get search_place => "Pesquisar endereç";
+  String get search_place => "Pesquisar endereço";
   @override
   String get ok => "Ok";
   @override
