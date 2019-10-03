@@ -257,7 +257,7 @@ class MapPickerState extends State<MapPicker> {
         barrierDismissible: false,
         builder: (context) {
           return AlertDialog(
-            title: Text(S.of(context).access_to_location_denied ??
+            title: Text(S.of(context)?.access_to_location_denied ??
                 'Access to location denied'),
             content: Text(
                 S.of(context)?.allow_access_to_the_location_services ??

@@ -1,3 +1,7 @@
+## 2.0.2+2
+
+* Fix NPE when the user forget to initialize localization.
+
 ## 2.0.2+1
 
 * fix minor typo in Portuguese translation.
