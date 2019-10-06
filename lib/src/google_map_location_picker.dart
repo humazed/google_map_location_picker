@@ -20,12 +20,9 @@ class LocationPicker extends StatefulWidget {
       this.apiKey, {
         Key key,
         this.initialCenter,
-        this.requiredGPS = true
       });
 
   final String apiKey;
-
-  final bool requiredGPS;
 
   final LatLng initialCenter;
 
@@ -371,10 +368,9 @@ class LocationPickerState extends State<LocationPicker> {
             ),
           ),
           body: MapPicker(
-              initialCenter: widget.initialCenter,
-              key: mapKey,
-              apiKey: widget.apiKey,
-              requiredGPS: widget.requiredGPS
+            initialCenter: widget.initialCenter,
+            key: mapKey,
+            apiKey: widget.apiKey,
           ),
         );
       }),
