@@ -19,11 +19,13 @@ import 'model/location_result.dart';
 class MapPicker extends StatefulWidget {
   final LatLng initialCenter;
   final String apiKey;
+  final bool requiredGPS;
 
   const MapPicker({
     Key key,
     this.initialCenter,
     this.apiKey,
+    this.requiredGPS,
   }) : super(key: key);
 
   @override
@@ -80,11 +82,13 @@ class MapPickerState extends State<MapPicker> {
 
   @override
   Widget build(BuildContext context) {
-    _checkGps();
-    _checkGeolocationPermission();
+    if(widget.requiredGPS) {
+      _checkGps();
+      _checkGeolocationPermission();
+    }
     return Scaffold(
       body: Builder(builder: (context) {
-        if (_currentPosition == null)
+        if (_currentPosition == null && widget.requiredGPS)
           return const Center(child: CircularProgressIndicator());
 
         return buildMap();

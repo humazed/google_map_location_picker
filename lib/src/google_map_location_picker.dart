@@ -26,6 +26,8 @@ class LocationPicker extends StatefulWidget {
 
   final LatLng initialCenter;
 
+  final bool requiredGPS;
+
   @override
   LocationPickerState createState() => LocationPickerState();
 
@@ -371,6 +373,7 @@ class LocationPickerState extends State<LocationPicker> {
             initialCenter: widget.initialCenter,
             key: mapKey,
             apiKey: widget.apiKey,
+              requiredGPS: widget.requiredGPS,
           ),
         );
       }),
