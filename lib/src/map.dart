@@ -45,7 +45,7 @@ class MapPickerState extends State<MapPicker> {
 
   void _onToggleMapTypePressed() {
     final MapType nextType =
-    MapType.values[(_currentMapType.index + 1) % MapType.values.length];
+        MapType.values[(_currentMapType.index + 1) % MapType.values.length];
 
     setState(() => _currentMapType = nextType);
   }
@@ -82,7 +82,7 @@ class MapPickerState extends State<MapPicker> {
 
   @override
   Widget build(BuildContext context) {
-    if(widget.requiredGPS) {
+    if (widget.requiredGPS) {
       _checkGps();
       _checkGeolocationPermission();
     }
@@ -149,50 +149,50 @@ class MapPickerState extends State<MapPicker> {
             padding: const EdgeInsets.all(8),
             child: Consumer<LocationProvider>(
                 builder: (context, locationProvider, _) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Flexible(
-                        flex: 20,
-                        child: FutureLoadingBuilder<String>(
-                            future: getAddress(locationProvider.lastIdleLocation),
-                            mutable: true,
-                            loadingIndicator: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                CircularProgressIndicator(),
-                              ],
-                            ),
-                            builder: (context, address) {
-                              _address = address;
-                              return Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                    address ?? 'Unnamed place',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                ],
-                              );
-                            }),
-                      ),
-                      Spacer(),
-                      FloatingActionButton(
-                        onPressed: () {
-                          Navigator.of(context).pop({
-                            'location': LocationResult(
-                              latLng: locationProvider.lastIdleLocation,
-                              address: _address,
-                            )
-                          });
-                        },
-                        child: Icon(Icons.arrow_forward, color: Colors.white),
-                      ),
-                    ],
-                  );
-                }),
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Flexible(
+                    flex: 20,
+                    child: FutureLoadingBuilder<String>(
+                        future: getAddress(locationProvider.lastIdleLocation),
+                        mutable: true,
+                        loadingIndicator: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            CircularProgressIndicator(),
+                          ],
+                        ),
+                        builder: (context, address) {
+                          _address = address;
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                address ?? 'Unnamed place',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
+                          );
+                        }),
+                  ),
+                  Spacer(),
+                  FloatingActionButton(
+                    onPressed: () {
+                      Navigator.of(context).pop({
+                        'location': LocationResult(
+                          latLng: locationProvider.lastIdleLocation,
+                          address: _address,
+                        )
+                      });
+                    },
+                    child: Icon(Icons.arrow_forward, color: Colors.white),
+                  ),
+                ],
+              );
+            }),
           ),
         ),
       ),
@@ -252,7 +252,7 @@ class MapPickerState extends State<MapPicker> {
 
   Future _checkGeolocationPermission() async {
     var geolocationStatus =
-    await Geolocator().checkGeolocationPermissionStatus();
+        await Geolocator().checkGeolocationPermissionStatus();
 
     if (geolocationStatus == GeolocationStatus.denied && dialogOpen == null) {
       d('showDialog');
@@ -300,8 +300,8 @@ class MapPickerState extends State<MapPicker> {
               title: Text(S.of(context)?.cant_get_current_location ??
                   "Can't get current location"),
               content: Text(S
-                  .of(context)
-                  ?.please_make_sure_you_enable_gps_and_try_again ??
+                      .of(context)
+                      ?.please_make_sure_you_enable_gps_and_try_again ??
                   'Please make sure you enable GPS and try again'),
               actions: <Widget>[
                 FlatButton(

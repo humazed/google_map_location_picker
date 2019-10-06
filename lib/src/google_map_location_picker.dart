@@ -17,11 +17,11 @@ import 'model/nearby_place.dart';
 
 class LocationPicker extends StatefulWidget {
   LocationPicker(
-      this.apiKey, {
-        Key key,
-        this.initialCenter,
-        this.requiredGPS = true,
-      });
+    this.apiKey, {
+    Key key,
+    this.initialCenter,
+    this.requiredGPS = true,
+  });
 
   final String apiKey;
 
@@ -40,11 +40,11 @@ class LocationPicker extends StatefulWidget {
   /// [initialCenter] The geographical location that the camera is pointing at.
   ///
   static Future<LocationResult> pickLocation(
-      BuildContext context,
-      String apiKey, {
-        LatLng initialCenter = const LatLng(45.521563, -122.677433),
-        bool requiredGPS = true,
-      }) async {
+    BuildContext context,
+    String apiKey, {
+    LatLng initialCenter = const LatLng(45.521563, -122.677433),
+    bool requiredGPS = true,
+  }) async {
     var results = await Navigator.of(context).push(
       MaterialPageRoute<dynamic>(
         builder: (BuildContext context) {
@@ -216,7 +216,7 @@ class LocationPickerState extends State<LocationPicker> {
     http.get(endpoint).then((response) {
       if (response.statusCode == 200) {
         Map<String, dynamic> location =
-        jsonDecode(response.body)['result']['geometry']['location'];
+            jsonDecode(response.body)['result']['geometry']['location'];
 
         LatLng latLng = LatLng(location['lat'], location['lng']);
 
@@ -277,13 +277,13 @@ class LocationPickerState extends State<LocationPicker> {
   void getNearbyPlaces(LatLng latLng) {
     http
         .get("https://maps.googleapis.com/maps/api/place/nearbysearch/json?" +
-        "key=${widget.apiKey}&" +
-        "location=${latLng.latitude},${latLng.longitude}&radius=150")
+            "key=${widget.apiKey}&" +
+            "location=${latLng.latitude},${latLng.longitude}&radius=150")
         .then((response) {
       if (response.statusCode == 200) {
         nearbyPlaces.clear();
         for (Map<String, dynamic> item
-        in jsonDecode(response.body)['results']) {
+            in jsonDecode(response.body)['results']) {
           NearbyPlace nearbyPlace = NearbyPlace();
 
           nearbyPlace.name = item['name'];
@@ -312,13 +312,13 @@ class LocationPickerState extends State<LocationPicker> {
   Future reverseGeocodeLatLng(LatLng latLng) async {
     var response = await http.get(
         "https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng.latitude},${latLng.longitude}"
-            "&key=${widget.apiKey}");
+        "&key=${widget.apiKey}");
 
     if (response.statusCode == 200) {
       Map<String, dynamic> responseJson = jsonDecode(response.body);
 
       String road =
-      responseJson['results'][0]['address_components'][0]['short_name'];
+          responseJson['results'][0]['address_components'][0]['short_name'];
 //      String locality =
 //          responseJson['results'][0]['address_components'][1]['short_name'];
 
@@ -368,7 +368,7 @@ class LocationPickerState extends State<LocationPicker> {
             iconTheme: IconThemeData(color: Colors.black),
             key: appBarKey,
             title: SearchInput(
-                  (input) => searchPlace(input),
+              (input) => searchPlace(input),
               key: searchInputKey,
             ),
           ),
@@ -376,7 +376,7 @@ class LocationPickerState extends State<LocationPicker> {
             initialCenter: widget.initialCenter,
             key: mapKey,
             apiKey: widget.apiKey,
-              requiredGPS: widget.requiredGPS,
+            requiredGPS: widget.requiredGPS,
           ),
         );
       }),
