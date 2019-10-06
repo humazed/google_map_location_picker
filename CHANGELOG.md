@@ -1,3 +1,7 @@
+## 2.1.0
+
+* Make location permission optional, required by default. 
+
 ## 2.0.2+2
 
 * Fix NPE when the user forget to initialize localization.
