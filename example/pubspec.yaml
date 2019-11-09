@@ -1,6 +1,7 @@
 name: google_map_location_picker_example
 description: Demonstrates how to use the google_map_location_picker plugin.
 publish_to: 'none'
+version: 1.0.0
 
 environment:
   sdk: ">=2.2.2 <3.0.0"
