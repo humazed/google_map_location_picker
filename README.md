@@ -10,6 +10,9 @@ I made This plugin because google deprecated [Place Picker](https://developers.g
   <img src="https://raw.githubusercontent.com/humazed/google_map_location_picker/master/art/Screenshot_2.png" width=265 />
 </p>
 
+[![Demo](https://raw.githubusercontent.com/humazed/google_map_location_picker/master/art/ios_demo.png?raw=true)](https://www.youtube.com/watch?v=Ev1tqijch1o)
+
+
 ## Using
 
 For message localization inside the library please add in `MaterialApp`
