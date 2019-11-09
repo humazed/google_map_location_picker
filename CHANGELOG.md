@@ -1,3 +1,8 @@
+## 2.1.0+1
+
+* Updated deps.
+* improved ios integration instructions in README.
+
 ## 2.1.0
 
 * Make location permission optional, required by default. 
