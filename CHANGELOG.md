@@ -1,3 +1,27 @@
+## 2.1.0
+
+* Make location permission optional, required by default. 
+
+## 2.0.2+2
+
+* Fix NPE when the user forget to initialize localization.
+
+## 2.0.2+1
+
+* fix minor typo in Portuguese translation.
+
+## 2.0.2
+
+* added Portuguese translation thanks @mariosemedo.
+
+## 2.0.1
+
+* I added Turkish language file thanks @furkankurt.
+
+## 2.0.0+3
+
+* updated Readme to reflect the latest version of the lib.
+
 ## 2.0.0+2
 
 * updated dependencies to the latest version.

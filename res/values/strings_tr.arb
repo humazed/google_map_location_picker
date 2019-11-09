@@ -1,0 +1,10 @@
+{  
+  "please_check_your_connection": "Lütfen bağlantınızı kontrol edin",
+  "server_error": "Sunucu hatası",
+  "access_to_location_denied": "Konum erişimi reddedildi",
+  "allow_access_to_the_location_services": "Konum servislerine izin verin.",
+  "ok": "Tamam",
+  "cant_get_current_location": "Geçerli konum alınamıyor",
+  "please_make_sure_you_enable_gps_and_try_again": "Lütfen GPS’i etkinleştirin ve tekrar deneyin.",
+  "search_place": "Konum ara"
+}

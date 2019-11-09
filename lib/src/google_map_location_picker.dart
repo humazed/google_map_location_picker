@@ -20,11 +20,14 @@ class LocationPicker extends StatefulWidget {
     this.apiKey, {
     Key key,
     this.initialCenter,
+    this.requiredGPS = true,
   });
 
   final String apiKey;
 
   final LatLng initialCenter;
+
+  final bool requiredGPS;
 
   @override
   LocationPickerState createState() => LocationPickerState();
@@ -40,6 +43,7 @@ class LocationPicker extends StatefulWidget {
     BuildContext context,
     String apiKey, {
     LatLng initialCenter = const LatLng(45.521563, -122.677433),
+    bool requiredGPS = true,
   }) async {
     var results = await Navigator.of(context).push(
       MaterialPageRoute<dynamic>(
@@ -47,6 +51,7 @@ class LocationPicker extends StatefulWidget {
           return LocationPicker(
             apiKey,
             initialCenter: initialCenter,
+            requiredGPS: requiredGPS,
           );
         },
       ),
@@ -371,6 +376,7 @@ class LocationPickerState extends State<LocationPicker> {
             initialCenter: widget.initialCenter,
             key: mapKey,
             apiKey: widget.apiKey,
+            requiredGPS: widget.requiredGPS,
           ),
         );
       }),
