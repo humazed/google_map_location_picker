@@ -134,14 +134,14 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "2.1.0+1"
+    version: "2.1.1"
   google_maps_flutter:
     dependency: transitive
     description:
       name: google_maps_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.21+8"
+    version: "0.5.21+12"
   html:
     dependency: transitive
     description:
