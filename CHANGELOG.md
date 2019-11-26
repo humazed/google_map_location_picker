@@ -1,3 +1,14 @@
+## 2.1.2
+
+* specify swift version to make integration with objc more easy.
+Note: you also need to edit your `Podfile`
+```
+target 'Runner' do
+  use_frameworks! # <--- add this
+  ...
+end
+```
+
 ## 2.1.1
 
 * Updated deps.
