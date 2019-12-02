@@ -359,7 +359,7 @@ class LocationPickerState extends State<LocationPicker> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(builder: (_) => LocationProvider()),
+        ChangeNotifierProvider(create: (_) => LocationProvider()),
       ],
       child: Builder(builder: (context) {
         return Scaffold(

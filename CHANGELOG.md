@@ -1,3 +1,7 @@
+## 2.1.2+1
+
+* Updated deps.
+
 ## 2.1.2
 
 * specify swift version to make integration with objc more easy.
