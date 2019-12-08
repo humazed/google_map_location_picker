@@ -271,7 +271,6 @@ class LocationPickerState extends State<LocationPicker> {
         top: appBarBox.size.height,
         child: Material(
           elevation: 1,
-          color: Colors.white,
           child: Column(
             children: suggestions,
           ),
