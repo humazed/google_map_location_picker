@@ -28,9 +28,11 @@ class LocationPicker extends StatefulWidget {
     this.resultCardAlignment,
     this.resultCardDecoration,
     this.resultCardPadding,
+    this.appBarColor = Colors.transparent,
   });
 
   final String mapStylePath;
+  final Color appBarColor;
   final BoxDecoration searchBarBoxDecoration;
   final String hintText;
   final Widget resultCardConfirmWidget;
@@ -394,7 +396,7 @@ class LocationPickerState extends State<LocationPicker> {
           extendBodyBehindAppBar: true,
           appBar: AppBar(
             elevation: 0,
-            backgroundColor: Colors.transparent,
+            backgroundColor: widget.appBarColor,
             key: appBarKey,
             title: SearchInput(
               (input) => searchPlace(input),
