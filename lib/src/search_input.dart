@@ -7,32 +7,21 @@ import 'package:google_map_location_picker/generated/i18n.dart';
 class SearchInput extends StatefulWidget {
   final ValueChanged<String> onSearchInput;
   final Key searchInputKey;
-  final BoxDecoration _boxDecoration;
-  final String _hintText;
 
   SearchInput(
     this.onSearchInput, {
     Key key,
     this.searchInputKey,
-    BoxDecoration boxDecoration,
-    String hintText,
-  })  : _boxDecoration = boxDecoration ??
-            BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-              color: Colors.black54),
-        _hintText = hintText ?? "Search place",
-        super(key: key);
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return SearchInputState(onSearchInput, _boxDecoration, _hintText);
+    return SearchInputState(onSearchInput);
   }
 }
 
 class SearchInputState extends State {
   final ValueChanged<String> onSearchInput;
-  final BoxDecoration _boxDecoration;
-  final String _hintText;
 
   TextEditingController editController = TextEditingController();
 
@@ -40,7 +29,7 @@ class SearchInputState extends State {
 
   bool hasSearchEntry = false;
 
-  SearchInputState(this.onSearchInput, this._boxDecoration, this._hintText);
+  SearchInputState(this.onSearchInput);
 
   @override
   void initState() {
@@ -82,6 +71,7 @@ class SearchInputState extends State {
         children: <Widget>[
           Icon(
             Icons.search,
+            color: Colors.black,
           ),
           SizedBox(
             width: 8,
@@ -89,7 +79,7 @@ class SearchInputState extends State {
           Expanded(
             child: TextField(
               decoration: InputDecoration(
-                hintText: S.of(context)?.search_place ?? _hintText,
+                hintText: S.of(context)?.search_place ?? 'Search place',
                 border: InputBorder.none,
               ),
               controller: editController,
@@ -107,6 +97,7 @@ class SearchInputState extends State {
               ? GestureDetector(
                   child: Icon(
                     Icons.clear,
+                    color: Colors.black,
                   ),
                   onTap: () {
                     editController.clear();
@@ -118,7 +109,10 @@ class SearchInputState extends State {
               : SizedBox(),
         ],
       ),
-      decoration: _boxDecoration,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        color: Colors.grey[100],
+      ),
     );
   }
 }
