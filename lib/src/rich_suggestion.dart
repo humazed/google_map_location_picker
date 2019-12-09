@@ -13,11 +13,8 @@ class RichSuggestion extends StatelessWidget {
     return Material(
       child: InkWell(
         child: Container(
-          margin: EdgeInsets.all(5),
-            padding: EdgeInsets.symmetric(
-              horizontal: 24,
-              vertical: 16,
-            ),
+            margin: EdgeInsets.all(5),
+            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             child: Row(
               children: <Widget>[
                 Expanded(
@@ -42,7 +39,9 @@ class RichSuggestion extends StatelessWidget {
         TextSpan(
           text: startText,
           style: TextStyle(
-            fontSize: 15,fontWeight: FontWeight.w300
+            color: Colors.grey,
+            fontSize: 15,
+            fontWeight: FontWeight.w300,
           ),
         ),
       );
@@ -51,12 +50,16 @@ class RichSuggestion extends StatelessWidget {
     String boldText = autoCompleteItem.text.substring(autoCompleteItem.offset,
         autoCompleteItem.offset + autoCompleteItem.length);
 
-    result.add(TextSpan(
-      text: boldText,
-      style: TextStyle(
-        fontSize: 15, fontWeight: FontWeight.w500
+    result.add(
+      TextSpan(
+        text: boldText,
+        style: TextStyle(
+          color: Colors.grey,
+          fontSize: 15,
+          fontWeight: FontWeight.w500,
+        ),
       ),
-    ));
+    );
 
     String remainingText = this
         .autoCompleteItem
@@ -65,10 +68,7 @@ class RichSuggestion extends StatelessWidget {
     result.add(
       TextSpan(
         text: remainingText,
-        style: TextStyle(
-          color: Colors.grey,
-          fontSize: 15,
-        ),
+        style: TextStyle(color: Colors.grey, fontSize: 15),
       ),
     );
 

@@ -18,26 +18,40 @@ import 'package:provider/provider.dart';
 import 'model/location_result.dart';
 
 class MapPicker extends StatefulWidget {
-  final LatLng initialCenter;
-  final String apiKey;
-  final bool requiredGPS;
-  final String mapStylePath;
-  final BoxDecoration resultCardDecoration;
-  final EdgeInsets resultCardPadding;
-  final AlignmentGeometry resultCardAlignment;
-  final Widget resultCardConfirmWidget;
-
-  const MapPicker({
+  const MapPicker(
+    this.apiKey, {
     Key key,
     this.initialCenter,
-    this.apiKey,
     this.requiredGPS,
+    this.myLocationButtonEnabled,
+    this.layersButtonEnabled,
     this.mapStylePath,
+    this.appBarColor,
+    this.searchBarBoxDecoration,
+    this.hintText,
+    this.resultCardConfirmWidget,
+    this.resultCardAlignment,
     this.resultCardDecoration,
     this.resultCardPadding,
-    this.resultCardAlignment,
-    this.resultCardConfirmWidget,
   }) : super(key: key);
+
+  final String apiKey;
+
+  final LatLng initialCenter;
+
+  final bool requiredGPS;
+  final bool myLocationButtonEnabled;
+  final bool layersButtonEnabled;
+
+  final String mapStylePath;
+
+  final Color appBarColor;
+  final BoxDecoration searchBarBoxDecoration;
+  final String hintText;
+  final Widget resultCardConfirmWidget;
+  final Alignment resultCardAlignment;
+  final Decoration resultCardDecoration;
+  final EdgeInsets resultCardPadding;
 
   @override
   MapPickerState createState() => MapPickerState();
@@ -50,20 +64,18 @@ class MapPickerState extends State<MapPicker> {
 
   String _mapStyle;
 
-  Widget resultCardConfirmWidget;
-
   LatLng _lastMapPosition;
 
   Position _currentPosition;
 
   String _address;
 
-//  void _onToggleMapTypePressed() {
-//    final MapType nextType =
-//        MapType.values[(_currentMapType.index + 1) % MapType.values.length];
-//
-//    setState(() => _currentMapType = nextType);
-//  }
+  void _onToggleMapTypePressed() {
+    final MapType nextType =
+        MapType.values[(_currentMapType.index + 1) % MapType.values.length];
+
+    setState(() => _currentMapType = nextType);
+  }
 
   // this also checks for location permission.
   Future<void> _initCurrentLocation() async {
@@ -99,16 +111,6 @@ class MapPickerState extends State<MapPicker> {
         _mapStyle = string;
       });
     }
-
-    resultCardConfirmWidget = widget.resultCardConfirmWidget ??
-        Container(
-          height: 56,
-          width: 56,
-          decoration: BoxDecoration(shape: BoxShape.circle,color: Colors.black54),
-          child: Icon(
-            Icons.arrow_forward
-          ),
-        );
   }
 
   @override
@@ -165,9 +167,12 @@ class MapPickerState extends State<MapPicker> {
             mapType: _currentMapType,
             myLocationEnabled: true,
           ),
-//          _MapFabs(
-//            onToggleMapTypePressed: _onToggleMapTypePressed,
-//          ),
+          _MapFabs(
+            myLocationButtonEnabled: widget.myLocationButtonEnabled,
+            layersButtonEnabled: widget.layersButtonEnabled,
+            onToggleMapTypePressed: _onToggleMapTypePressed,
+            onMyLocationPressed: _initCurrentLocation,
+          ),
           pin(),
           locationCard(),
         ],
@@ -180,11 +185,8 @@ class MapPickerState extends State<MapPicker> {
       alignment: widget.resultCardAlignment ?? Alignment.bottomCenter,
       child: Padding(
         padding: widget.resultCardPadding ?? EdgeInsets.all(16.0),
-        child: Container(
-          decoration: widget.resultCardDecoration ??
-              BoxDecoration(
-                  color: Theme.of(context).backgroundColor,
-                  borderRadius: BorderRadius.circular(8.0)),
+        child: Card(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           child: Consumer<LocationProvider>(
               builder: (context, locationProvider, _) {
             return Padding(
@@ -207,24 +209,23 @@ class MapPickerState extends State<MapPicker> {
                           _address = address;
                           return Text(
                             address ?? 'Unnamed place',
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
+                            style: TextStyle(fontSize: 18),
                           );
                         }),
                   ),
                   Spacer(),
-                  InkWell(
-                    onTap: () {
-                      Navigator.of(context).pop({
-                        'location': LocationResult(
-                          latLng: locationProvider.lastIdleLocation,
-                          address: _address,
-                        )
-                      });
-                    },
-                    child: resultCardConfirmWidget,
-                  )
+                  widget.resultCardConfirmWidget ??
+                      FloatingActionButton(
+                        onPressed: () {
+                          Navigator.of(context).pop({
+                            'location': LocationResult(
+                              latLng: locationProvider.lastIdleLocation,
+                              address: _address,
+                            )
+                          });
+                        },
+                        child: Icon(Icons.arrow_forward),
+                      ),
                 ],
               ),
             );
@@ -248,30 +249,32 @@ class MapPickerState extends State<MapPicker> {
     return null;
   }
 
-  Center pin() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Icon(Icons.place, size: 56),
-          Container(
-            decoration: ShapeDecoration(
-              shadows: [
-                BoxShadow(
-                  color: Colors.black38,
-                  blurRadius: 4,
-                ),
-              ],
-              shape: CircleBorder(
-                side: BorderSide(
-                  width: 4,
-                  color: Colors.transparent,
+  Widget pin() {
+    return IgnorePointer(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Icon(Icons.place, size: 56),
+            Container(
+              decoration: ShapeDecoration(
+                shadows: [
+                  BoxShadow(
+                    blurRadius: 4,
+                    color: Colors.black38,
+                  ),
+                ],
+                shape: CircleBorder(
+                  side: BorderSide(
+                    width: 4,
+                    color: Colors.transparent,
+                  ),
                 ),
               ),
             ),
-          ),
-          SizedBox(height: 56),
-        ],
+            SizedBox(height: 56),
+          ],
+        ),
       ),
     );
   }
@@ -315,6 +318,7 @@ class MapPickerState extends State<MapPicker> {
         },
       );
     } else if (geolocationStatus == GeolocationStatus.disabled) {
+      // FIXME: handle this case
     } else if (geolocationStatus == GeolocationStatus.granted) {
       d('GeolocationStatus.granted');
       if (dialogOpen != null) {
@@ -358,31 +362,47 @@ class MapPickerState extends State<MapPicker> {
   }
 }
 
-//class _MapFabs extends StatelessWidget {
-//  const _MapFabs({
-//    Key key,
-//    @required this.onToggleMapTypePressed,
-//  })  : assert(onToggleMapTypePressed != null),
-//        super(key: key);
-//
-//  final VoidCallback onToggleMapTypePressed;
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    return Container(
-//      alignment: Alignment.topRight,
-//      margin: const EdgeInsets.only(top: 64, right: 8),
-//      child: Column(
-//        children: <Widget>[
-//          FloatingActionButton(
-//            onPressed: onToggleMapTypePressed,
-//            materialTapTargetSize: MaterialTapTargetSize.padded,
-//            mini: true,
-//            child: const Icon(Icons.layers, size: 28, color: Colors.white),
-//            heroTag: "layers",
-//          ),
-//        ],
-//      ),
-//    );
-//  }
-//}
+class _MapFabs extends StatelessWidget {
+  const _MapFabs({
+    Key key,
+    @required this.myLocationButtonEnabled,
+    @required this.layersButtonEnabled,
+    @required this.onToggleMapTypePressed,
+    @required this.onMyLocationPressed,
+  })  : assert(onToggleMapTypePressed != null),
+        super(key: key);
+
+  final bool myLocationButtonEnabled;
+  final bool layersButtonEnabled;
+
+  final VoidCallback onToggleMapTypePressed;
+  final VoidCallback onMyLocationPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.topRight,
+      margin: const EdgeInsets.only(top: kToolbarHeight + 24, right: 8),
+      child: Column(
+        children: <Widget>[
+          if (layersButtonEnabled)
+            FloatingActionButton(
+              onPressed: onToggleMapTypePressed,
+              materialTapTargetSize: MaterialTapTargetSize.padded,
+              mini: true,
+              child: const Icon(Icons.layers),
+              heroTag: "layers",
+            ),
+          if (myLocationButtonEnabled)
+            FloatingActionButton(
+              onPressed: onMyLocationPressed,
+              materialTapTargetSize: MaterialTapTargetSize.padded,
+              mini: true,
+              child: const Icon(Icons.my_location),
+              heroTag: "myLocation",
+            ),
+        ],
+      ),
+    );
+  }
+}

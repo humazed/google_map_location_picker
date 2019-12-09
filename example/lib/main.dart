@@ -3,7 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_map_location_picker/generated/i18n.dart'
     as location_picker;
 import 'package:google_map_location_picker/google_map_location_picker.dart';
-import 'package:google_map_location_picker_example/keys.dart' show apiKey;
+import 'package:google_map_location_picker_example/keys.dart';
 
 import 'generated/i18n.dart';
 
@@ -20,7 +20,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.dark(),
+//      theme: ThemeData.dark(),
       title: 'location picker',
       localizationsDelegates: const [
         location_picker.S.delegate,
@@ -32,6 +32,8 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: const <Locale>[
         Locale('en', ''),
         Locale('ar', ''),
+        Locale('pt', ''),
+        Locale('tr', ''),
       ],
       home: Scaffold(
         appBar: AppBar(
@@ -47,9 +49,10 @@ class _MyAppState extends State<MyApp> {
                     LocationResult result = await LocationPicker.pickLocation(
                       context,
                       apiKey,
-                      mapStylePath: 'assets/mapStyle.txt',
-                      //resultCardAlignment: Alignment.bottomCenter,
-
+                      mapStylePath: 'assets/mapStyle.json',
+                      myLocationButtonEnabled: true,
+                      layersButtonEnabled: true,
+//                      resultCardAlignment: Alignment.bottomCenter,
                     );
                     print("result = $result");
                     setState(() => _pickedLocation = result);

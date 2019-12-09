@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_map_location_picker/generated/i18n.dart';
 import 'package:google_map_location_picker/src/map.dart';
 import 'package:google_map_location_picker/src/providers/location_provider.dart';
 import 'package:google_map_location_picker/src/rich_suggestion.dart';
@@ -20,18 +21,29 @@ class LocationPicker extends StatefulWidget {
     this.apiKey, {
     Key key,
     this.initialCenter,
-    this.requiredGPS = true,
+    this.requiredGPS,
+    this.myLocationButtonEnabled,
+    this.layersButtonEnabled,
     this.mapStylePath,
+    this.appBarColor,
     this.searchBarBoxDecoration,
     this.hintText,
     this.resultCardConfirmWidget,
     this.resultCardAlignment,
     this.resultCardDecoration,
     this.resultCardPadding,
-    this.appBarColor = Colors.transparent,
   });
 
+  final String apiKey;
+
+  final LatLng initialCenter;
+
+  final bool requiredGPS;
+  final bool myLocationButtonEnabled;
+  final bool layersButtonEnabled;
+
   final String mapStylePath;
+
   final Color appBarColor;
   final BoxDecoration searchBarBoxDecoration;
   final String hintText;
@@ -39,15 +51,6 @@ class LocationPicker extends StatefulWidget {
   final Alignment resultCardAlignment;
   final Decoration resultCardDecoration;
   final EdgeInsets resultCardPadding;
-
-  final String apiKey;
-
-  final LatLng initialCenter;
-
-  final bool requiredGPS;
-
-  @override
-  LocationPickerState createState() => LocationPickerState();
 
   /// Returns a [LatLng] object of the location that was picked.
   ///
@@ -59,24 +62,30 @@ class LocationPicker extends StatefulWidget {
   static Future<LocationResult> pickLocation(
     BuildContext context,
     String apiKey, {
+    LatLng initialCenter = const LatLng(45.521563, -122.677433),
+    bool requiredGPS = true,
+    bool myLocationButtonEnabled = false,
+    bool layersButtonEnabled = false,
     String mapStylePath,
+    Color appBarColor = Colors.transparent,
     BoxDecoration searchBarBoxDecoration,
     String hintText,
     Widget resultCardConfirmWidget,
-    Alignment resultCardAlignment,
+    AlignmentGeometry resultCardAlignment,
+    EdgeInsetsGeometry resultCardPadding,
     Decoration resultCardDecoration,
-    EdgeInsets resultCardPadding,
-    LatLng initialCenter = const LatLng(45.521563, -122.677433),
-    bool requiredGPS = true,
   }) async {
-    var results = await Navigator.of(context).push(
+    final results = await Navigator.of(context).push(
       MaterialPageRoute<dynamic>(
         builder: (BuildContext context) {
           return LocationPicker(
             apiKey,
             initialCenter: initialCenter,
             requiredGPS: requiredGPS,
+            myLocationButtonEnabled: myLocationButtonEnabled,
+            layersButtonEnabled: layersButtonEnabled,
             mapStylePath: mapStylePath,
+            appBarColor: appBarColor,
             hintText: hintText,
             searchBarBoxDecoration: searchBarBoxDecoration,
             resultCardConfirmWidget: resultCardConfirmWidget,
@@ -94,6 +103,9 @@ class LocationPicker extends StatefulWidget {
       return null;
     }
   }
+
+  @override
+  LocationPickerState createState() => LocationPickerState();
 }
 
 class LocationPickerState extends State<LocationPicker> {
@@ -149,29 +161,19 @@ class LocationPickerState extends State<LocationPicker> {
         child: Material(
           elevation: 1,
           child: Container(
-            padding: EdgeInsets.symmetric(
-              vertical: 16,
-              horizontal: 24,
-            ),
-            color: Colors.white,
+            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
             child: Row(
               children: <Widget>[
                 SizedBox(
                   height: 24,
                   width: 24,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 3,
-                  ),
+                  child: CircularProgressIndicator(strokeWidth: 3),
                 ),
-                SizedBox(
-                  width: 24,
-                ),
+                SizedBox(width: 24),
                 Expanded(
                   child: Text(
-                    "Finding place...",
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
+                    S.of(context)?.finding_place ?? 'Finding place...',
+                    style: TextStyle(fontSize: 16),
                   ),
                 )
               ],
@@ -207,7 +209,7 @@ class LocationPickerState extends State<LocationPicker> {
 
         if (predictions.isEmpty) {
           AutoCompleteItem aci = AutoCompleteItem();
-          aci.text = "No result found";
+          aci.text = S.of(context)?.no_result_found ?? 'No result found';
           aci.offset = 0;
           aci.length = 0;
 
@@ -393,26 +395,36 @@ class LocationPickerState extends State<LocationPicker> {
       ],
       child: Builder(builder: (context) {
         return Scaffold(
-          extendBodyBehindAppBar: true,
-          appBar: AppBar(
-            elevation: 0,
-            backgroundColor: widget.appBarColor,
-            key: appBarKey,
-            title: SearchInput(
-              (input) => searchPlace(input),
-              key: searchInputKey,
-            ),
-          ),
-          body: MapPicker(
-            mapStylePath: widget.mapStylePath,
-            resultCardConfirmWidget: widget.resultCardConfirmWidget,
-            resultCardAlignment: widget.resultCardAlignment,
-            resultCardDecoration: widget.resultCardDecoration,
-            resultCardPadding: widget.resultCardPadding,
-            initialCenter: widget.initialCenter,
-            key: mapKey,
-            apiKey: widget.apiKey,
-            requiredGPS: widget.requiredGPS,
+          body: Stack(
+            children: <Widget>[
+              MapPicker(
+                widget.apiKey,
+                initialCenter: widget.initialCenter,
+                requiredGPS: widget.requiredGPS,
+                myLocationButtonEnabled: widget.myLocationButtonEnabled,
+                layersButtonEnabled: widget.layersButtonEnabled,
+                mapStylePath: widget.mapStylePath,
+                appBarColor: widget.appBarColor,
+                searchBarBoxDecoration: widget.searchBarBoxDecoration,
+                hintText: widget.hintText,
+                resultCardConfirmWidget: widget.resultCardConfirmWidget,
+                resultCardAlignment: widget.resultCardAlignment,
+                resultCardDecoration: widget.resultCardDecoration,
+                resultCardPadding: widget.resultCardPadding,
+                key: mapKey,
+              ),
+              IntrinsicHeight(
+                child: AppBar(
+                  elevation: 0,
+                  backgroundColor: widget.appBarColor,
+                  key: appBarKey,
+                  title: SearchInput(
+                    (input) => searchPlace(input),
+                    key: searchInputKey,
+                  ),
+                ),
+              ),
+            ],
           ),
         );
       }),

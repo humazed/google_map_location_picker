@@ -24,6 +24,8 @@ class S implements WidgetsLocalizations {
   String get access_to_location_denied => "Access to location denied";
   String get allow_access_to_the_location_services => "Allow access to the location services.";
   String get cant_get_current_location => "Can't get current location";
+  String get finding_place => "Finding place...";
+  String get no_result_found => "No result found";
   String get ok => "Ok";
   String get please_check_your_connection => "Please check your connection";
   String get please_make_sure_you_enable_gps_and_try_again => "Please make sure you enable GPS and try again";
@@ -39,6 +41,10 @@ class $ar extends S {
 
   @override
   String get cant_get_current_location => "لا يمكن الحصول علي الموقع الجغرافي الحالي";
+  @override
+  String get finding_place => "Finding place...";
+  @override
+  String get no_result_found => "No result found";
   @override
   String get access_to_location_denied => "تم رفض إذن الوصل الي الموقع الجغرافي";
   @override
@@ -63,6 +69,10 @@ class $pt extends S {
 
   @override
   String get cant_get_current_location => "Não é possível obter a localização atual";
+  @override
+  String get finding_place => "Finding place...";
+  @override
+  String get no_result_found => "No result found";
   @override
   String get access_to_location_denied => "Acesso ao local negado";
   @override
@@ -91,6 +101,10 @@ class $tr extends S {
 
   @override
   String get cant_get_current_location => "Geçerli konum alınamıyor";
+  @override
+  String get finding_place => "Finding place...";
+  @override
+  String get no_result_found => "No result found";
   @override
   String get access_to_location_denied => "Konum erişimi reddedildi";
   @override

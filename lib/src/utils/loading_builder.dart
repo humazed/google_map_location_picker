@@ -73,7 +73,7 @@ class _FutureLoadingBuilderState<T> extends State<FutureLoadingBuilder<T>> {
 
           case ConnectionState.done:
             if (snapshot.hasError) {
-              var error = snapshot.error;
+              final error = snapshot.error;
               if (error is SocketException) {
                 d('SocketException-> ${error.message}');
                 return Center(

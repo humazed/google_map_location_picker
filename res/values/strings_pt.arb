@@ -6,5 +6,7 @@
   "ok": "Ok",
   "cant_get_current_location": "Não é possível obter a localização atual",
   "please_make_sure_you_enable_gps_and_try_again": "Certifique-se de ativar o GPS e tente novamente",
-  "search_place": "Pesquisar endereço"
+  "search_place": "Pesquisar endereço",
+  "finding_place": "Finding place...",
+  "no_result_found": "No result found"
 }

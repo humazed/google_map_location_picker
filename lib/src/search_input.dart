@@ -5,42 +5,29 @@ import 'package:google_map_location_picker/generated/i18n.dart';
 
 /// Custom Search input field, showing the search and clear icons.
 class SearchInput extends StatefulWidget {
-  final ValueChanged<String> onSearchInput;
-  final Key searchInputKey;
-  final BoxDecoration _boxDecoration;
-  final String _hintText;
-
   SearchInput(
     this.onSearchInput, {
     Key key,
     this.searchInputKey,
-    BoxDecoration boxDecoration,
-    String hintText,
-  })  : _boxDecoration = boxDecoration ??
-            BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-              color: Colors.black54),
-        _hintText = hintText ?? "Search place",
-        super(key: key);
+    this.boxDecoration,
+    this.hintText,
+  }) : super(key: key);
+
+  final ValueChanged<String> onSearchInput;
+  final Key searchInputKey;
+  final BoxDecoration boxDecoration;
+  final String hintText;
 
   @override
-  State<StatefulWidget> createState() {
-    return SearchInputState(onSearchInput, _boxDecoration, _hintText);
-  }
+  State<StatefulWidget> createState() => SearchInputState();
 }
 
-class SearchInputState extends State {
-  final ValueChanged<String> onSearchInput;
-  final BoxDecoration _boxDecoration;
-  final String _hintText;
-
+class SearchInputState extends State<SearchInput> {
   TextEditingController editController = TextEditingController();
 
   Timer debouncer;
 
   bool hasSearchEntry = false;
-
-  SearchInputState(this.onSearchInput, this._boxDecoration, this._hintText);
 
   @override
   void initState() {
@@ -59,7 +46,7 @@ class SearchInputState extends State {
   void onSearchInputChange() {
     if (editController.text.isEmpty) {
       debouncer?.cancel();
-      onSearchInput(editController.text);
+      widget.onSearchInput(editController.text);
       return;
     }
 
@@ -68,31 +55,35 @@ class SearchInputState extends State {
     }
 
     debouncer = Timer(Duration(milliseconds: 500), () {
-      onSearchInput(editController.text);
+      widget.onSearchInput(editController.text);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 8,
-      ),
+      decoration: widget.boxDecoration ??
+          BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: Colors.black54,
+          ),
+      padding: EdgeInsets.symmetric(horizontal: 8),
       child: Row(
         children: <Widget>[
-          Icon(
-            Icons.search,
-          ),
-          SizedBox(
-            width: 8,
-          ),
+          Icon(Icons.search),
+          SizedBox(width: 8),
           Expanded(
             child: TextField(
+              controller: editController,
               decoration: InputDecoration(
-                hintText: S.of(context)?.search_place ?? _hintText,
+                hintText: widget.hintText ??
+                    S.of(context)?.search_place ??
+                    'Search place',
+                hintStyle: TextStyle(color: ThemeData.dark().hintColor),
                 border: InputBorder.none,
               ),
-              controller: editController,
+              style: TextStyle(color: Colors.white),
+
               onChanged: (value) {
                 setState(() {
                   hasSearchEntry = value.isNotEmpty;
@@ -100,14 +91,10 @@ class SearchInputState extends State {
               },
             ),
           ),
-          SizedBox(
-            width: 8,
-          ),
+          SizedBox(width: 8),
           hasSearchEntry
               ? GestureDetector(
-                  child: Icon(
-                    Icons.clear,
-                  ),
+                  child: Icon(Icons.clear),
                   onTap: () {
                     editController.clear();
                     setState(() {
@@ -118,7 +105,6 @@ class SearchInputState extends State {
               : SizedBox(),
         ],
       ),
-      decoration: _boxDecoration,
     );
   }
 }
