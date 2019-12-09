@@ -21,7 +21,24 @@ class LocationPicker extends StatefulWidget {
     Key key,
     this.initialCenter,
     this.requiredGPS = true,
+    this.mapStylePath,
+    this.searchBarBoxDecoration,
+    this.hintText,
+    this.resultCardConfirmWidget,
+    this.resultCardAlignment,
+    this.resultCardDecoration,
+    this.resultCardPadding,
+    this.appBarColor = Colors.transparent,
   });
+
+  final String mapStylePath;
+  final Color appBarColor;
+  final BoxDecoration searchBarBoxDecoration;
+  final String hintText;
+  final Widget resultCardConfirmWidget;
+  final Alignment resultCardAlignment;
+  final Decoration resultCardDecoration;
+  final EdgeInsets resultCardPadding;
 
   final String apiKey;
 
@@ -42,6 +59,13 @@ class LocationPicker extends StatefulWidget {
   static Future<LocationResult> pickLocation(
     BuildContext context,
     String apiKey, {
+    String mapStylePath,
+    BoxDecoration searchBarBoxDecoration,
+    String hintText,
+    Widget resultCardConfirmWidget,
+    Alignment resultCardAlignment,
+    Decoration resultCardDecoration,
+    EdgeInsets resultCardPadding,
     LatLng initialCenter = const LatLng(45.521563, -122.677433),
     bool requiredGPS = true,
   }) async {
@@ -52,6 +76,13 @@ class LocationPicker extends StatefulWidget {
             apiKey,
             initialCenter: initialCenter,
             requiredGPS: requiredGPS,
+            mapStylePath: mapStylePath,
+            hintText: hintText,
+            searchBarBoxDecoration: searchBarBoxDecoration,
+            resultCardConfirmWidget: resultCardConfirmWidget,
+            resultCardAlignment: resultCardAlignment,
+            resultCardPadding: resultCardPadding,
+            resultCardDecoration: resultCardDecoration,
           );
         },
       ),
@@ -242,7 +273,6 @@ class LocationPickerState extends State<LocationPicker> {
         top: appBarBox.size.height,
         child: Material(
           elevation: 1,
-          color: Colors.white,
           child: Column(
             children: suggestions,
           ),
@@ -363,9 +393,10 @@ class LocationPickerState extends State<LocationPicker> {
       ],
       child: Builder(builder: (context) {
         return Scaffold(
+          extendBodyBehindAppBar: true,
           appBar: AppBar(
-            backgroundColor: Colors.white,
-            iconTheme: IconThemeData(color: Colors.black),
+            elevation: 0,
+            backgroundColor: widget.appBarColor,
             key: appBarKey,
             title: SearchInput(
               (input) => searchPlace(input),
@@ -373,6 +404,11 @@ class LocationPickerState extends State<LocationPicker> {
             ),
           ),
           body: MapPicker(
+            mapStylePath: widget.mapStylePath,
+            resultCardConfirmWidget: widget.resultCardConfirmWidget,
+            resultCardAlignment: widget.resultCardAlignment,
+            resultCardDecoration: widget.resultCardDecoration,
+            resultCardPadding: widget.resultCardPadding,
             initialCenter: widget.initialCenter,
             key: mapKey,
             apiKey: widget.apiKey,
