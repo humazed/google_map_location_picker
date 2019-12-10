@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
                     LocationResult result = await LocationPicker.pickLocation(
                       context,
                       apiKey,
-                      mapStylePath: 'assets/mapStyle.json',
+//                      mapStylePath: 'assets/mapStyle.json',
                       myLocationButtonEnabled: true,
                       layersButtonEnabled: true,
 //                      resultCardAlignment: Alignment.bottomCenter,
