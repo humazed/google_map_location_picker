@@ -61,6 +61,30 @@ class $ar extends S {
   String get please_make_sure_you_enable_gps_and_try_again => "الرجاء التاكد من تفعيل الGPS و المحاولة مرة أخري";
 }
 
+class $ru extends S {
+  const $ru();
+
+  @override
+  TextDirection get textDirection => TextDirection.ltr;
+
+  @override
+  String get cant_get_current_location => "Невозможно получить текущее местоположение";
+  @override
+  String get access_to_location_denied => "Доступ к местоположению запрещен";
+  @override
+  String get allow_access_to_the_location_services => "Разрешить доступ к службам определения местоположения.";
+  @override
+  String get server_error => "Ошибка сервера";
+  @override
+  String get search_place => "Поиск места";
+  @override
+  String get ok => "ОК";
+  @override
+  String get please_check_your_connection => "Пожалуйста, проверьте ваше соединение";
+  @override
+  String get please_make_sure_you_enable_gps_and_try_again => "Пожалуйста, убедитесь, что вы включили GPS и попробуйте снова";
+}
+
 class $pt extends S {
   const $pt();
 
@@ -127,6 +151,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale("ar", ""),
+      Locale("ru", ""),
       Locale("pt", ""),
       Locale("en", ""),
       Locale("tr", ""),
@@ -156,6 +181,9 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
       switch (lang) {
         case "ar":
           S.current = const $ar();
+          return SynchronousFuture<S>(S.current);
+        case "ru":
+          S.current = const $ru();
           return SynchronousFuture<S>(S.current);
         case "pt":
           S.current = const $pt();
