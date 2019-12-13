@@ -135,6 +135,10 @@ class MapPickerState extends State<MapPicker> {
         children: <Widget>[
           GoogleMap(
             myLocationButtonEnabled: false,
+            initialCameraPosition: CameraPosition(
+              target: widget.initialCenter,
+              zoom: 11,
+            ),
             onMapCreated: (GoogleMapController controller) {
               mapController.complete(controller);
               //Implementation of mapStyle
@@ -146,10 +150,6 @@ class MapPickerState extends State<MapPicker> {
               LocationProvider.of(context)
                   .setLastIdleLocation(_lastMapPosition);
             },
-            initialCameraPosition: CameraPosition(
-              target: widget.initialCenter,
-              zoom: 11,
-            ),
             onCameraMove: (CameraPosition position) {
               _lastMapPosition = position.target;
             },
