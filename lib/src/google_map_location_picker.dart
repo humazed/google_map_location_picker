@@ -26,7 +26,6 @@ class LocationPicker extends StatefulWidget {
     this.layersButtonEnabled,
     this.mapStylePath,
     this.appBarColor,
-    this.appBarBackButtonColor,
     this.searchBarBoxDecoration,
     this.hintText,
     this.resultCardConfirmWidget,
@@ -46,7 +45,6 @@ class LocationPicker extends StatefulWidget {
   final String mapStylePath;
 
   final Color appBarColor;
-  final Color appBarBackButtonColor;
   final BoxDecoration searchBarBoxDecoration;
   final String hintText;
   final Widget resultCardConfirmWidget;
@@ -70,7 +68,6 @@ class LocationPicker extends StatefulWidget {
     bool layersButtonEnabled = false,
     String mapStylePath,
     Color appBarColor = Colors.transparent,
-    Color appBarBackButtonColor = Colors.black,
     BoxDecoration searchBarBoxDecoration,
     String hintText,
     Widget resultCardConfirmWidget,
@@ -89,7 +86,6 @@ class LocationPicker extends StatefulWidget {
             layersButtonEnabled: layersButtonEnabled,
             mapStylePath: mapStylePath,
             appBarColor: appBarColor,
-            appBarBackButtonColor: appBarBackButtonColor,
             hintText: hintText,
             searchBarBoxDecoration: searchBarBoxDecoration,
             resultCardConfirmWidget: resultCardConfirmWidget,
@@ -404,11 +400,11 @@ class LocationPickerState extends State<LocationPicker> {
             iconTheme: Theme.of(context).iconTheme,
             elevation: 0,
             backgroundColor: widget.appBarColor,
-            leading: BackButton(color: widget.appBarBackButtonColor),
             key: appBarKey,
             title: SearchInput(
               (input) => searchPlace(input),
               key: searchInputKey,
+              boxDecoration: widget.searchBarBoxDecoration,
             ),
           ),
           body: MapPicker(
@@ -419,7 +415,6 @@ class LocationPickerState extends State<LocationPicker> {
             layersButtonEnabled: widget.layersButtonEnabled,
             mapStylePath: widget.mapStylePath,
             appBarColor: widget.appBarColor,
-            appBarBackButtonColor: widget.appBarBackButtonColor,
             searchBarBoxDecoration: widget.searchBarBoxDecoration,
             hintText: widget.hintText,
             resultCardConfirmWidget: widget.resultCardConfirmWidget,

@@ -27,7 +27,6 @@ class MapPicker extends StatefulWidget {
     this.layersButtonEnabled,
     this.mapStylePath,
     this.appBarColor,
-    this.appBarBackButtonColor,
     this.searchBarBoxDecoration,
     this.hintText,
     this.resultCardConfirmWidget,
@@ -47,7 +46,6 @@ class MapPicker extends StatefulWidget {
   final String mapStylePath;
 
   final Color appBarColor;
-  final Color appBarBackButtonColor;
   final BoxDecoration searchBarBoxDecoration;
   final String hintText;
   final Widget resultCardConfirmWidget;
