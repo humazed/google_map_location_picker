@@ -137,7 +137,7 @@ class MapPickerState extends State<MapPicker> {
             myLocationButtonEnabled: false,
             initialCameraPosition: CameraPosition(
               target: widget.initialCenter,
-              zoom: 11,
+              zoom: 16,
             ),
             onMapCreated: (GoogleMapController controller) {
               mapController.complete(controller);
@@ -282,7 +282,7 @@ class MapPickerState extends State<MapPicker> {
   Future moveToCurrentLocation(LatLng currentLocation) async {
     var controller = await mapController.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(
-      CameraPosition(target: currentLocation, zoom: 19.151926040649414),
+      CameraPosition(target: currentLocation, zoom: 16),
     ));
   }
 
