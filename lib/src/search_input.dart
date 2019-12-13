@@ -65,7 +65,9 @@ class SearchInputState extends State<SearchInput> {
       decoration: widget.boxDecoration ??
           BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            color: Colors.black54,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.black54
+                : Colors.white,
           ),
       padding: EdgeInsets.symmetric(horizontal: 8),
       child: Row(
@@ -79,11 +81,8 @@ class SearchInputState extends State<SearchInput> {
                 hintText: widget.hintText ??
                     S.of(context)?.search_place ??
                     'Search place',
-                hintStyle: TextStyle(color: ThemeData.dark().hintColor),
                 border: InputBorder.none,
               ),
-              style: TextStyle(color: Colors.white),
-
               onChanged: (value) {
                 setState(() {
                   hasSearchEntry = value.isNotEmpty;

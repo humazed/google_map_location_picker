@@ -399,38 +399,34 @@ class LocationPickerState extends State<LocationPicker> {
       ],
       child: Builder(builder: (context) {
         return Scaffold(
-          body: Stack(
-            children: <Widget>[
-              MapPicker(
-                widget.apiKey,
-                initialCenter: widget.initialCenter,
-                requiredGPS: widget.requiredGPS,
-                myLocationButtonEnabled: widget.myLocationButtonEnabled,
-                layersButtonEnabled: widget.layersButtonEnabled,
-                mapStylePath: widget.mapStylePath,
-                appBarColor: widget.appBarColor,
-                appBarBackButtonColor: widget.appBarBackButtonColor,
-                searchBarBoxDecoration: widget.searchBarBoxDecoration,
-                hintText: widget.hintText,
-                resultCardConfirmWidget: widget.resultCardConfirmWidget,
-                resultCardAlignment: widget.resultCardAlignment,
-                resultCardDecoration: widget.resultCardDecoration,
-                resultCardPadding: widget.resultCardPadding,
-                key: mapKey,
-              ),
-              IntrinsicHeight(
-                child: AppBar(
-                  elevation: 0,
-                  backgroundColor: widget.appBarColor,
-                  leading: BackButton(color: widget.appBarBackButtonColor),
-                  key: appBarKey,
-                  title: SearchInput(
-                    (input) => searchPlace(input),
-                    key: searchInputKey,
-                  ),
-                ),
-              ),
-            ],
+          extendBodyBehindAppBar: true,
+          appBar: AppBar(
+            iconTheme: Theme.of(context).iconTheme,
+            elevation: 0,
+            backgroundColor: widget.appBarColor,
+            leading: BackButton(color: widget.appBarBackButtonColor),
+            key: appBarKey,
+            title: SearchInput(
+              (input) => searchPlace(input),
+              key: searchInputKey,
+            ),
+          ),
+          body: MapPicker(
+            widget.apiKey,
+            initialCenter: widget.initialCenter,
+            requiredGPS: widget.requiredGPS,
+            myLocationButtonEnabled: widget.myLocationButtonEnabled,
+            layersButtonEnabled: widget.layersButtonEnabled,
+            mapStylePath: widget.mapStylePath,
+            appBarColor: widget.appBarColor,
+            appBarBackButtonColor: widget.appBarBackButtonColor,
+            searchBarBoxDecoration: widget.searchBarBoxDecoration,
+            hintText: widget.hintText,
+            resultCardConfirmWidget: widget.resultCardConfirmWidget,
+            resultCardAlignment: widget.resultCardAlignment,
+            resultCardDecoration: widget.resultCardDecoration,
+            resultCardPadding: widget.resultCardPadding,
+            key: mapKey,
           ),
         );
       }),
