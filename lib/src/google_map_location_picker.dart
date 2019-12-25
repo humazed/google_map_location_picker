@@ -52,58 +52,6 @@ class LocationPicker extends StatefulWidget {
   final Decoration resultCardDecoration;
   final EdgeInsets resultCardPadding;
 
-  /// Returns a [LatLng] object of the location that was picked.
-  ///
-  /// The [apiKey] argument API key generated from Google Cloud Console.
-  /// You can get an API key [here](https://cloud.google.com/maps-platform/)
-  ///
-  /// [initialCenter] The geographical location that the camera is pointing at.
-  ///
-  static Future<LocationResult> pickLocation(
-    BuildContext context,
-    String apiKey, {
-    LatLng initialCenter = const LatLng(45.521563, -122.677433),
-    bool requiredGPS = true,
-    bool myLocationButtonEnabled = false,
-    bool layersButtonEnabled = false,
-    String mapStylePath,
-    Color appBarColor = Colors.transparent,
-    BoxDecoration searchBarBoxDecoration,
-    String hintText,
-    Widget resultCardConfirmWidget,
-    AlignmentGeometry resultCardAlignment,
-    EdgeInsetsGeometry resultCardPadding,
-    Decoration resultCardDecoration,
-  }) async {
-    final results = await Navigator.of(context).push(
-      MaterialPageRoute<dynamic>(
-        builder: (BuildContext context) {
-          return LocationPicker(
-            apiKey,
-            initialCenter: initialCenter,
-            requiredGPS: requiredGPS,
-            myLocationButtonEnabled: myLocationButtonEnabled,
-            layersButtonEnabled: layersButtonEnabled,
-            mapStylePath: mapStylePath,
-            appBarColor: appBarColor,
-            hintText: hintText,
-            searchBarBoxDecoration: searchBarBoxDecoration,
-            resultCardConfirmWidget: resultCardConfirmWidget,
-            resultCardAlignment: resultCardAlignment,
-            resultCardPadding: resultCardPadding,
-            resultCardDecoration: resultCardDecoration,
-          );
-        },
-      ),
-    );
-
-    if (results != null && results.containsKey('location')) {
-      return results['location'];
-    } else {
-      return null;
-    }
-  }
-
   @override
   LocationPickerState createState() => LocationPickerState();
 }
@@ -434,5 +382,57 @@ class LocationPickerState extends State<LocationPicker> {
         );
       }),
     );
+  }
+}
+
+/// Returns a [LatLng] object of the location that was picked.
+///
+/// The [apiKey] argument API key generated from Google Cloud Console.
+/// You can get an API key [here](https://cloud.google.com/maps-platform/)
+///
+/// [initialCenter] The geographical location that the camera is pointing at.
+///
+Future<LocationResult> showLocationPicker(
+  BuildContext context,
+  String apiKey, {
+  LatLng initialCenter = const LatLng(45.521563, -122.677433),
+  bool requiredGPS = true,
+  bool myLocationButtonEnabled = false,
+  bool layersButtonEnabled = false,
+  String mapStylePath,
+  Color appBarColor = Colors.transparent,
+  BoxDecoration searchBarBoxDecoration,
+  String hintText,
+  Widget resultCardConfirmWidget,
+  AlignmentGeometry resultCardAlignment,
+  EdgeInsetsGeometry resultCardPadding,
+  Decoration resultCardDecoration,
+}) async {
+  final results = await Navigator.of(context).push(
+    MaterialPageRoute<dynamic>(
+      builder: (BuildContext context) {
+        return LocationPicker(
+          apiKey,
+          initialCenter: initialCenter,
+          requiredGPS: requiredGPS,
+          myLocationButtonEnabled: myLocationButtonEnabled,
+          layersButtonEnabled: layersButtonEnabled,
+          mapStylePath: mapStylePath,
+          appBarColor: appBarColor,
+          hintText: hintText,
+          searchBarBoxDecoration: searchBarBoxDecoration,
+          resultCardConfirmWidget: resultCardConfirmWidget,
+          resultCardAlignment: resultCardAlignment,
+          resultCardPadding: resultCardPadding,
+          resultCardDecoration: resultCardDecoration,
+        );
+      },
+    ),
+  );
+
+  if (results != null && results.containsKey('location')) {
+    return results['location'];
+  } else {
+    return null;
   }
 }
