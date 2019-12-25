@@ -46,7 +46,7 @@ class _MyAppState extends State<MyApp> {
               children: <Widget>[
                 RaisedButton(
                   onPressed: () async {
-                    LocationResult result = await LocationPicker.pickLocation(
+                    LocationResult result = await showLocationPicker(
                       context,
                       apiKey,
 //                      mapStylePath: 'assets/mapStyle.json',
