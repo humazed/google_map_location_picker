@@ -147,7 +147,7 @@ class MapPickerState extends State<MapPicker> {
               }
 
               _lastMapPosition = widget.initialCenter;
-              LocationProvider.of(context)
+              LocationProvider.of(context, listen: false)
                   .setLastIdleLocation(_lastMapPosition);
             },
             onCameraMove: (CameraPosition position) {
@@ -155,7 +155,7 @@ class MapPickerState extends State<MapPicker> {
             },
             onCameraIdle: () async {
               print("onCameraIdle#_lastMapPosition = $_lastMapPosition");
-              LocationProvider.of(context)
+              LocationProvider.of(context,listen: false)
                   .setLastIdleLocation(_lastMapPosition);
             },
             onCameraMoveStarted: () {

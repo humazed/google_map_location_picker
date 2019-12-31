@@ -1,3 +1,9 @@
+## 3.0.1
+
+* updated readme to reflect the changes in 3.0.0
+* updated deps
+* fix some issues relating to upgrading to provider: ^4.0.1 
+
 ## 3.0.0
 
 * **Breaking change**. make `LocationPicker.pickLocation` to top level function
