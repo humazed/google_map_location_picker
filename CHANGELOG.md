@@ -1,3 +1,7 @@
+## 3.1.0
+
+* Added `automaticallyAnimateToCurrentLocation` to fix https://github.com/humazed/google_map_location_picker/issues/24
+
 ## 3.0.1
 
 * updated readme to reflect the changes in 3.0.0
