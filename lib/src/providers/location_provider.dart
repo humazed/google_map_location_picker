@@ -3,8 +3,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 class LocationProvider extends ChangeNotifier {
-  static LocationProvider of(BuildContext context) =>
-      Provider.of<LocationProvider>(context);
+  static LocationProvider of(BuildContext context, {bool listen}) =>
+      Provider.of<LocationProvider>(context, listen: listen);
 
   LatLng _lastIdleLocation;
 
