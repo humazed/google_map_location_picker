@@ -26,6 +26,7 @@ class MapPicker extends StatefulWidget {
     this.requiredGPS,
     this.myLocationButtonEnabled,
     this.layersButtonEnabled,
+    this.automaticallyAnimateToCurrentLocation,
     this.mapStylePath,
     this.appBarColor,
     this.searchBarBoxDecoration,
@@ -43,6 +44,7 @@ class MapPicker extends StatefulWidget {
   final bool requiredGPS;
   final bool myLocationButtonEnabled;
   final bool layersButtonEnabled;
+  final bool automaticallyAnimateToCurrentLocation;
 
   final String mapStylePath;
 
@@ -102,10 +104,17 @@ class MapPickerState extends State<MapPicker> {
           LatLng(currentPosition.latitude, currentPosition.longitude));
   }
 
+  Future moveToCurrentLocation(LatLng currentLocation) async {
+    var controller = await mapController.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(
+      CameraPosition(target: currentLocation, zoom: 16),
+    ));
+  }
+
   @override
   void initState() {
     super.initState();
-    _initCurrentLocation();
+    if (widget.automaticallyAnimateToCurrentLocation) _initCurrentLocation();
 
     if (widget.mapStylePath != null) {
       rootBundle.loadString(widget.mapStylePath).then((string) {
@@ -122,8 +131,11 @@ class MapPickerState extends State<MapPicker> {
     }
     return Scaffold(
       body: Builder(builder: (context) {
-        if (_currentPosition == null && widget.requiredGPS)
+        if (_currentPosition == null &&
+            widget.automaticallyAnimateToCurrentLocation &&
+            widget.requiredGPS) {
           return const Center(child: CircularProgressIndicator());
+        }
 
         return buildMap();
       }),
@@ -278,13 +290,6 @@ class MapPickerState extends State<MapPicker> {
         ),
       ),
     );
-  }
-
-  Future moveToCurrentLocation(LatLng currentLocation) async {
-    var controller = await mapController.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(
-      CameraPosition(target: currentLocation, zoom: 16),
-    ));
   }
 
   var dialogOpen;

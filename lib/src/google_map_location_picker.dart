@@ -25,6 +25,7 @@ class LocationPicker extends StatefulWidget {
     this.requiredGPS,
     this.myLocationButtonEnabled,
     this.layersButtonEnabled,
+    this.automaticallyAnimateToCurrentLocation,
     this.mapStylePath,
     this.appBarColor,
     this.searchBarBoxDecoration,
@@ -42,6 +43,7 @@ class LocationPicker extends StatefulWidget {
   final bool requiredGPS;
   final bool myLocationButtonEnabled;
   final bool layersButtonEnabled;
+  final bool automaticallyAnimateToCurrentLocation;
 
   final String mapStylePath;
 
@@ -375,6 +377,7 @@ class LocationPickerState extends State<LocationPicker> {
             requiredGPS: widget.requiredGPS,
             myLocationButtonEnabled: widget.myLocationButtonEnabled,
             layersButtonEnabled: widget.layersButtonEnabled,
+            automaticallyAnimateToCurrentLocation: widget.automaticallyAnimateToCurrentLocation,
             mapStylePath: widget.mapStylePath,
             appBarColor: widget.appBarColor,
             searchBarBoxDecoration: widget.searchBarBoxDecoration,
@@ -396,7 +399,10 @@ class LocationPickerState extends State<LocationPicker> {
 /// The [apiKey] argument API key generated from Google Cloud Console.
 /// You can get an API key [here](https://cloud.google.com/maps-platform/)
 ///
-/// [initialCenter] The geographical location that the camera is pointing at.
+/// [initialCenter] The geographical location that the camera is pointing
+/// until the current user location is know if you want to change this
+/// set [automaticallyAnimateToCurrentLocation] to false.
+///
 ///
 Future<LocationResult> showLocationPicker(
   BuildContext context,
@@ -405,6 +411,7 @@ Future<LocationResult> showLocationPicker(
   bool requiredGPS = true,
   bool myLocationButtonEnabled = false,
   bool layersButtonEnabled = false,
+  bool automaticallyAnimateToCurrentLocation = true,
   String mapStylePath,
   Color appBarColor = Colors.transparent,
   BoxDecoration searchBarBoxDecoration,
@@ -423,6 +430,7 @@ Future<LocationResult> showLocationPicker(
           requiredGPS: requiredGPS,
           myLocationButtonEnabled: myLocationButtonEnabled,
           layersButtonEnabled: layersButtonEnabled,
+          automaticallyAnimateToCurrentLocation: automaticallyAnimateToCurrentLocation,
           mapStylePath: mapStylePath,
           appBarColor: appBarColor,
           hintText: hintText,
