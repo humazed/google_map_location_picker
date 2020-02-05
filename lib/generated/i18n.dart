@@ -24,6 +24,8 @@ class S implements WidgetsLocalizations {
   String get access_to_location_denied => "Access to location denied";
   String get allow_access_to_the_location_services => "Allow access to the location services.";
   String get cant_get_current_location => "Can't get current location";
+  String get finding_place => "Finding place...";
+  String get no_result_found => "No result found";
   String get ok => "Ok";
   String get please_check_your_connection => "Please check your connection";
   String get please_make_sure_you_enable_gps_and_try_again => "Please make sure you enable GPS and try again";
@@ -40,6 +42,10 @@ class $ar extends S {
   @override
   String get cant_get_current_location => "لا يمكن الحصول علي الموقع الجغرافي الحالي";
   @override
+  String get finding_place => "Finding place...";
+  @override
+  String get no_result_found => "No result found";
+  @override
   String get access_to_location_denied => "تم رفض إذن الوصل الي الموقع الجغرافي";
   @override
   String get allow_access_to_the_location_services => "من فضلك قم بقبول إذن الوصول الي الموقع الجغرافي";
@@ -55,6 +61,30 @@ class $ar extends S {
   String get please_make_sure_you_enable_gps_and_try_again => "الرجاء التاكد من تفعيل الGPS و المحاولة مرة أخري";
 }
 
+class $ru extends S {
+  const $ru();
+
+  @override
+  TextDirection get textDirection => TextDirection.ltr;
+
+  @override
+  String get cant_get_current_location => "Невозможно получить текущее местоположение";
+  @override
+  String get access_to_location_denied => "Доступ к местоположению запрещен";
+  @override
+  String get allow_access_to_the_location_services => "Разрешить доступ к службам определения местоположения.";
+  @override
+  String get server_error => "Ошибка сервера";
+  @override
+  String get search_place => "Поиск места";
+  @override
+  String get ok => "ОК";
+  @override
+  String get please_check_your_connection => "Пожалуйста, проверьте ваше соединение";
+  @override
+  String get please_make_sure_you_enable_gps_and_try_again => "Пожалуйста, убедитесь, что вы включили GPS и попробуйте снова";
+}
+
 class $pt extends S {
   const $pt();
 
@@ -63,6 +93,10 @@ class $pt extends S {
 
   @override
   String get cant_get_current_location => "Não é possível obter a localização atual";
+  @override
+  String get finding_place => "Finding place...";
+  @override
+  String get no_result_found => "No result found";
   @override
   String get access_to_location_denied => "Acesso ao local negado";
   @override
@@ -92,6 +126,10 @@ class $tr extends S {
   @override
   String get cant_get_current_location => "Geçerli konum alınamıyor";
   @override
+  String get finding_place => "Finding place...";
+  @override
+  String get no_result_found => "No result found";
+  @override
   String get access_to_location_denied => "Konum erişimi reddedildi";
   @override
   String get allow_access_to_the_location_services => "Konum servislerine izin verin.";
@@ -113,6 +151,7 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale("ar", ""),
+      Locale("ru", ""),
       Locale("pt", ""),
       Locale("en", ""),
       Locale("tr", ""),
@@ -142,6 +181,9 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
       switch (lang) {
         case "ar":
           S.current = const $ar();
+          return SynchronousFuture<S>(S.current);
+        case "ru":
+          S.current = const $ru();
           return SynchronousFuture<S>(S.current);
         case "pt":
           S.current = const $pt();

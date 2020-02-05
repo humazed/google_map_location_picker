@@ -5,31 +5,29 @@ import 'package:google_map_location_picker/generated/i18n.dart';
 
 /// Custom Search input field, showing the search and clear icons.
 class SearchInput extends StatefulWidget {
-  final ValueChanged<String> onSearchInput;
-  final Key searchInputKey;
-
   SearchInput(
     this.onSearchInput, {
     Key key,
     this.searchInputKey,
+    this.boxDecoration,
+    this.hintText,
   }) : super(key: key);
 
+  final ValueChanged<String> onSearchInput;
+  final Key searchInputKey;
+  final BoxDecoration boxDecoration;
+  final String hintText;
+
   @override
-  State<StatefulWidget> createState() {
-    return SearchInputState(onSearchInput);
-  }
+  State<StatefulWidget> createState() => SearchInputState();
 }
 
-class SearchInputState extends State {
-  final ValueChanged<String> onSearchInput;
-
+class SearchInputState extends State<SearchInput> {
   TextEditingController editController = TextEditingController();
 
   Timer debouncer;
 
   bool hasSearchEntry = false;
-
-  SearchInputState(this.onSearchInput);
 
   @override
   void initState() {
@@ -48,7 +46,7 @@ class SearchInputState extends State {
   void onSearchInputChange() {
     if (editController.text.isEmpty) {
       debouncer?.cancel();
-      onSearchInput(editController.text);
+      widget.onSearchInput(editController.text);
       return;
     }
 
@@ -57,32 +55,34 @@ class SearchInputState extends State {
     }
 
     debouncer = Timer(Duration(milliseconds: 500), () {
-      onSearchInput(editController.text);
+      widget.onSearchInput(editController.text);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 8,
-      ),
+      decoration: widget.boxDecoration ??
+          BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: Theme.of(context).brightness == Brightness.dark
+                ? Colors.black54
+                : Colors.white,
+          ),
+      padding: EdgeInsets.symmetric(horizontal: 8),
       child: Row(
         children: <Widget>[
-          Icon(
-            Icons.search,
-            color: Colors.black,
-          ),
-          SizedBox(
-            width: 8,
-          ),
+          Icon(Icons.search),
+          SizedBox(width: 8),
           Expanded(
             child: TextField(
+              controller: editController,
               decoration: InputDecoration(
-                hintText: S.of(context)?.search_place ?? 'Search place',
+                hintText: widget.hintText ??
+                    S.of(context)?.search_place ??
+                    'Search place',
                 border: InputBorder.none,
               ),
-              controller: editController,
               onChanged: (value) {
                 setState(() {
                   hasSearchEntry = value.isNotEmpty;
@@ -90,15 +90,10 @@ class SearchInputState extends State {
               },
             ),
           ),
-          SizedBox(
-            width: 8,
-          ),
+          SizedBox(width: 8),
           hasSearchEntry
               ? GestureDetector(
-                  child: Icon(
-                    Icons.clear,
-                    color: Colors.black,
-                  ),
+                  child: Icon(Icons.clear),
                   onTap: () {
                     editController.clear();
                     setState(() {
@@ -108,10 +103,6 @@ class SearchInputState extends State {
                 )
               : SizedBox(),
         ],
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: Colors.grey[100],
       ),
     );
   }

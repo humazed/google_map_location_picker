@@ -1,3 +1,39 @@
+## 3.1.0
+
+* Added `automaticallyAnimateToCurrentLocation` to fix https://github.com/humazed/google_map_location_picker/issues/24
+
+## 3.0.1
+
+* updated readme to reflect the changes in 3.0.0
+* updated deps
+* fix some issues relating to upgrading to provider: ^4.0.1 
+
+## 3.0.0
+
+* **Breaking change**. make `LocationPicker.pickLocation` to top level function
+   and change the name to `showLocationPicker` to mach the style of time and date pickers.
+* change the zoom level to 16 in the entire library to improve the UX.
+* Added dark mode support.
+* enabled custom map style
+* enabled transparent appbar
+* enabled custom confirm button
+* enabled custom result card
+
+## 2.1.2+1
+
+* Updated deps.
+
+## 2.1.2
+
+* specify swift version to make integration with objc more easy.
+Note: you also need to edit your `Podfile`
+```
+target 'Runner' do
+  use_frameworks! # <--- add this
+  ...
+end
+```
+
 ## 2.1.1
 
 * Updated deps.

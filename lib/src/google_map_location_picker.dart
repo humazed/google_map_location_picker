@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_map_location_picker/generated/i18n.dart';
 import 'package:google_map_location_picker/src/map.dart';
 import 'package:google_map_location_picker/src/providers/location_provider.dart';
 import 'package:google_map_location_picker/src/rich_suggestion.dart';
@@ -20,7 +21,18 @@ class LocationPicker extends StatefulWidget {
     this.apiKey, {
     Key key,
     this.initialCenter,
-    this.requiredGPS = true,
+    this.requiredGPS,
+    this.myLocationButtonEnabled,
+    this.layersButtonEnabled,
+    this.automaticallyAnimateToCurrentLocation,
+    this.mapStylePath,
+    this.appBarColor,
+    this.searchBarBoxDecoration,
+    this.hintText,
+    this.resultCardConfirmWidget,
+    this.resultCardAlignment,
+    this.resultCardDecoration,
+    this.resultCardPadding,
   });
 
   final String apiKey;
@@ -28,41 +40,22 @@ class LocationPicker extends StatefulWidget {
   final LatLng initialCenter;
 
   final bool requiredGPS;
+  final bool myLocationButtonEnabled;
+  final bool layersButtonEnabled;
+  final bool automaticallyAnimateToCurrentLocation;
+
+  final String mapStylePath;
+
+  final Color appBarColor;
+  final BoxDecoration searchBarBoxDecoration;
+  final String hintText;
+  final Widget resultCardConfirmWidget;
+  final Alignment resultCardAlignment;
+  final Decoration resultCardDecoration;
+  final EdgeInsets resultCardPadding;
 
   @override
   LocationPickerState createState() => LocationPickerState();
-
-  /// Returns a [LatLng] object of the location that was picked.
-  ///
-  /// The [apiKey] argument API key generated from Google Cloud Console.
-  /// You can get an API key [here](https://cloud.google.com/maps-platform/)
-  ///
-  /// [initialCenter] The geographical location that the camera is pointing at.
-  ///
-  static Future<LocationResult> pickLocation(
-    BuildContext context,
-    String apiKey, {
-    LatLng initialCenter = const LatLng(45.521563, -122.677433),
-    bool requiredGPS = true,
-  }) async {
-    var results = await Navigator.of(context).push(
-      MaterialPageRoute<dynamic>(
-        builder: (BuildContext context) {
-          return LocationPicker(
-            apiKey,
-            initialCenter: initialCenter,
-            requiredGPS: requiredGPS,
-          );
-        },
-      ),
-    );
-
-    if (results != null && results.containsKey('location')) {
-      return results['location'];
-    } else {
-      return null;
-    }
-  }
 }
 
 class LocationPickerState extends State<LocationPicker> {
@@ -118,29 +111,19 @@ class LocationPickerState extends State<LocationPicker> {
         child: Material(
           elevation: 1,
           child: Container(
-            padding: EdgeInsets.symmetric(
-              vertical: 16,
-              horizontal: 24,
-            ),
-            color: Colors.white,
+            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
             child: Row(
               children: <Widget>[
                 SizedBox(
                   height: 24,
                   width: 24,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 3,
-                  ),
+                  child: CircularProgressIndicator(strokeWidth: 3),
                 ),
-                SizedBox(
-                  width: 24,
-                ),
+                SizedBox(width: 24),
                 Expanded(
                   child: Text(
-                    "Finding place...",
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
+                    S.of(context)?.finding_place ?? 'Finding place...',
+                    style: TextStyle(fontSize: 16),
                   ),
                 )
               ],
@@ -176,7 +159,7 @@ class LocationPickerState extends State<LocationPicker> {
 
         if (predictions.isEmpty) {
           AutoCompleteItem aci = AutoCompleteItem();
-          aci.text = "No result found";
+          aci.text = S.of(context)?.no_result_found ?? 'No result found';
           aci.offset = 0;
           aci.length = 0;
 
@@ -242,7 +225,6 @@ class LocationPickerState extends State<LocationPicker> {
         top: appBarBox.size.height,
         child: Material(
           elevation: 1,
-          color: Colors.white,
           child: Column(
             children: suggestions,
           ),
@@ -317,8 +299,16 @@ class LocationPickerState extends State<LocationPicker> {
     if (response.statusCode == 200) {
       Map<String, dynamic> responseJson = jsonDecode(response.body);
 
-      String road =
-          responseJson['results'][0]['address_components'][0]['short_name'];
+      String road;
+
+      if (responseJson['status'] == 'REQUEST_DENIED') {
+        road = 'REQUEST DENIED = please see log for more details';
+        print(responseJson['error_message']);
+      } else {
+        road =
+            responseJson['results'][0]['address_components'][0]['short_name'];
+      }
+
 //      String locality =
 //          responseJson['results'][0]['address_components'][1]['short_name'];
 
@@ -338,7 +328,7 @@ class LocationPickerState extends State<LocationPicker> {
         CameraUpdate.newCameraPosition(
           CameraPosition(
             target: latLng,
-            zoom: 15,
+            zoom: 16,
           ),
         ),
       );
@@ -359,27 +349,98 @@ class LocationPickerState extends State<LocationPicker> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(builder: (_) => LocationProvider()),
+        ChangeNotifierProvider(create: (_) => LocationProvider()),
       ],
       child: Builder(builder: (context) {
         return Scaffold(
+          extendBodyBehindAppBar: true,
           appBar: AppBar(
-            backgroundColor: Colors.white,
-            iconTheme: IconThemeData(color: Colors.black),
+            iconTheme: Theme.of(context).iconTheme,
+            elevation: 0,
+            backgroundColor: widget.appBarColor,
             key: appBarKey,
             title: SearchInput(
               (input) => searchPlace(input),
               key: searchInputKey,
+              boxDecoration: widget.searchBarBoxDecoration,
             ),
           ),
           body: MapPicker(
+            widget.apiKey,
             initialCenter: widget.initialCenter,
-            key: mapKey,
-            apiKey: widget.apiKey,
             requiredGPS: widget.requiredGPS,
+            myLocationButtonEnabled: widget.myLocationButtonEnabled,
+            layersButtonEnabled: widget.layersButtonEnabled,
+            automaticallyAnimateToCurrentLocation: widget.automaticallyAnimateToCurrentLocation,
+            mapStylePath: widget.mapStylePath,
+            appBarColor: widget.appBarColor,
+            searchBarBoxDecoration: widget.searchBarBoxDecoration,
+            hintText: widget.hintText,
+            resultCardConfirmWidget: widget.resultCardConfirmWidget,
+            resultCardAlignment: widget.resultCardAlignment,
+            resultCardDecoration: widget.resultCardDecoration,
+            resultCardPadding: widget.resultCardPadding,
+            key: mapKey,
           ),
         );
       }),
     );
+  }
+}
+
+/// Returns a [LatLng] object of the location that was picked.
+///
+/// The [apiKey] argument API key generated from Google Cloud Console.
+/// You can get an API key [here](https://cloud.google.com/maps-platform/)
+///
+/// [initialCenter] The geographical location that the camera is pointing
+/// until the current user location is know if you want to change this
+/// set [automaticallyAnimateToCurrentLocation] to false.
+///
+///
+Future<LocationResult> showLocationPicker(
+  BuildContext context,
+  String apiKey, {
+  LatLng initialCenter = const LatLng(45.521563, -122.677433),
+  bool requiredGPS = true,
+  bool myLocationButtonEnabled = false,
+  bool layersButtonEnabled = false,
+  bool automaticallyAnimateToCurrentLocation = true,
+  String mapStylePath,
+  Color appBarColor = Colors.transparent,
+  BoxDecoration searchBarBoxDecoration,
+  String hintText,
+  Widget resultCardConfirmWidget,
+  AlignmentGeometry resultCardAlignment,
+  EdgeInsetsGeometry resultCardPadding,
+  Decoration resultCardDecoration,
+}) async {
+  final results = await Navigator.of(context).push(
+    MaterialPageRoute<dynamic>(
+      builder: (BuildContext context) {
+        return LocationPicker(
+          apiKey,
+          initialCenter: initialCenter,
+          requiredGPS: requiredGPS,
+          myLocationButtonEnabled: myLocationButtonEnabled,
+          layersButtonEnabled: layersButtonEnabled,
+          automaticallyAnimateToCurrentLocation: automaticallyAnimateToCurrentLocation,
+          mapStylePath: mapStylePath,
+          appBarColor: appBarColor,
+          hintText: hintText,
+          searchBarBoxDecoration: searchBarBoxDecoration,
+          resultCardConfirmWidget: resultCardConfirmWidget,
+          resultCardAlignment: resultCardAlignment,
+          resultCardPadding: resultCardPadding,
+          resultCardDecoration: resultCardDecoration,
+        );
+      },
+    ),
+  );
+
+  if (results != null && results.containsKey('location')) {
+    return results['location'];
+  } else {
+    return null;
   }
 }

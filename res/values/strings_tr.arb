@@ -6,5 +6,7 @@
   "ok": "Tamam",
   "cant_get_current_location": "Geçerli konum alınamıyor",
   "please_make_sure_you_enable_gps_and_try_again": "Lütfen GPS’i etkinleştirin ve tekrar deneyin.",
-  "search_place": "Konum ara"
+  "search_place": "Konum ara",
+  "finding_place": "Finding place...",
+  "no_result_found": "No result found"
 }
