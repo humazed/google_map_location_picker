@@ -1,3 +1,8 @@
+## 3.2.0
+
+* Restricted api key that is used in dart code, only implemented on the android side.
+* Updated deps
+
 ## 3.1.0
 
 * Added `automaticallyAnimateToCurrentLocation` to fix https://github.com/humazed/google_map_location_picker/issues/24
