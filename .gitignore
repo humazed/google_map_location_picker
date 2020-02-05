@@ -5,3 +5,6 @@
 .pub/
 
 build/
+.flutter-plugins-dependencies
+android/app/src/main/res/values/keys.xml
+lib/keys.dart
