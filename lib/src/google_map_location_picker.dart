@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'model/auto_comp_iete_item.dart';
 import 'model/location_result.dart';
 import 'model/nearby_place.dart';
+import 'utils/location_utils.dart';
 
 class LocationPicker extends StatefulWidget {
   LocationPicker(
@@ -150,7 +151,9 @@ class LocationPickerState extends State<LocationPicker> {
       endpoint += "&location=${locationResult.latLng.latitude}," +
           "${locationResult.latLng.longitude}";
     }
-    http.get(endpoint).then((response) {
+    LocationUtils.getAppHeaders()
+        .then((headers) => http.get(endpoint, headers: headers))
+        .then((response) {
       if (response.statusCode == 200) {
         Map<String, dynamic> data = jsonDecode(response.body);
         List<dynamic> predictions = data['predictions'];
@@ -196,7 +199,9 @@ class LocationPickerState extends State<LocationPicker> {
         "https://maps.googleapis.com/maps/api/place/details/json?key=${widget.apiKey}" +
             "&placeid=$placeId";
 
-    http.get(endpoint).then((response) {
+    LocationUtils.getAppHeaders()
+        .then((headers) => http.get(endpoint, headers: headers))
+        .then((response) {
       if (response.statusCode == 200) {
         Map<String, dynamic> location =
             jsonDecode(response.body)['result']['geometry']['location'];
@@ -257,10 +262,11 @@ class LocationPickerState extends State<LocationPicker> {
 
   /// Fetches and updates the nearby places to the provided lat,lng
   void getNearbyPlaces(LatLng latLng) {
-    http
-        .get("https://maps.googleapis.com/maps/api/place/nearbysearch/json?" +
+    LocationUtils.getAppHeaders()
+        .then((headers) => http.get(
+          "https://maps.googleapis.com/maps/api/place/nearbysearch/json?" +
             "key=${widget.apiKey}&" +
-            "location=${latLng.latitude},${latLng.longitude}&radius=150")
+            "location=${latLng.latitude},${latLng.longitude}&radius=150", headers: headers))
         .then((response) {
       if (response.statusCode == 200) {
         nearbyPlaces.clear();
@@ -294,7 +300,7 @@ class LocationPickerState extends State<LocationPicker> {
   Future reverseGeocodeLatLng(LatLng latLng) async {
     var response = await http.get(
         "https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng.latitude},${latLng.longitude}"
-        "&key=${widget.apiKey}");
+        "&key=${widget.apiKey}", headers: await LocationUtils.getAppHeaders());
 
     if (response.statusCode == 200) {
       Map<String, dynamic> responseJson = jsonDecode(response.body);
