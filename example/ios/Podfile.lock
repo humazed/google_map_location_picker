@@ -21,7 +21,7 @@ PODS:
 
 DEPENDENCIES:
   - android_intent (from `.symlinks/plugins/android_intent/ios`)
-  - Flutter (from `.symlinks/flutter/ios`)
+  - Flutter (from `Flutter`)
   - geolocator (from `.symlinks/plugins/geolocator/ios`)
   - google_api_availability (from `.symlinks/plugins/google_api_availability/ios`)
   - google_map_location_picker (from `.symlinks/plugins/google_map_location_picker/ios`)
@@ -36,7 +36,7 @@ EXTERNAL SOURCES:
   android_intent:
     :path: ".symlinks/plugins/android_intent/ios"
   Flutter:
-    :path: ".symlinks/flutter/ios"
+    :path: Flutter
   geolocator:
     :path: ".symlinks/plugins/geolocator/ios"
   google_api_availability:
@@ -58,6 +58,6 @@ SPEC CHECKSUMS:
   GoogleMaps: f79af95cb24d869457b1f961c93d3ce8b2f3b848
   location_permissions: 195ff2a1182fa9029ef3f2653156961ee5a1e40b
 
-PODFILE CHECKSUM: 0328a173091d2f57b0e8b249d7d5780455422787
+PODFILE CHECKSUM: 1b66dae606f75376c5f2135a8290850eeb09ae83
 
-COCOAPODS: 1.8.3
+COCOAPODS: 1.8.4
