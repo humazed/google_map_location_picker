@@ -1,7 +1,11 @@
+## 3.2.1
+
+* Updated deps.
+
 ## 3.2.0
 
 * Restricted api key that is used in dart code, only implemented on the android side.
-* Updated deps
+* Updated deps.
 
 ## 3.1.0
 
