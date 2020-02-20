@@ -46,10 +46,7 @@ class _MyAppState extends State<MyApp> {
               children: <Widget>[
                 RaisedButton(
                   onPressed: () async {
-                    LocationResult result = await LocationPicker.pickLocation(
-                      context,
-                      apiKey,
-                    );
+                    LocationResult result = await showLocationPicker(context, apiKey);
                     print("result = $result");
                     setState(() => _pickedLocation = result);
                   },
