@@ -8,3 +8,4 @@ build/
 .flutter-plugins-dependencies
 android/app/src/main/res/values/keys.xml
 lib/keys.dart
+/google_map_location_picker.iml

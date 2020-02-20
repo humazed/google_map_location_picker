@@ -1,3 +1,8 @@
+## 3.2.1+1
+
+*  Fixing the wrong example README.MD.
+* Updated deps.
+
 ## 3.2.1
 
 * Updated deps.
