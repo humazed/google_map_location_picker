@@ -51,7 +51,7 @@ class _MyAppState extends State<MyApp> {
                       context,
                       apiKey,
                       initialCenter: LatLng(31.1975844, 29.9598339),
-                      automaticallyAnimateToCurrentLocation: true,
+//                      automaticallyAnimateToCurrentLocation: true,
 //                      mapStylePath: 'assets/mapStyle.json',
                       myLocationButtonEnabled: true,
                       layersButtonEnabled: true,

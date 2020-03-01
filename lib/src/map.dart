@@ -105,7 +105,7 @@ class MapPickerState extends State<MapPicker> {
   }
 
   Future moveToCurrentLocation(LatLng currentLocation) async {
-    var controller = await mapController.future;
+    final controller = await mapController.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(
       CameraPosition(target: currentLocation, zoom: 16),
     ));
@@ -252,7 +252,9 @@ class MapPickerState extends State<MapPicker> {
     try {
       var endPoint =
           'https://maps.googleapis.com/maps/api/geocode/json?latlng=${location?.latitude},${location?.longitude}&key=${widget.apiKey}';
-      var response = jsonDecode((await http.get(endPoint, headers: await LocationUtils.getAppHeaders())).body);
+      var response = jsonDecode((await http.get(endPoint,
+              headers: await LocationUtils.getAppHeaders()))
+          .body);
 
       return response['results'][0]['formatted_address'];
     } catch (e) {
