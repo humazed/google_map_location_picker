@@ -31,7 +31,7 @@ class MapPicker extends StatefulWidget {
     this.appBarColor,
     this.searchBarBoxDecoration,
     this.hintText,
-    this.resultCardConfirmWidget,
+    this.resultCardConfirmIcon,
     this.resultCardAlignment,
     this.resultCardDecoration,
     this.resultCardPadding,
@@ -51,7 +51,7 @@ class MapPicker extends StatefulWidget {
   final Color appBarColor;
   final BoxDecoration searchBarBoxDecoration;
   final String hintText;
-  final Widget resultCardConfirmWidget;
+  final Widget resultCardConfirmIcon;
   final Alignment resultCardAlignment;
   final Decoration resultCardDecoration;
   final EdgeInsets resultCardPadding;
@@ -227,18 +227,18 @@ class MapPickerState extends State<MapPicker> {
                         }),
                   ),
                   Spacer(),
-                  widget.resultCardConfirmWidget ??
-                      FloatingActionButton(
-                        onPressed: () {
-                          Navigator.of(context).pop({
-                            'location': LocationResult(
-                              latLng: locationProvider.lastIdleLocation,
-                              address: _address,
-                            )
-                          });
-                        },
-                        child: Icon(Icons.arrow_forward),
-                      ),
+                  FloatingActionButton(
+                    onPressed: () {
+                      Navigator.of(context).pop({
+                        'location': LocationResult(
+                          latLng: locationProvider.lastIdleLocation,
+                          address: _address,
+                        )
+                      });
+                    },
+                    child: widget.resultCardConfirmIcon ??
+                        Icon(Icons.arrow_forward),
+                  ),
                 ],
               ),
             );

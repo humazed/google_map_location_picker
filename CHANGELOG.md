@@ -1,3 +1,9 @@
+## 3.3.0
+
+* Fix search hint not working.
+* Replace resultCardConfirmWidget with resultCardConfirmIcon
+* Updated deps.
+
 ## 3.2.2
 
 * Prepare for 1.0.0 version of sensors and package_info. ([dart_lsc](http://github.com/amirh/dart_lsc))
@@ -8,7 +14,7 @@
 
 ## 3.2.1+1
 
-*  Fixing the wrong example README.MD.
+* Fixing the wrong example README.MD.
 * Updated deps.
 
 ## 3.2.1
