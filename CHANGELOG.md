@@ -1,3 +1,7 @@
+## 3.3.1
+
+* updated intl and intl_translation.
+
 ## 3.3.0
 
 * Fix search hint not working.
