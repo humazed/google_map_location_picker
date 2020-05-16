@@ -18,23 +18,22 @@ import 'model/nearby_place.dart';
 import 'utils/location_utils.dart';
 
 class LocationPicker extends StatefulWidget {
-  LocationPicker(
-    this.apiKey, {
-    Key key,
-    this.initialCenter,
-    this.requiredGPS,
-    this.myLocationButtonEnabled,
-    this.layersButtonEnabled,
-    this.automaticallyAnimateToCurrentLocation,
-    this.mapStylePath,
-    this.appBarColor,
-    this.searchBarBoxDecoration,
-    this.hintText,
-    this.resultCardConfirmIcon,
-    this.resultCardAlignment,
-    this.resultCardDecoration,
-    this.resultCardPadding,
-  });
+  LocationPicker(this.apiKey,
+      {Key key,
+      this.initialCenter,
+      this.requiredGPS,
+      this.myLocationButtonEnabled,
+      this.layersButtonEnabled,
+      this.automaticallyAnimateToCurrentLocation,
+      this.mapStylePath,
+      this.appBarColor,
+      this.searchBarBoxDecoration,
+      this.hintText,
+      this.resultCardConfirmIcon,
+      this.resultCardAlignment,
+      this.resultCardDecoration,
+      this.resultCardPadding,
+      this.customLocationCard});
 
   final String apiKey;
 
@@ -54,6 +53,8 @@ class LocationPicker extends StatefulWidget {
   final Alignment resultCardAlignment;
   final Decoration resultCardDecoration;
   final EdgeInsets resultCardPadding;
+  final Function(BuildContext context, LocationProvider locationProvider)
+      customLocationCard;
 
   @override
   LocationPickerState createState() => LocationPickerState();
@@ -391,6 +392,7 @@ class LocationPickerState extends State<LocationPicker> {
             resultCardDecoration: widget.resultCardDecoration,
             resultCardPadding: widget.resultCardPadding,
             key: mapKey,
+            customLocationCard: widget.customLocationCard,
           ),
         );
       }),
@@ -408,23 +410,22 @@ class LocationPickerState extends State<LocationPicker> {
 /// set [automaticallyAnimateToCurrentLocation] to false.
 ///
 ///
-Future<LocationResult> showLocationPicker(
-  BuildContext context,
-  String apiKey, {
-  LatLng initialCenter = const LatLng(45.521563, -122.677433),
-  bool requiredGPS = true,
-  bool myLocationButtonEnabled = false,
-  bool layersButtonEnabled = false,
-  bool automaticallyAnimateToCurrentLocation = true,
-  String mapStylePath,
-  Color appBarColor = Colors.transparent,
-  BoxDecoration searchBarBoxDecoration,
-  String hintText,
-  Widget resultCardConfirmIcon,
-  AlignmentGeometry resultCardAlignment,
-  EdgeInsetsGeometry resultCardPadding,
-  Decoration resultCardDecoration,
-}) async {
+Future<LocationResult> showLocationPicker(BuildContext context, String apiKey,
+    {LatLng initialCenter = const LatLng(45.521563, -122.677433),
+    bool requiredGPS = true,
+    bool myLocationButtonEnabled = false,
+    bool layersButtonEnabled = false,
+    bool automaticallyAnimateToCurrentLocation = true,
+    String mapStylePath,
+    Color appBarColor = Colors.transparent,
+    BoxDecoration searchBarBoxDecoration,
+    String hintText,
+    Widget resultCardConfirmIcon,
+    AlignmentGeometry resultCardAlignment,
+    EdgeInsetsGeometry resultCardPadding,
+    Decoration resultCardDecoration,
+    Function(BuildContext context, LocationProvider locationProvider)
+        customLocationCard}) async {
   final results = await Navigator.of(context).push(
     MaterialPageRoute<dynamic>(
       builder: (BuildContext context) {
@@ -444,6 +445,7 @@ Future<LocationResult> showLocationPicker(
           resultCardAlignment: resultCardAlignment,
           resultCardPadding: resultCardPadding,
           resultCardDecoration: resultCardDecoration,
+          customLocationCard: customLocationCard,
         );
       },
     ),
