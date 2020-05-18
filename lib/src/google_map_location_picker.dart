@@ -60,7 +60,7 @@ class LocationPicker extends StatefulWidget {
   final AppBar appBar;
   final Function(BuildContext context, LocationProvider locationProvider)
       customLocationCard;
-  final Function customPin;
+  final Widget customPin;
   @override
   LocationPickerState createState() => LocationPickerState();
 }
@@ -435,7 +435,7 @@ Future<LocationResult> showLocationPicker(
   Decoration resultCardDecoration,
   Function(BuildContext context, LocationProvider locationProvider)
       customLocationCard,
-  Function customPin,
+  Widget customPin,
   AppBar appBar,
 }) async {
   final results = await Navigator.of(context).push(

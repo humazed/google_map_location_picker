@@ -60,7 +60,7 @@ class MapPicker extends StatefulWidget {
   final Function(BuildContext context, LocationProvider locationProvider)
       customLocationCard;
 
-  final Function customPin;
+  final Widget customPin;
 
   @override
   MapPickerState createState() => MapPickerState();
@@ -192,7 +192,7 @@ class MapPickerState extends State<MapPicker> {
             onToggleMapTypePressed: _onToggleMapTypePressed,
             onMyLocationPressed: _initCurrentLocation,
           ),
-          widget.customPin == null ? widget.customPin() : pin(),
+          widget.customPin ?? pin(),
           locationCard(),
         ],
       ),
