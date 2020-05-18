@@ -36,6 +36,7 @@ class MapPicker extends StatefulWidget {
     this.resultCardDecoration,
     this.resultCardPadding,
     this.customLocationCard,
+    this.customPin,
   }) : super(key: key);
 
   final String apiKey;
@@ -58,6 +59,8 @@ class MapPicker extends StatefulWidget {
   final EdgeInsets resultCardPadding;
   final Function(BuildContext context, LocationProvider locationProvider)
       customLocationCard;
+
+  final Function customPin;
 
   @override
   MapPickerState createState() => MapPickerState();
@@ -189,7 +192,7 @@ class MapPickerState extends State<MapPicker> {
             onToggleMapTypePressed: _onToggleMapTypePressed,
             onMyLocationPressed: _initCurrentLocation,
           ),
-          pin(),
+          widget.customPin == null ? widget.customPin() : pin(),
           locationCard(),
         ],
       ),

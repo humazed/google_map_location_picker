@@ -36,6 +36,7 @@ class LocationPicker extends StatefulWidget {
     this.resultCardPadding,
     this.customLocationCard,
     this.appBar,
+    this.customPin,
   });
 
   final String apiKey;
@@ -59,7 +60,7 @@ class LocationPicker extends StatefulWidget {
   final AppBar appBar;
   final Function(BuildContext context, LocationProvider locationProvider)
       customLocationCard;
-
+  final Function customPin;
   @override
   LocationPickerState createState() => LocationPickerState();
 }
@@ -398,6 +399,7 @@ class LocationPickerState extends State<LocationPicker> {
             resultCardPadding: widget.resultCardPadding,
             key: mapKey,
             customLocationCard: widget.customLocationCard,
+            customPin: widget.customPin,
           ),
         );
       }),
@@ -433,6 +435,7 @@ Future<LocationResult> showLocationPicker(
   Decoration resultCardDecoration,
   Function(BuildContext context, LocationProvider locationProvider)
       customLocationCard,
+  Function customPin,
   AppBar appBar,
 }) async {
   final results = await Navigator.of(context).push(
@@ -456,6 +459,7 @@ Future<LocationResult> showLocationPicker(
           resultCardDecoration: resultCardDecoration,
           customLocationCard: customLocationCard,
           appBar: appBar,
+          customPin: customPin,
         );
       },
     ),
