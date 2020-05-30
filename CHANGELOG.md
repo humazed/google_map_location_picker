@@ -1,3 +1,8 @@
+## 3.3.2
+
+* Added Spanish language thanks to @ppgcharge.
+* updated deps.
+
 ## 3.3.1
 
 * updated intl and intl_translation.
