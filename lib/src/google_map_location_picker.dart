@@ -34,6 +34,9 @@ class LocationPicker extends StatefulWidget {
     this.resultCardAlignment,
     this.resultCardDecoration,
     this.resultCardPadding,
+    this.customLocationCard,
+    this.appBar,
+    this.customPin,
   });
 
   final String apiKey;
@@ -54,7 +57,10 @@ class LocationPicker extends StatefulWidget {
   final Alignment resultCardAlignment;
   final Decoration resultCardDecoration;
   final EdgeInsets resultCardPadding;
-
+  final AppBar appBar;
+  final Function(BuildContext context, LocationProvider locationProvider)
+      customLocationCard;
+  final Widget customPin;
   @override
   LocationPickerState createState() => LocationPickerState();
 }
@@ -362,18 +368,19 @@ class LocationPickerState extends State<LocationPicker> {
       child: Builder(builder: (context) {
         return Scaffold(
           extendBodyBehindAppBar: true,
-          appBar: AppBar(
-            iconTheme: Theme.of(context).iconTheme,
-            elevation: 0,
-            backgroundColor: widget.appBarColor,
-            key: appBarKey,
-            title: SearchInput(
-              (input) => searchPlace(input),
-              key: searchInputKey,
-              boxDecoration: widget.searchBarBoxDecoration,
-              hintText: widget.hintText,
-            ),
-          ),
+          appBar: widget.appBar ??
+              AppBar(
+                iconTheme: Theme.of(context).iconTheme,
+                elevation: 0,
+                backgroundColor: widget.appBarColor,
+                key: appBarKey,
+                title: SearchInput(
+                  (input) => searchPlace(input),
+                  key: searchInputKey,
+                  boxDecoration: widget.searchBarBoxDecoration,
+                  hintText: widget.hintText,
+                ),
+              ),
           body: MapPicker(
             widget.apiKey,
             initialCenter: widget.initialCenter,
@@ -391,6 +398,8 @@ class LocationPickerState extends State<LocationPicker> {
             resultCardDecoration: widget.resultCardDecoration,
             resultCardPadding: widget.resultCardPadding,
             key: mapKey,
+            customLocationCard: widget.customLocationCard,
+            customPin: widget.customPin,
           ),
         );
       }),
@@ -424,6 +433,10 @@ Future<LocationResult> showLocationPicker(
   AlignmentGeometry resultCardAlignment,
   EdgeInsetsGeometry resultCardPadding,
   Decoration resultCardDecoration,
+  Function(BuildContext context, LocationProvider locationProvider)
+      customLocationCard,
+  Widget customPin,
+  AppBar appBar,
 }) async {
   final results = await Navigator.of(context).push(
     MaterialPageRoute<dynamic>(
@@ -444,6 +457,9 @@ Future<LocationResult> showLocationPicker(
           resultCardAlignment: resultCardAlignment,
           resultCardPadding: resultCardPadding,
           resultCardDecoration: resultCardDecoration,
+          customLocationCard: customLocationCard,
+          appBar: appBar,
+          customPin: customPin,
         );
       },
     ),

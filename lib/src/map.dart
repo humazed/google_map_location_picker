@@ -35,6 +35,8 @@ class MapPicker extends StatefulWidget {
     this.resultCardAlignment,
     this.resultCardDecoration,
     this.resultCardPadding,
+    this.customLocationCard,
+    this.customPin,
   }) : super(key: key);
 
   final String apiKey;
@@ -55,6 +57,10 @@ class MapPicker extends StatefulWidget {
   final Alignment resultCardAlignment;
   final Decoration resultCardDecoration;
   final EdgeInsets resultCardPadding;
+  final Function(BuildContext context, LocationProvider locationProvider)
+      customLocationCard;
+
+  final Widget customPin;
 
   @override
   MapPickerState createState() => MapPickerState();
@@ -186,7 +192,7 @@ class MapPickerState extends State<MapPicker> {
             onToggleMapTypePressed: _onToggleMapTypePressed,
             onMyLocationPressed: _initCurrentLocation,
           ),
-          pin(),
+          widget.customPin ?? pin(),
           locationCard(),
         ],
       ),
@@ -198,52 +204,59 @@ class MapPickerState extends State<MapPicker> {
       alignment: widget.resultCardAlignment ?? Alignment.bottomCenter,
       child: Padding(
         padding: widget.resultCardPadding ?? EdgeInsets.all(16.0),
-        child: Card(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          child: Consumer<LocationProvider>(
-              builder: (context, locationProvider, _) {
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Flexible(
-                    flex: 20,
-                    child: FutureLoadingBuilder<String>(
-                        future: getAddress(locationProvider.lastIdleLocation),
-                        mutable: true,
-                        loadingIndicator: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            CircularProgressIndicator(),
-                          ],
+        child: widget.customLocationCard != null
+            ? Consumer<LocationProvider>(
+                builder: (context, locationProvider, _) {
+                return widget.customLocationCard(context, locationProvider);
+              })
+            : Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+                child: Consumer<LocationProvider>(
+                    builder: (context, locationProvider, _) {
+                  return Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Flexible(
+                          flex: 20,
+                          child: FutureLoadingBuilder<String>(
+                              future:
+                                  getAddress(locationProvider.lastIdleLocation),
+                              mutable: true,
+                              loadingIndicator: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  CircularProgressIndicator(),
+                                ],
+                              ),
+                              builder: (context, address) {
+                                _address = address;
+                                return Text(
+                                  address ?? 'Unnamed place',
+                                  style: TextStyle(fontSize: 18),
+                                );
+                              }),
                         ),
-                        builder: (context, address) {
-                          _address = address;
-                          return Text(
-                            address ?? 'Unnamed place',
-                            style: TextStyle(fontSize: 18),
-                          );
-                        }),
-                  ),
-                  Spacer(),
-                  FloatingActionButton(
-                    onPressed: () {
-                      Navigator.of(context).pop({
-                        'location': LocationResult(
-                          latLng: locationProvider.lastIdleLocation,
-                          address: _address,
-                        )
-                      });
-                    },
-                    child: widget.resultCardConfirmIcon ??
-                        Icon(Icons.arrow_forward),
-                  ),
-                ],
+                        Spacer(),
+                        FloatingActionButton(
+                          onPressed: () {
+                            Navigator.of(context).pop({
+                              'location': LocationResult(
+                                latLng: locationProvider.lastIdleLocation,
+                                address: _address,
+                              )
+                            });
+                          },
+                          child: widget.resultCardConfirmIcon ??
+                              Icon(Icons.arrow_forward),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
               ),
-            );
-          }),
-        ),
       ),
     );
   }
