@@ -23,6 +23,7 @@ class MapPicker extends StatefulWidget {
     this.apiKey, {
     Key key,
     this.initialCenter,
+    this.initialZoom,
     this.requiredGPS,
     this.myLocationButtonEnabled,
     this.layersButtonEnabled,
@@ -40,6 +41,7 @@ class MapPicker extends StatefulWidget {
   final String apiKey;
 
   final LatLng initialCenter;
+  final double initialZoom;
 
   final bool requiredGPS;
   final bool myLocationButtonEnabled;
@@ -150,7 +152,7 @@ class MapPickerState extends State<MapPicker> {
             myLocationButtonEnabled: false,
             initialCameraPosition: CameraPosition(
               target: widget.initialCenter,
-              zoom: 16,
+              zoom: widget.initialZoom,
             ),
             onMapCreated: (GoogleMapController controller) {
               mapController.complete(controller);

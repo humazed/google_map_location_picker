@@ -22,6 +22,7 @@ class LocationPicker extends StatefulWidget {
     this.apiKey, {
     Key key,
     this.initialCenter,
+    this.initialZoom,
     this.requiredGPS,
     this.myLocationButtonEnabled,
     this.layersButtonEnabled,
@@ -39,6 +40,7 @@ class LocationPicker extends StatefulWidget {
   final String apiKey;
 
   final LatLng initialCenter;
+  final double initialZoom;
 
   final bool requiredGPS;
   final bool myLocationButtonEnabled;
@@ -377,6 +379,7 @@ class LocationPickerState extends State<LocationPicker> {
           body: MapPicker(
             widget.apiKey,
             initialCenter: widget.initialCenter,
+            initialZoom: widget.initialZoom,
             requiredGPS: widget.requiredGPS,
             myLocationButtonEnabled: widget.myLocationButtonEnabled,
             layersButtonEnabled: widget.layersButtonEnabled,
@@ -412,6 +415,7 @@ Future<LocationResult> showLocationPicker(
   BuildContext context,
   String apiKey, {
   LatLng initialCenter = const LatLng(45.521563, -122.677433),
+  double initialZoom = 16,
   bool requiredGPS = true,
   bool myLocationButtonEnabled = false,
   bool layersButtonEnabled = false,
@@ -431,6 +435,7 @@ Future<LocationResult> showLocationPicker(
         return LocationPicker(
           apiKey,
           initialCenter: initialCenter,
+          initialZoom: initialZoom,
           requiredGPS: requiredGPS,
           myLocationButtonEnabled: myLocationButtonEnabled,
           layersButtonEnabled: layersButtonEnabled,
