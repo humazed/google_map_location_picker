@@ -1,3 +1,8 @@
+## 3.3.3
+
+* Made the initialZoom configurable thanks to @alfredjingle.
+* updated deps.
+
 ## 3.3.2
 
 * Added Spanish language thanks to @ppgcharge.
