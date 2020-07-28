@@ -75,6 +75,8 @@ class MapPickerState extends State<MapPicker> {
 
   String _address;
 
+  String _placeId;
+
   void _onToggleMapTypePressed() {
     final MapType nextType =
         MapType.values[(_currentMapType.index + 1) % MapType.values.length];
@@ -211,7 +213,7 @@ class MapPickerState extends State<MapPicker> {
                 children: <Widget>[
                   Flexible(
                     flex: 20,
-                    child: FutureLoadingBuilder<String>(
+                    child: FutureLoadingBuilder<Map<String, String>>(
                         future: getAddress(locationProvider.lastIdleLocation),
                         mutable: true,
                         loadingIndicator: Row(
@@ -220,10 +222,11 @@ class MapPickerState extends State<MapPicker> {
                             CircularProgressIndicator(),
                           ],
                         ),
-                        builder: (context, address) {
-                          _address = address;
+                        builder: (context, data) {
+                          _address = data["address"];
+                          _placeId = data["placeId"];
                           return Text(
-                            address ?? 'Unnamed place',
+                            _address ?? 'Unnamed place',
                             style: TextStyle(fontSize: 18),
                           );
                         }),
@@ -235,6 +238,7 @@ class MapPickerState extends State<MapPicker> {
                         'location': LocationResult(
                           latLng: locationProvider.lastIdleLocation,
                           address: _address,
+                          placeId: _placeId,
                         )
                       });
                     },
@@ -250,7 +254,7 @@ class MapPickerState extends State<MapPicker> {
     );
   }
 
-  Future<String> getAddress(LatLng location) async {
+  Future<Map<String, String>> getAddress(LatLng location) async {
     try {
       var endPoint =
           'https://maps.googleapis.com/maps/api/geocode/json?latlng=${location?.latitude},${location?.longitude}&key=${widget.apiKey}';
@@ -258,7 +262,10 @@ class MapPickerState extends State<MapPicker> {
               headers: await LocationUtils.getAppHeaders()))
           .body);
 
-      return response['results'][0]['formatted_address'];
+      return {
+        "placeId": response['results'][0]['place_id'],
+        "address": response['results'][0]['formatted_address']
+      };
     } catch (e) {
       print(e);
     }
