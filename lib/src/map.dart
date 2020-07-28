@@ -270,7 +270,7 @@ class MapPickerState extends State<MapPicker> {
       print(e);
     }
 
-    return null;
+    return {"placeId": null, "address": null};
   }
 
   Widget pin() {
