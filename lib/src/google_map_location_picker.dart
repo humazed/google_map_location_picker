@@ -39,10 +39,11 @@ class LocationPicker extends StatefulWidget {
     this.searchOverlayTextStyle,
     this.appBarIconTheme,
     this.resultCardColor,
-    this.resultCardFABColor,
+    this.fabsColor,
     this.resultCardShape,
     this.resultCardTextStyle,
     this.searchOverLaybackgroundColor,
+    this.fabsIconsColor,
   });
 
   final String apiKey;
@@ -71,8 +72,9 @@ class LocationPicker extends StatefulWidget {
   final TextStyle resultCardTextStyle;
   final Color resultCardColor;
   final ShapeBorder resultCardShape;
-  final Color resultCardFABColor;
+  final Color fabsColor;
   final Color searchOverLaybackgroundColor;
+  final Color fabsIconsColor;
 
   @override
   LocationPickerState createState() => LocationPickerState();
@@ -427,9 +429,10 @@ class LocationPickerState extends State<LocationPicker> {
             resultCardPadding: widget.resultCardPadding,
             locationPinIcon: widget.locationPinIcon,
             resultCardColor: widget.resultCardColor,
-            resultCardFABColor: widget.resultCardFABColor,
+            fabsColor: widget.fabsColor,
             resultCardShape: widget.resultCardShape,
             resultCardTextStyle: widget.resultCardTextStyle,
+            fabsIconsColor: widget.fabsIconsColor,
             key: mapKey,
           ),
         );
@@ -471,8 +474,9 @@ Future<LocationResult> showLocationPicker(
   TextStyle resultCardTextStyle,
   Color resultCardColor,
   ShapeBorder resultCardShape,
-  Color resultCardFABColor,
+  Color fabsColor,
   Color searchOverLaybackgroundColor,
+  Color fabsIconsColor,
 }) async {
   final results = await Navigator.of(context).push(
     MaterialPageRoute<dynamic>(
@@ -498,10 +502,11 @@ Future<LocationResult> showLocationPicker(
           searchOverlayTextStyle: searchOverlayTextStyle,
           appBarIconTheme: appBarIconTheme,
           resultCardColor: resultCardColor,
-          resultCardFABColor: resultCardFABColor,
+          fabsColor: fabsColor,
           resultCardShape: resultCardShape,
           resultCardTextStyle: resultCardTextStyle,
           searchOverLaybackgroundColor: searchOverLaybackgroundColor,
+          fabsIconsColor: fabsIconsColor,
         );
       },
     ),

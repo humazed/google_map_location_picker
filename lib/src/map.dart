@@ -39,7 +39,8 @@ class MapPicker extends StatefulWidget {
     this.resultCardColor,
     this.resultCardShape,
     this.resultCardTextStyle,
-    this.resultCardFABColor,
+    this.fabsColor,
+    this.fabsIconsColor,
   }) : super(key: key);
 
   final String apiKey;
@@ -65,7 +66,8 @@ class MapPicker extends StatefulWidget {
   final Widget locationPinIcon;
   final Color resultCardColor;
   final ShapeBorder resultCardShape;
-  final Color resultCardFABColor;
+  final Color fabsColor;
+  final Color fabsIconsColor;
 
   @override
   MapPickerState createState() => MapPickerState();
@@ -196,6 +198,8 @@ class MapPickerState extends State<MapPicker> {
             layersButtonEnabled: widget.layersButtonEnabled,
             onToggleMapTypePressed: _onToggleMapTypePressed,
             onMyLocationPressed: _initCurrentLocation,
+            fabsBackgroundColor: widget.fabsColor,
+            fabsIconsColor: widget.fabsIconsColor,
           ),
           pin(),
           locationCard(),
@@ -242,7 +246,7 @@ class MapPickerState extends State<MapPicker> {
                   ),
                   Spacer(),
                   FloatingActionButton(
-                    backgroundColor: widget.resultCardFABColor,
+                    backgroundColor: widget.fabsColor,
                     onPressed: () {
                       Navigator.of(context).pop({
                         'location': LocationResult(
@@ -392,6 +396,8 @@ class _MapFabs extends StatelessWidget {
     @required this.layersButtonEnabled,
     @required this.onToggleMapTypePressed,
     @required this.onMyLocationPressed,
+    this.fabsBackgroundColor,
+    this.fabsIconsColor,
   })  : assert(onToggleMapTypePressed != null),
         super(key: key);
 
@@ -400,6 +406,9 @@ class _MapFabs extends StatelessWidget {
 
   final VoidCallback onToggleMapTypePressed;
   final VoidCallback onMyLocationPressed;
+
+  final Color fabsIconsColor;
+  final Color fabsBackgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -410,18 +419,26 @@ class _MapFabs extends StatelessWidget {
         children: <Widget>[
           if (layersButtonEnabled)
             FloatingActionButton(
+              backgroundColor: fabsBackgroundColor,
               onPressed: onToggleMapTypePressed,
               materialTapTargetSize: MaterialTapTargetSize.padded,
               mini: true,
-              child: const Icon(Icons.layers),
+              child: Icon(
+                Icons.layers,
+                color: fabsIconsColor,
+              ),
               heroTag: "layers",
             ),
           if (myLocationButtonEnabled)
             FloatingActionButton(
+              backgroundColor: fabsBackgroundColor,
               onPressed: onMyLocationPressed,
               materialTapTargetSize: MaterialTapTargetSize.padded,
               mini: true,
-              child: const Icon(Icons.my_location),
+              child: Icon(
+                Icons.my_location,
+                color: fabsIconsColor,
+              ),
               heroTag: "myLocation",
             ),
         ],
