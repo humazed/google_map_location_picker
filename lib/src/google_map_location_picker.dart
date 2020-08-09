@@ -200,9 +200,14 @@ class LocationPickerState extends State<LocationPicker> {
             aci.offset = t['matched_substrings'][0]['offset'];
             aci.length = t['matched_substrings'][0]['length'];
 
-            suggestions.add(RichSuggestion(aci, () {
-              decodeAndSelectPlace(aci.id);
-            }));
+            suggestions.add(RichSuggestion(
+              aci,
+              () {
+                decodeAndSelectPlace(aci.id);
+              },
+              decoration: widget.searchOverlayDecoration,
+              textStyle: widget.searchOverlayTextStyle,
+            ));
           }
         }
 
