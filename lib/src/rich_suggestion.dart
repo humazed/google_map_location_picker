@@ -7,12 +7,14 @@ class RichSuggestion extends StatelessWidget {
   final AutoCompleteItem autoCompleteItem;
   final Decoration decoration;
   final TextStyle textStyle;
+  final Color backgroundColor;
   RichSuggestion(this.autoCompleteItem, this.onTap,
-      {this.decoration, this.textStyle});
+      {this.decoration, this.textStyle, this.backgroundColor});
 
   @override
   Widget build(BuildContext context) {
     return Material(
+      color: backgroundColor,
       child: InkWell(
         child: Container(
             decoration: decoration,

@@ -42,6 +42,7 @@ class LocationPicker extends StatefulWidget {
     this.resultCardFABColor,
     this.resultCardShape,
     this.resultCardTextStyle,
+    this.searchOverLaybackgroundColor,
   });
 
   final String apiKey;
@@ -71,6 +72,7 @@ class LocationPicker extends StatefulWidget {
   final Color resultCardColor;
   final ShapeBorder resultCardShape;
   final Color resultCardFABColor;
+  final Color searchOverLaybackgroundColor;
 
   @override
   LocationPickerState createState() => LocationPickerState();
@@ -127,6 +129,7 @@ class LocationPickerState extends State<LocationPicker> {
         top: appBarBox.size.height,
         width: size.width,
         child: Material(
+          color: widget.searchOverLaybackgroundColor,
           elevation: 1,
           child: Container(
             decoration: widget.searchOverlayDecoration,
@@ -190,6 +193,7 @@ class LocationPickerState extends State<LocationPicker> {
             () {},
             decoration: widget.searchOverlayDecoration,
             textStyle: widget.searchOverlayTextStyle,
+            backgroundColor: widget.searchOverLaybackgroundColor,
           ));
         } else {
           for (dynamic t in predictions) {
@@ -207,6 +211,7 @@ class LocationPickerState extends State<LocationPicker> {
               },
               decoration: widget.searchOverlayDecoration,
               textStyle: widget.searchOverlayTextStyle,
+              backgroundColor: widget.searchOverLaybackgroundColor,
             ));
           }
         }
@@ -258,12 +263,10 @@ class LocationPickerState extends State<LocationPicker> {
         width: size.width,
         top: appBarBox.size.height,
         child: Material(
+          color: widget.searchOverLaybackgroundColor,
           elevation: 1,
-          child: Container(
-            decoration: widget.searchOverlayDecoration,
-            child: Column(
-              children: suggestions,
-            ),
+          child: Column(
+            children: suggestions,
           ),
         ),
       ),
@@ -469,6 +472,7 @@ Future<LocationResult> showLocationPicker(
   Color resultCardColor,
   ShapeBorder resultCardShape,
   Color resultCardFABColor,
+  Color searchOverLaybackgroundColor,
 }) async {
   final results = await Navigator.of(context).push(
     MaterialPageRoute<dynamic>(
@@ -497,6 +501,7 @@ Future<LocationResult> showLocationPicker(
           resultCardFABColor: resultCardFABColor,
           resultCardShape: resultCardShape,
           resultCardTextStyle: resultCardTextStyle,
+          searchOverLaybackgroundColor: searchOverLaybackgroundColor,
         );
       },
     ),
