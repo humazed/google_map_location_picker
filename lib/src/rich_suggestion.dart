@@ -7,21 +7,23 @@ class RichSuggestion extends StatelessWidget {
   final AutoCompleteItem autoCompleteItem;
   final Decoration decoration;
   final TextStyle textStyle;
-  RichSuggestion(this.autoCompleteItem, this.onTap, {this.decoration, this.textStyle});
+  RichSuggestion(this.autoCompleteItem, this.onTap,
+      {this.decoration, this.textStyle});
 
   @override
   Widget build(BuildContext context) {
     return Material(
       child: InkWell(
         child: Container(
-          decoration: decoration,
+            decoration: decoration,
             margin: EdgeInsets.all(5),
             padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             child: Row(
               children: <Widget>[
                 Expanded(
                   child: RichText(
-                    text: TextSpan(children: getStyledTexts(context, textStyle)),
+                    text:
+                        TextSpan(children: getStyledTexts(context, textStyle)),
                   ),
                 )
               ],
@@ -40,12 +42,12 @@ class RichSuggestion extends StatelessWidget {
       result.add(
         TextSpan(
           text: startText,
-  
-          style: textStyle??TextStyle(
-            color: Colors.grey,
-            fontSize: 15,
-            fontWeight: FontWeight.w300,
-          ),
+          style: textStyle ??
+              TextStyle(
+                color: Colors.grey,
+                fontSize: 15,
+                fontWeight: FontWeight.w300,
+              ),
         ),
       );
     }
@@ -56,11 +58,12 @@ class RichSuggestion extends StatelessWidget {
     result.add(
       TextSpan(
         text: boldText,
-        style: TextStyle(
-          color: Colors.grey,
-          fontSize: 15,
-          fontWeight: FontWeight.w500,
-        ),
+        style: textStyle ??
+            TextStyle(
+              color: Colors.grey,
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+            ),
       ),
     );
 
@@ -71,7 +74,7 @@ class RichSuggestion extends StatelessWidget {
     result.add(
       TextSpan(
         text: remainingText,
-        style: TextStyle(color: Colors.grey, fontSize: 15),
+        style: textStyle ?? TextStyle(color: Colors.grey, fontSize: 15),
       ),
     );
 

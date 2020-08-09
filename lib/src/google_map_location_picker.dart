@@ -259,8 +259,11 @@ class LocationPickerState extends State<LocationPicker> {
         top: appBarBox.size.height,
         child: Material(
           elevation: 1,
-          child: Column(
-            children: suggestions,
+          child: Container(
+            decoration: widget.searchOverlayDecoration,
+            child: Column(
+              children: suggestions,
+            ),
           ),
         ),
       ),
