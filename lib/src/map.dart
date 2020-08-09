@@ -285,7 +285,7 @@ class MapPickerState extends State<MapPicker> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            widget.locationPinIcon ?? Icon(Icons.add_box, size: 56),
+            widget.locationPinIcon ?? Icon(Icons.place, size: 56),
             Container(
               decoration: ShapeDecoration(
                 shadows: [
