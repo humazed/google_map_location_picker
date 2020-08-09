@@ -185,7 +185,12 @@ class LocationPickerState extends State<LocationPicker> {
           aci.offset = 0;
           aci.length = 0;
 
-          suggestions.add(RichSuggestion(aci, () {}));
+          suggestions.add(RichSuggestion(
+            aci,
+            () {},
+            decoration: widget.searchOverlayDecoration,
+            textStyle: widget.searchOverlayTextStyle,
+          ));
         } else {
           for (dynamic t in predictions) {
             AutoCompleteItem aci = AutoCompleteItem();
