@@ -34,8 +34,12 @@ class MapPicker extends StatefulWidget {
     this.hintText,
     this.resultCardConfirmIcon,
     this.resultCardAlignment,
-    this.resultCardDecoration,
     this.resultCardPadding,
+    this.locationPinIcon,
+    this.resultCardColor,
+    this.resultCardShape,
+    this.resultCardTextStyle,
+    this.resultCardFABColor,
   }) : super(key: key);
 
   final String apiKey;
@@ -55,8 +59,13 @@ class MapPicker extends StatefulWidget {
   final String hintText;
   final Widget resultCardConfirmIcon;
   final Alignment resultCardAlignment;
-  final Decoration resultCardDecoration;
   final EdgeInsets resultCardPadding;
+
+  final TextStyle resultCardTextStyle;
+  final Widget locationPinIcon;
+  final Color resultCardColor;
+  final ShapeBorder resultCardShape;
+  final Color resultCardFABColor;
 
   @override
   MapPickerState createState() => MapPickerState();
@@ -201,7 +210,9 @@ class MapPickerState extends State<MapPicker> {
       child: Padding(
         padding: widget.resultCardPadding ?? EdgeInsets.all(16.0),
         child: Card(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          color: widget.resultCardColor,
+          shape: widget.resultCardShape ??
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           child: Consumer<LocationProvider>(
               builder: (context, locationProvider, _) {
             return Padding(
@@ -224,12 +235,14 @@ class MapPickerState extends State<MapPicker> {
                           _address = address;
                           return Text(
                             address ?? 'Unnamed place',
-                            style: TextStyle(fontSize: 18),
+                            style: widget.resultCardTextStyle ??
+                                TextStyle(fontSize: 18),
                           );
                         }),
                   ),
                   Spacer(),
                   FloatingActionButton(
+                    backgroundColor: widget.resultCardFABColor,
                     onPressed: () {
                       Navigator.of(context).pop({
                         'location': LocationResult(
@@ -272,7 +285,7 @@ class MapPickerState extends State<MapPicker> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(Icons.add_box, size: 56),
+            widget.locationPinIcon ?? Icon(Icons.add_box, size: 56),
             Container(
               decoration: ShapeDecoration(
                 shadows: [

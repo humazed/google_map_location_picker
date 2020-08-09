@@ -33,8 +33,15 @@ class LocationPicker extends StatefulWidget {
     this.hintText,
     this.resultCardConfirmIcon,
     this.resultCardAlignment,
-    this.resultCardDecoration,
     this.resultCardPadding,
+    this.locationPinIcon,
+    this.searchOverlayDecoration,
+    this.searchOverlayTextStyle,
+    this.appBarIconTheme,
+    this.resultCardColor,
+    this.resultCardFABColor,
+    this.resultCardShape,
+    this.resultCardTextStyle,
   });
 
   final String apiKey;
@@ -54,8 +61,16 @@ class LocationPicker extends StatefulWidget {
   final String hintText;
   final Widget resultCardConfirmIcon;
   final Alignment resultCardAlignment;
-  final Decoration resultCardDecoration;
   final EdgeInsets resultCardPadding;
+
+  final Widget locationPinIcon;
+  final TextStyle searchOverlayTextStyle;
+  final Decoration searchOverlayDecoration;
+  final IconThemeData appBarIconTheme;
+  final TextStyle resultCardTextStyle;
+  final Color resultCardColor;
+  final ShapeBorder resultCardShape;
+  final Color resultCardFABColor;
 
   @override
   LocationPickerState createState() => LocationPickerState();
@@ -114,6 +129,7 @@ class LocationPickerState extends State<LocationPicker> {
         child: Material(
           elevation: 1,
           child: Container(
+            decoration: widget.searchOverlayDecoration,
             padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
             child: Row(
               children: <Widget>[
@@ -126,7 +142,8 @@ class LocationPickerState extends State<LocationPicker> {
                 Expanded(
                   child: Text(
                     S.of(context)?.finding_place ?? 'Finding place...',
-                    style: TextStyle(fontSize: 16),
+                    style: widget.searchOverlayTextStyle ??
+                        TextStyle(fontSize: 16),
                   ),
                 )
               ],
@@ -365,7 +382,7 @@ class LocationPickerState extends State<LocationPicker> {
         return Scaffold(
           extendBodyBehindAppBar: true,
           appBar: AppBar(
-            iconTheme: Theme.of(context).iconTheme,
+            iconTheme: widget.appBarIconTheme ?? Theme.of(context).iconTheme,
             elevation: 0,
             backgroundColor: widget.appBarColor,
             key: appBarKey,
@@ -391,8 +408,12 @@ class LocationPickerState extends State<LocationPicker> {
             hintText: widget.hintText,
             resultCardConfirmIcon: widget.resultCardConfirmIcon,
             resultCardAlignment: widget.resultCardAlignment,
-            resultCardDecoration: widget.resultCardDecoration,
             resultCardPadding: widget.resultCardPadding,
+            locationPinIcon: widget.locationPinIcon,
+            resultCardColor: widget.resultCardColor,
+            resultCardFABColor: widget.resultCardFABColor,
+            resultCardShape: widget.resultCardShape,
+            resultCardTextStyle: widget.resultCardTextStyle,
             key: mapKey,
           ),
         );
@@ -427,7 +448,14 @@ Future<LocationResult> showLocationPicker(
   Widget resultCardConfirmIcon,
   AlignmentGeometry resultCardAlignment,
   EdgeInsetsGeometry resultCardPadding,
-  Decoration resultCardDecoration,
+  Widget locationPinIcon,
+  Decoration searchOverlayDecoration,
+  TextStyle searchOverlayTextStyle,
+  IconThemeData appBarIconTheme,
+  TextStyle resultCardTextStyle,
+  Color resultCardColor,
+  ShapeBorder resultCardShape,
+  Color resultCardFABColor,
 }) async {
   final results = await Navigator.of(context).push(
     MaterialPageRoute<dynamic>(
@@ -448,7 +476,14 @@ Future<LocationResult> showLocationPicker(
           resultCardConfirmIcon: resultCardConfirmIcon,
           resultCardAlignment: resultCardAlignment,
           resultCardPadding: resultCardPadding,
-          resultCardDecoration: resultCardDecoration,
+          locationPinIcon: locationPinIcon,
+          searchOverlayDecoration: searchOverlayDecoration,
+          searchOverlayTextStyle: searchOverlayTextStyle,
+          appBarIconTheme: appBarIconTheme,
+          resultCardColor: resultCardColor,
+          resultCardFABColor: resultCardFABColor,
+          resultCardShape: resultCardShape,
+          resultCardTextStyle: resultCardTextStyle,
         );
       },
     ),
