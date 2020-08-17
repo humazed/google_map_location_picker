@@ -36,7 +36,7 @@ class MapPicker extends StatefulWidget {
     this.resultCardAlignment,
     this.resultCardDecoration,
     this.resultCardPadding,
-    this.language = 'en',
+    this.language,
   }) : super(key: key);
 
   final String apiKey;

@@ -401,6 +401,7 @@ class LocationPickerState extends State<LocationPicker> {
             resultCardDecoration: widget.resultCardDecoration,
             resultCardPadding: widget.resultCardPadding,
             key: mapKey,
+            language: widget.language,
           ),
         );
       }),
