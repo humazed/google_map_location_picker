@@ -435,6 +435,7 @@ Future<LocationResult> showLocationPicker(
   AlignmentGeometry resultCardAlignment,
   EdgeInsetsGeometry resultCardPadding,
   Decoration resultCardDecoration,
+  String language,
 }) async {
   final results = await Navigator.of(context).push(
     MaterialPageRoute<dynamic>(
@@ -456,6 +457,7 @@ Future<LocationResult> showLocationPicker(
           resultCardAlignment: resultCardAlignment,
           resultCardPadding: resultCardPadding,
           resultCardDecoration: resultCardDecoration,
+          language: language,
         );
       },
     ),
