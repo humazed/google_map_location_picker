@@ -139,19 +139,24 @@ The following permissions are defined in the package manifest, and are automatic
 
 `android.permission.ACCESS_NETWORK_STATE` Allows the API to check the connection status in order to determine whether data can be downloaded.
 
-## Restricting Autocomplete Search
+## Restricting Autocomplete Search to Region
 
-Get an API key at <https://cloud.google.com/maps-platform/>.
+The `LocationResult`s returned can be restricted to certain countries by passing an array of country codes into the `countries` parameter of `showLocationPicker()`. Countries must be two character, `ISO 3166-1 Alpha-2` compatible.
+You can find code information at [Wikipedia: List of ISO 3166 country codes](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes) or the [ISO Online Browsing Platform](https://www.iso.org/obp/ui/#search).
 
-and don't forget to enable in <https://console.cloud.google.com/google/maps-apis/>
+The example below restricts Autocomplete Search to the United Arab Emirates and Nigeria
 
-- Maps SDK for Android
-- Maps SDK for iOS
-- Places API
-- Geolocation API
-- Geocoding API
+```dart
+showLocationPicker(
+context, "YOUR API KEY HERE",
+initialCenter: LatLng(31.1975844, 29.9598339),
+myLocationButtonEnabled: true,
+layersButtonEnabled: true,
+countries: ['AE', 'NG'],
+);
+```
 
-### Credits
+## Credits
 
 The google map from [Flutter's](https://github.com/flutter) [google_maps_flutter](https://pub.dev/packages/google_maps_flutter) package
 
