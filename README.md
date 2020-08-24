@@ -2,7 +2,7 @@
 
 Location picker using the official [google_maps_flutter](https://pub.dev/packages/google_maps_flutter).
 
-I made This plugin because google deprecated [Place Picker](https://developers.google.com/places/android-sdk/placepicker). 
+I made This plugin because google deprecated [Place Picker](https://developers.google.com/places/android-sdk/placepicker).
 
 <p>
   <img src="https://raw.githubusercontent.com/humazed/google_map_location_picker/master/art/location_picker.gif" width=265/>
@@ -11,7 +11,6 @@ I made This plugin because google deprecated [Place Picker](https://developers.g
 </p>
 
 [![Demo](https://raw.githubusercontent.com/humazed/google_map_location_picker/master/art/ios_demo.png?raw=true)](https://www.youtube.com/watch?v=Ev1tqijch1o)
-
 
 ## Using
 
@@ -35,7 +34,6 @@ MaterialApp(
 )
 ```
 
-
 ```dart
 import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -48,6 +46,7 @@ LocationResult result = await showLocationPicker(context, apiKey);
 Get an API key at <https://cloud.google.com/maps-platform/>.
 
 and don't forget to enable in <https://console.cloud.google.com/google/maps-apis/>
+
 - Maps SDK for Android
 - Maps SDK for iOS
 - Places API
@@ -104,6 +103,7 @@ import GoogleMaps
   }
 }
 ```
+
 Opt-in to the embedded views preview by adding a boolean property to the app's `Info.plist` file
 with the key `io.flutter.embedded_views_preview` and the value `YES`; you need also to define `NSLocationWhenInUseUsageDescription`
 
@@ -115,6 +115,7 @@ with the key `io.flutter.embedded_views_preview` and the value `YES`; you need a
 ```
 
 ### Note
+
 The following permissions are not required to use Google Maps Android API v2, but are recommended.
 
 `android.permission.ACCESS_COARSE_LOCATION` Allows the API to use WiFi or mobile cell data (or both) to determine the device's location. The API returns the location with an accuracy approximately equivalent to a city block.
@@ -122,6 +123,7 @@ The following permissions are not required to use Google Maps Android API v2, bu
 `android.permission.ACCESS_FINE_LOCATION` Allows the API to determine as precise a location as possible from the available location providers, including the Global Positioning System (GPS) as well as WiFi and mobile cell data.
 
 ---
+
 You must also explicitly declare that your app uses the android.hardware.location.network or android.hardware.location.gps hardware features if your app targets Android 5.0 (API level 21) or higher and uses the ACCESS_COARSE_LOCATION or ACCESS_FINE_LOCATION permission in order to receive location updates from the network or a GPS, respectively.
 
 ```xml
@@ -130,12 +132,24 @@ You must also explicitly declare that your app uses the android.hardware.locatio
 ```
 
 ---
+
 The following permissions are defined in the package manifest, and are automatically merged into your app's manifest at build time. You **don't** need to add them explicitly to your manifest:
 
 `android.permission.INTERNET` Used by the API to download map tiles from Google Maps servers.
 
 `android.permission.ACCESS_NETWORK_STATE` Allows the API to check the connection status in order to determine whether data can be downloaded.
 
+## Restricting Autocomplete Search
+
+Get an API key at <https://cloud.google.com/maps-platform/>.
+
+and don't forget to enable in <https://console.cloud.google.com/google/maps-apis/>
+
+- Maps SDK for Android
+- Maps SDK for iOS
+- Places API
+- Geolocation API
+- Geocoding API
 
 ### Credits
 
@@ -144,4 +158,3 @@ The google map from [Flutter's](https://github.com/flutter) [google_maps_flutter
 current location and permission from [BaseflowIT's](https://github.com/BaseflowIT) [flutter-geolocator](https://github.com/baseflowit/flutter-geolocator) package.
 
 The search bar from [Degreat's](https://github.com/blackmann) [locationpicker](https://github.com/blackmann/locationpicker) package.
-

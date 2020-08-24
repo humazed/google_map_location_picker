@@ -147,8 +147,10 @@ class LocationPickerState extends State<LocationPicker> {
   void autoCompleteSearch(String place) {
     place = place.replaceAll(" ", "+");
 
+    int countriesCount = widget.countries.length;
+
     String regionParam = widget.countries != null && widget.countries.isNotEmpty
-        ? "&components=country:${widget.countries.join('|country:')}"
+        ? "&components=country:${widget.countries.sublist(0, countriesCount > 5 ? 5 : countriesCount).join('|country:')}"
         : "";
 
     // print('[AutoCompleteSearch] [RegionParam] $regionParam');
