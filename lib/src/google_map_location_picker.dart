@@ -35,12 +35,14 @@ class LocationPicker extends StatefulWidget {
     this.resultCardAlignment,
     this.resultCardDecoration,
     this.resultCardPadding,
+    this.countries,
   });
 
   final String apiKey;
 
   final LatLng initialCenter;
   final double initialZoom;
+  final List<String> countries;
 
   final bool requiredGPS;
   final bool myLocationButtonEnabled;
@@ -144,10 +146,19 @@ class LocationPickerState extends State<LocationPicker> {
   /// Fetches the place autocomplete list with the query [place].
   void autoCompleteSearch(String place) {
     place = place.replaceAll(" ", "+");
+
+    int countriesCount = widget.countries.length;
+
+    String regionParam = widget.countries != null && widget.countries.isNotEmpty
+        ? "&components=country:${widget.countries.sublist(0, countriesCount > 5 ? 5 : countriesCount).join('|country:')}"
+        : "";
+
+    // print('[AutoCompleteSearch] [RegionParam] $regionParam');
+
     var endpoint =
         "https://maps.googleapis.com/maps/api/place/autocomplete/json?" +
             "key=${widget.apiKey}&" +
-            "input={$place}&sessiontoken=$sessionToken";
+            "input={$place}$regionParam&sessiontoken=$sessionToken";
 
     if (locationResult != null) {
       endpoint += "&location=${locationResult.latLng.latitude}," +
@@ -417,6 +428,7 @@ Future<LocationResult> showLocationPicker(
   LatLng initialCenter = const LatLng(45.521563, -122.677433),
   double initialZoom = 16,
   bool requiredGPS = true,
+  List<String> countries,
   bool myLocationButtonEnabled = false,
   bool layersButtonEnabled = false,
   bool automaticallyAnimateToCurrentLocation = true,
@@ -432,6 +444,7 @@ Future<LocationResult> showLocationPicker(
   final results = await Navigator.of(context).push(
     MaterialPageRoute<dynamic>(
       builder: (BuildContext context) {
+        // print('[LocationPicker] [countries] ${countries.join(', ')}');
         return LocationPicker(
           apiKey,
           initialCenter: initialCenter,
@@ -449,6 +462,7 @@ Future<LocationResult> showLocationPicker(
           resultCardAlignment: resultCardAlignment,
           resultCardPadding: resultCardPadding,
           resultCardDecoration: resultCardDecoration,
+          countries: countries,
         );
       },
     ),
