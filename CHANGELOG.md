@@ -1,3 +1,10 @@
+## 3.3.4
+
+* Added Italian language thanks to @JFtechOfficial.
+* Added Region filter thanks to @Zamorite.
+* migrated to flutter_intl for localization.
+* updated deps.
+
 ## 3.3.3
 
 * Made the initialZoom configurable thanks to @alfredjingle.
