@@ -17,7 +17,7 @@ I made This plugin because google deprecated [Place Picker](https://developers.g
 For message localization inside the library please add in `MaterialApp`
 
 ```dart
-import 'package:google_map_location_picker/generated/i18n.dart' as location_picker;
+import 'package:google_map_location_picker/generated/l10n.dart' as location_picker;
 
 MaterialApp(
   localizationsDelegates: const [
