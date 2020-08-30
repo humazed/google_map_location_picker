@@ -36,6 +36,7 @@ class MapPicker extends StatefulWidget {
     this.resultCardAlignment,
     this.resultCardDecoration,
     this.resultCardPadding,
+    this.language,
   }) : super(key: key);
 
   final String apiKey;
@@ -57,6 +58,8 @@ class MapPicker extends StatefulWidget {
   final Alignment resultCardAlignment;
   final Decoration resultCardDecoration;
   final EdgeInsets resultCardPadding;
+
+  final String language;
 
   @override
   MapPickerState createState() => MapPickerState();
@@ -253,7 +256,7 @@ class MapPickerState extends State<MapPicker> {
   Future<String> getAddress(LatLng location) async {
     try {
       var endPoint =
-          'https://maps.googleapis.com/maps/api/geocode/json?latlng=${location?.latitude},${location?.longitude}&key=${widget.apiKey}';
+          'https://maps.googleapis.com/maps/api/geocode/json?latlng=${location?.latitude},${location?.longitude}&key=${widget.apiKey}&language=${widget.language}';
       var response = jsonDecode((await http.get(endPoint,
               headers: await LocationUtils.getAppHeaders()))
           .body);

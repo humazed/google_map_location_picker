@@ -36,6 +36,7 @@ class LocationPicker extends StatefulWidget {
     this.resultCardDecoration,
     this.resultCardPadding,
     this.countries,
+    this.language = 'en',
   });
 
   final String apiKey;
@@ -58,6 +59,8 @@ class LocationPicker extends StatefulWidget {
   final Alignment resultCardAlignment;
   final Decoration resultCardDecoration;
   final EdgeInsets resultCardPadding;
+
+  final String language;
 
   @override
   LocationPickerState createState() => LocationPickerState();
@@ -158,7 +161,8 @@ class LocationPickerState extends State<LocationPicker> {
     var endpoint =
         "https://maps.googleapis.com/maps/api/place/autocomplete/json?" +
             "key=${widget.apiKey}&" +
-            "input={$place}$regionParam&sessiontoken=$sessionToken";
+            "input={$place}$regionParam&sessiontoken=$sessionToken&" +
+            "language=${widget.language}";
 
     if (locationResult != null) {
       endpoint += "&location=${locationResult.latLng.latitude}," +
@@ -210,7 +214,8 @@ class LocationPickerState extends State<LocationPicker> {
 
     String endpoint =
         "https://maps.googleapis.com/maps/api/place/details/json?key=${widget.apiKey}" +
-            "&placeid=$placeId";
+            "&placeid=$placeId" +
+            '&language=${widget.language}';
 
     LocationUtils.getAppHeaders()
         .then((headers) => http.get(endpoint, headers: headers))
@@ -279,7 +284,8 @@ class LocationPickerState extends State<LocationPicker> {
         .then((headers) => http.get(
             "https://maps.googleapis.com/maps/api/place/nearbysearch/json?" +
                 "key=${widget.apiKey}&" +
-                "location=${latLng.latitude},${latLng.longitude}&radius=150",
+                "location=${latLng.latitude},${latLng.longitude}&radius=150" +
+                "&language=${widget.language}",
             headers: headers))
         .then((response) {
       if (response.statusCode == 200) {
@@ -313,8 +319,9 @@ class LocationPickerState extends State<LocationPicker> {
   /// to be the road name and the locality.
   Future reverseGeocodeLatLng(LatLng latLng) async {
     var response = await http.get(
-        "https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng.latitude},${latLng.longitude}"
-        "&key=${widget.apiKey}",
+        "https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng.latitude},${latLng.longitude}" +
+            "&key=${widget.apiKey}" +
+            "&language=${widget.language}",
         headers: await LocationUtils.getAppHeaders());
 
     if (response.statusCode == 200) {
@@ -405,6 +412,7 @@ class LocationPickerState extends State<LocationPicker> {
             resultCardDecoration: widget.resultCardDecoration,
             resultCardPadding: widget.resultCardPadding,
             key: mapKey,
+            language: widget.language,
           ),
         );
       }),
@@ -440,6 +448,7 @@ Future<LocationResult> showLocationPicker(
   AlignmentGeometry resultCardAlignment,
   EdgeInsetsGeometry resultCardPadding,
   Decoration resultCardDecoration,
+  String language,
 }) async {
   final results = await Navigator.of(context).push(
     MaterialPageRoute<dynamic>(
@@ -463,6 +472,7 @@ Future<LocationResult> showLocationPicker(
           resultCardPadding: resultCardPadding,
           resultCardDecoration: resultCardDecoration,
           countries: countries,
+          language: language,
         );
       },
     ),
