@@ -502,7 +502,6 @@ Future<LocationResult> showLocationPicker(
   Color searchOverLaybackgroundColor,
   Color fabsIconsColor,
     
-  Decoration resultCardDecoration,
   String language,
 
 }) async {
@@ -538,7 +537,7 @@ Future<LocationResult> showLocationPicker(
           searchOverLaybackgroundColor: searchOverLaybackgroundColor,
           fabsIconsColor: fabsIconsColor,
           
-          resultCardDecoration: resultCardDecoration,
+         
           countries: countries,
           language: language,
 
