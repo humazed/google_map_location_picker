@@ -5,21 +5,27 @@ import 'model/auto_comp_iete_item.dart';
 class RichSuggestion extends StatelessWidget {
   final VoidCallback onTap;
   final AutoCompleteItem autoCompleteItem;
-
-  RichSuggestion(this.autoCompleteItem, this.onTap);
+  final Decoration decoration;
+  final TextStyle textStyle;
+  final Color backgroundColor;
+  RichSuggestion(this.autoCompleteItem, this.onTap,
+      {this.decoration, this.textStyle, this.backgroundColor});
 
   @override
   Widget build(BuildContext context) {
     return Material(
+      color: backgroundColor,
       child: InkWell(
         child: Container(
+            decoration: decoration,
             margin: EdgeInsets.all(5),
             padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             child: Row(
               children: <Widget>[
                 Expanded(
                   child: RichText(
-                    text: TextSpan(children: getStyledTexts(context)),
+                    text:
+                        TextSpan(children: getStyledTexts(context, textStyle)),
                   ),
                 )
               ],
@@ -29,7 +35,7 @@ class RichSuggestion extends StatelessWidget {
     );
   }
 
-  List<TextSpan> getStyledTexts(BuildContext context) {
+  List<TextSpan> getStyledTexts(BuildContext context, TextStyle textStyle) {
     final List<TextSpan> result = [];
 
     String startText =
@@ -38,11 +44,12 @@ class RichSuggestion extends StatelessWidget {
       result.add(
         TextSpan(
           text: startText,
-          style: TextStyle(
-            color: Colors.grey,
-            fontSize: 15,
-            fontWeight: FontWeight.w300,
-          ),
+          style: textStyle ??
+              TextStyle(
+                color: Colors.grey,
+                fontSize: 15,
+                fontWeight: FontWeight.w300,
+              ),
         ),
       );
     }
@@ -53,11 +60,12 @@ class RichSuggestion extends StatelessWidget {
     result.add(
       TextSpan(
         text: boldText,
-        style: TextStyle(
-          color: Colors.grey,
-          fontSize: 15,
-          fontWeight: FontWeight.w500,
-        ),
+        style: textStyle ??
+            TextStyle(
+              color: Colors.grey,
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+            ),
       ),
     );
 
@@ -68,7 +76,7 @@ class RichSuggestion extends StatelessWidget {
     result.add(
       TextSpan(
         text: remainingText,
-        style: TextStyle(color: Colors.grey, fontSize: 15),
+        style: textStyle ?? TextStyle(color: Colors.grey, fontSize: 15),
       ),
     );
 

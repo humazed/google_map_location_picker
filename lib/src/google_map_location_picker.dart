@@ -33,8 +33,19 @@ class LocationPicker extends StatefulWidget {
     this.hintText,
     this.resultCardConfirmIcon,
     this.resultCardAlignment,
-    this.resultCardDecoration,
     this.resultCardPadding,
+
+    this.locationPinIcon,
+    this.searchOverlayDecoration,
+    this.searchOverlayTextStyle,
+    this.appBarIconTheme,
+    this.resultCardColor,
+    this.fabsColor,
+    this.resultCardShape,
+    this.resultCardTextStyle,
+    this.searchOverLaybackgroundColor,
+    this.fabsIconsColor,
+      
     this.countries,
     this.language = 'en',
   });
@@ -57,8 +68,19 @@ class LocationPicker extends StatefulWidget {
   final String hintText;
   final Widget resultCardConfirmIcon;
   final Alignment resultCardAlignment;
-  final Decoration resultCardDecoration;
   final EdgeInsets resultCardPadding;
+
+
+  final Widget locationPinIcon;
+  final TextStyle searchOverlayTextStyle;
+  final Decoration searchOverlayDecoration;
+  final IconThemeData appBarIconTheme;
+  final TextStyle resultCardTextStyle;
+  final Color resultCardColor;
+  final ShapeBorder resultCardShape;
+  final Color fabsColor;
+  final Color searchOverLaybackgroundColor;
+  final Color fabsIconsColor;
 
   final String language;
 
@@ -117,8 +139,10 @@ class LocationPickerState extends State<LocationPicker> {
         top: appBarBox.size.height,
         width: size.width,
         child: Material(
+          color: widget.searchOverLaybackgroundColor,
           elevation: 1,
           child: Container(
+            decoration: widget.searchOverlayDecoration,
             padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
             child: Row(
               children: <Widget>[
@@ -131,7 +155,8 @@ class LocationPickerState extends State<LocationPicker> {
                 Expanded(
                   child: Text(
                     S.of(context)?.finding_place ?? 'Finding place...',
-                    style: TextStyle(fontSize: 16),
+                    style: widget.searchOverlayTextStyle ??
+                        TextStyle(fontSize: 16),
                   ),
                 )
               ],
@@ -183,7 +208,13 @@ class LocationPickerState extends State<LocationPicker> {
           aci.offset = 0;
           aci.length = 0;
 
-          suggestions.add(RichSuggestion(aci, () {}));
+          suggestions.add(RichSuggestion(
+            aci,
+            () {},
+            decoration: widget.searchOverlayDecoration,
+            textStyle: widget.searchOverlayTextStyle,
+            backgroundColor: widget.searchOverLaybackgroundColor,
+          ));
         } else {
           for (dynamic t in predictions) {
             AutoCompleteItem aci = AutoCompleteItem();
@@ -193,9 +224,15 @@ class LocationPickerState extends State<LocationPicker> {
             aci.offset = t['matched_substrings'][0]['offset'];
             aci.length = t['matched_substrings'][0]['length'];
 
-            suggestions.add(RichSuggestion(aci, () {
-              decodeAndSelectPlace(aci.id);
-            }));
+            suggestions.add(RichSuggestion(
+              aci,
+              () {
+                decodeAndSelectPlace(aci.id);
+              },
+              decoration: widget.searchOverlayDecoration,
+              textStyle: widget.searchOverlayTextStyle,
+              backgroundColor: widget.searchOverLaybackgroundColor,
+            ));
           }
         }
 
@@ -247,6 +284,7 @@ class LocationPickerState extends State<LocationPicker> {
         width: size.width,
         top: appBarBox.size.height,
         child: Material(
+          color: widget.searchOverLaybackgroundColor,
           elevation: 1,
           child: Column(
             children: suggestions,
@@ -383,7 +421,7 @@ class LocationPickerState extends State<LocationPicker> {
         return Scaffold(
           extendBodyBehindAppBar: true,
           appBar: AppBar(
-            iconTheme: Theme.of(context).iconTheme,
+            iconTheme: widget.appBarIconTheme ?? Theme.of(context).iconTheme,
             elevation: 0,
             backgroundColor: widget.appBarColor,
             key: appBarKey,
@@ -409,8 +447,13 @@ class LocationPickerState extends State<LocationPicker> {
             hintText: widget.hintText,
             resultCardConfirmIcon: widget.resultCardConfirmIcon,
             resultCardAlignment: widget.resultCardAlignment,
-            resultCardDecoration: widget.resultCardDecoration,
             resultCardPadding: widget.resultCardPadding,
+            locationPinIcon: widget.locationPinIcon,
+            resultCardColor: widget.resultCardColor,
+            fabsColor: widget.fabsColor,
+            resultCardShape: widget.resultCardShape,
+            resultCardTextStyle: widget.resultCardTextStyle,
+            fabsIconsColor: widget.fabsIconsColor,
             key: mapKey,
             language: widget.language,
           ),
@@ -447,8 +490,20 @@ Future<LocationResult> showLocationPicker(
   Widget resultCardConfirmIcon,
   AlignmentGeometry resultCardAlignment,
   EdgeInsetsGeometry resultCardPadding,
-  Decoration resultCardDecoration,
+    
+  Widget locationPinIcon,
+  Decoration searchOverlayDecoration,
+  TextStyle searchOverlayTextStyle,
+  IconThemeData appBarIconTheme,
+  TextStyle resultCardTextStyle,
+  Color resultCardColor,
+  ShapeBorder resultCardShape,
+  Color fabsColor,
+  Color searchOverLaybackgroundColor,
+  Color fabsIconsColor,
+    
   String language,
+
 }) async {
   final results = await Navigator.of(context).push(
     MaterialPageRoute<dynamic>(
@@ -470,9 +525,22 @@ Future<LocationResult> showLocationPicker(
           resultCardConfirmIcon: resultCardConfirmIcon,
           resultCardAlignment: resultCardAlignment,
           resultCardPadding: resultCardPadding,
-          resultCardDecoration: resultCardDecoration,
+          
+          locationPinIcon: locationPinIcon,
+          searchOverlayDecoration: searchOverlayDecoration,
+          searchOverlayTextStyle: searchOverlayTextStyle,
+          appBarIconTheme: appBarIconTheme,
+          resultCardColor: resultCardColor,
+          fabsColor: fabsColor,
+          resultCardShape: resultCardShape,
+          resultCardTextStyle: resultCardTextStyle,
+          searchOverLaybackgroundColor: searchOverLaybackgroundColor,
+          fabsIconsColor: fabsIconsColor,
+          
+         
           countries: countries,
           language: language,
+
         );
       },
     ),

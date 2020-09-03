@@ -34,8 +34,15 @@ class MapPicker extends StatefulWidget {
     this.hintText,
     this.resultCardConfirmIcon,
     this.resultCardAlignment,
-    this.resultCardDecoration,
     this.resultCardPadding,
+      
+    this.locationPinIcon,
+    this.resultCardColor,
+    this.resultCardShape,
+    this.resultCardTextStyle,
+    this.fabsColor,
+    this.fabsIconsColor,
+      
     this.language,
   }) : super(key: key);
 
@@ -56,8 +63,14 @@ class MapPicker extends StatefulWidget {
   final String hintText;
   final Widget resultCardConfirmIcon;
   final Alignment resultCardAlignment;
-  final Decoration resultCardDecoration;
   final EdgeInsets resultCardPadding;
+
+  final TextStyle resultCardTextStyle;
+  final Widget locationPinIcon;
+  final Color resultCardColor;
+  final ShapeBorder resultCardShape;
+  final Color fabsColor;
+  final Color fabsIconsColor;
 
   final String language;
 
@@ -190,6 +203,8 @@ class MapPickerState extends State<MapPicker> {
             layersButtonEnabled: widget.layersButtonEnabled,
             onToggleMapTypePressed: _onToggleMapTypePressed,
             onMyLocationPressed: _initCurrentLocation,
+            fabsBackgroundColor: widget.fabsColor,
+            fabsIconsColor: widget.fabsIconsColor,
           ),
           pin(),
           locationCard(),
@@ -204,7 +219,9 @@ class MapPickerState extends State<MapPicker> {
       child: Padding(
         padding: widget.resultCardPadding ?? EdgeInsets.all(16.0),
         child: Card(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          color: widget.resultCardColor,
+          shape: widget.resultCardShape ??
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           child: Consumer<LocationProvider>(
               builder: (context, locationProvider, _) {
             return Padding(
@@ -227,12 +244,14 @@ class MapPickerState extends State<MapPicker> {
                           _address = address;
                           return Text(
                             address ?? 'Unnamed place',
-                            style: TextStyle(fontSize: 18),
+                            style: widget.resultCardTextStyle ??
+                                TextStyle(fontSize: 18),
                           );
                         }),
                   ),
                   Spacer(),
                   FloatingActionButton(
+                    backgroundColor: widget.fabsColor,
                     onPressed: () {
                       Navigator.of(context).pop({
                         'location': LocationResult(
@@ -275,7 +294,7 @@ class MapPickerState extends State<MapPicker> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(Icons.place, size: 56),
+            widget.locationPinIcon ?? Icon(Icons.place, size: 56),
             Container(
               decoration: ShapeDecoration(
                 shadows: [
@@ -382,6 +401,8 @@ class _MapFabs extends StatelessWidget {
     @required this.layersButtonEnabled,
     @required this.onToggleMapTypePressed,
     @required this.onMyLocationPressed,
+    this.fabsBackgroundColor,
+    this.fabsIconsColor,
   })  : assert(onToggleMapTypePressed != null),
         super(key: key);
 
@@ -390,6 +411,9 @@ class _MapFabs extends StatelessWidget {
 
   final VoidCallback onToggleMapTypePressed;
   final VoidCallback onMyLocationPressed;
+
+  final Color fabsIconsColor;
+  final Color fabsBackgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -400,18 +424,26 @@ class _MapFabs extends StatelessWidget {
         children: <Widget>[
           if (layersButtonEnabled)
             FloatingActionButton(
+              backgroundColor: fabsBackgroundColor,
               onPressed: onToggleMapTypePressed,
               materialTapTargetSize: MaterialTapTargetSize.padded,
               mini: true,
-              child: const Icon(Icons.layers),
+              child: Icon(
+                Icons.layers,
+                color: fabsIconsColor,
+              ),
               heroTag: "layers",
             ),
           if (myLocationButtonEnabled)
             FloatingActionButton(
+              backgroundColor: fabsBackgroundColor,
               onPressed: onMyLocationPressed,
               materialTapTargetSize: MaterialTapTargetSize.padded,
               mini: true,
-              child: const Icon(Icons.my_location),
+              child: Icon(
+                Icons.my_location,
+                color: fabsIconsColor,
+              ),
               heroTag: "myLocation",
             ),
         ],
