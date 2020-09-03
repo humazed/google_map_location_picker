@@ -7,7 +7,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:geolocator/geolocator.dart';
-import 'package:google_map_location_picker/generated/i18n.dart';
+import 'package:google_map_location_picker/generated/l10n.dart';
 import 'package:google_map_location_picker/src/providers/location_provider.dart';
 import 'package:google_map_location_picker/src/utils/loading_builder.dart';
 import 'package:google_map_location_picker/src/utils/log.dart';
@@ -35,12 +35,15 @@ class MapPicker extends StatefulWidget {
     this.resultCardConfirmIcon,
     this.resultCardAlignment,
     this.resultCardPadding,
+      
     this.locationPinIcon,
     this.resultCardColor,
     this.resultCardShape,
     this.resultCardTextStyle,
     this.fabsColor,
     this.fabsIconsColor,
+      
+    this.language,
   }) : super(key: key);
 
   final String apiKey;
@@ -68,6 +71,8 @@ class MapPicker extends StatefulWidget {
   final ShapeBorder resultCardShape;
   final Color fabsColor;
   final Color fabsIconsColor;
+
+  final String language;
 
   @override
   MapPickerState createState() => MapPickerState();
@@ -270,7 +275,7 @@ class MapPickerState extends State<MapPicker> {
   Future<String> getAddress(LatLng location) async {
     try {
       var endPoint =
-          'https://maps.googleapis.com/maps/api/geocode/json?latlng=${location?.latitude},${location?.longitude}&key=${widget.apiKey}';
+          'https://maps.googleapis.com/maps/api/geocode/json?latlng=${location?.latitude},${location?.longitude}&key=${widget.apiKey}&language=${widget.language}';
       var response = jsonDecode((await http.get(endPoint,
               headers: await LocationUtils.getAppHeaders()))
           .body);

@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:google_map_location_picker/generated/i18n.dart';
+import 'package:google_map_location_picker/generated/l10n.dart';
 import 'package:google_map_location_picker/src/map.dart';
 import 'package:google_map_location_picker/src/providers/location_provider.dart';
 import 'package:google_map_location_picker/src/rich_suggestion.dart';
@@ -34,6 +34,7 @@ class LocationPicker extends StatefulWidget {
     this.resultCardConfirmIcon,
     this.resultCardAlignment,
     this.resultCardPadding,
+
     this.locationPinIcon,
     this.searchOverlayDecoration,
     this.searchOverlayTextStyle,
@@ -44,12 +45,16 @@ class LocationPicker extends StatefulWidget {
     this.resultCardTextStyle,
     this.searchOverLaybackgroundColor,
     this.fabsIconsColor,
+      
+    this.countries,
+    this.language = 'en',
   });
 
   final String apiKey;
 
   final LatLng initialCenter;
   final double initialZoom;
+  final List<String> countries;
 
   final bool requiredGPS;
   final bool myLocationButtonEnabled;
@@ -65,6 +70,7 @@ class LocationPicker extends StatefulWidget {
   final Alignment resultCardAlignment;
   final EdgeInsets resultCardPadding;
 
+
   final Widget locationPinIcon;
   final TextStyle searchOverlayTextStyle;
   final Decoration searchOverlayDecoration;
@@ -75,6 +81,8 @@ class LocationPicker extends StatefulWidget {
   final Color fabsColor;
   final Color searchOverLaybackgroundColor;
   final Color fabsIconsColor;
+
+  final String language;
 
   @override
   LocationPickerState createState() => LocationPickerState();
@@ -166,10 +174,20 @@ class LocationPickerState extends State<LocationPicker> {
   /// Fetches the place autocomplete list with the query [place].
   void autoCompleteSearch(String place) {
     place = place.replaceAll(" ", "+");
+
+    int countriesCount = widget.countries.length;
+
+    String regionParam = widget.countries != null && widget.countries.isNotEmpty
+        ? "&components=country:${widget.countries.sublist(0, countriesCount > 5 ? 5 : countriesCount).join('|country:')}"
+        : "";
+
+    // print('[AutoCompleteSearch] [RegionParam] $regionParam');
+
     var endpoint =
         "https://maps.googleapis.com/maps/api/place/autocomplete/json?" +
             "key=${widget.apiKey}&" +
-            "input={$place}&sessiontoken=$sessionToken";
+            "input={$place}$regionParam&sessiontoken=$sessionToken&" +
+            "language=${widget.language}";
 
     if (locationResult != null) {
       endpoint += "&location=${locationResult.latLng.latitude}," +
@@ -233,7 +251,8 @@ class LocationPickerState extends State<LocationPicker> {
 
     String endpoint =
         "https://maps.googleapis.com/maps/api/place/details/json?key=${widget.apiKey}" +
-            "&placeid=$placeId";
+            "&placeid=$placeId" +
+            '&language=${widget.language}';
 
     LocationUtils.getAppHeaders()
         .then((headers) => http.get(endpoint, headers: headers))
@@ -303,7 +322,8 @@ class LocationPickerState extends State<LocationPicker> {
         .then((headers) => http.get(
             "https://maps.googleapis.com/maps/api/place/nearbysearch/json?" +
                 "key=${widget.apiKey}&" +
-                "location=${latLng.latitude},${latLng.longitude}&radius=150",
+                "location=${latLng.latitude},${latLng.longitude}&radius=150" +
+                "&language=${widget.language}",
             headers: headers))
         .then((response) {
       if (response.statusCode == 200) {
@@ -337,8 +357,9 @@ class LocationPickerState extends State<LocationPicker> {
   /// to be the road name and the locality.
   Future reverseGeocodeLatLng(LatLng latLng) async {
     var response = await http.get(
-        "https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng.latitude},${latLng.longitude}"
-        "&key=${widget.apiKey}",
+        "https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng.latitude},${latLng.longitude}" +
+            "&key=${widget.apiKey}" +
+            "&language=${widget.language}",
         headers: await LocationUtils.getAppHeaders());
 
     if (response.statusCode == 200) {
@@ -434,6 +455,7 @@ class LocationPickerState extends State<LocationPicker> {
             resultCardTextStyle: widget.resultCardTextStyle,
             fabsIconsColor: widget.fabsIconsColor,
             key: mapKey,
+            language: widget.language,
           ),
         );
       }),
@@ -457,6 +479,7 @@ Future<LocationResult> showLocationPicker(
   LatLng initialCenter = const LatLng(45.521563, -122.677433),
   double initialZoom = 16,
   bool requiredGPS = true,
+  List<String> countries,
   bool myLocationButtonEnabled = false,
   bool layersButtonEnabled = false,
   bool automaticallyAnimateToCurrentLocation = true,
@@ -467,6 +490,7 @@ Future<LocationResult> showLocationPicker(
   Widget resultCardConfirmIcon,
   AlignmentGeometry resultCardAlignment,
   EdgeInsetsGeometry resultCardPadding,
+    
   Widget locationPinIcon,
   Decoration searchOverlayDecoration,
   TextStyle searchOverlayTextStyle,
@@ -477,10 +501,15 @@ Future<LocationResult> showLocationPicker(
   Color fabsColor,
   Color searchOverLaybackgroundColor,
   Color fabsIconsColor,
+    
+  Decoration resultCardDecoration,
+  String language,
+
 }) async {
   final results = await Navigator.of(context).push(
     MaterialPageRoute<dynamic>(
       builder: (BuildContext context) {
+        // print('[LocationPicker] [countries] ${countries.join(', ')}');
         return LocationPicker(
           apiKey,
           initialCenter: initialCenter,
@@ -497,6 +526,7 @@ Future<LocationResult> showLocationPicker(
           resultCardConfirmIcon: resultCardConfirmIcon,
           resultCardAlignment: resultCardAlignment,
           resultCardPadding: resultCardPadding,
+          
           locationPinIcon: locationPinIcon,
           searchOverlayDecoration: searchOverlayDecoration,
           searchOverlayTextStyle: searchOverlayTextStyle,
@@ -507,6 +537,11 @@ Future<LocationResult> showLocationPicker(
           resultCardTextStyle: resultCardTextStyle,
           searchOverLaybackgroundColor: searchOverLaybackgroundColor,
           fabsIconsColor: fabsIconsColor,
+          
+          resultCardDecoration: resultCardDecoration,
+          countries: countries,
+          language: language,
+
         );
       },
     ),
