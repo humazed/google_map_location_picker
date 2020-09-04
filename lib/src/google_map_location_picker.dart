@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_map_location_picker/generated/l10n.dart';
@@ -150,13 +151,12 @@ class LocationPickerState extends State<LocationPicker> {
   void autoCompleteSearch(String place) {
     place = place.replaceAll(" ", "+");
 
-    int countriesCount = widget.countries.length;
+    final countries = widget.countries;
 
-    String regionParam = widget.countries != null && widget.countries.isNotEmpty
-        ? "&components=country:${widget.countries.sublist(0, countriesCount > 5 ? 5 : countriesCount).join('|country:')}"
+    // Currently, you can use components to filter by up to 5 countries. from https://developers.google.com/places/web-service/autocomplete
+    String regionParam = countries?.isNotEmpty == true
+        ? "&components=country:${countries.sublist(0, min(countries.length, 5)).join('|country:')}"
         : "";
-
-    // print('[AutoCompleteSearch] [RegionParam] $regionParam');
 
     var endpoint =
         "https://maps.googleapis.com/maps/api/place/autocomplete/json?" +
@@ -168,6 +168,7 @@ class LocationPickerState extends State<LocationPicker> {
       endpoint += "&location=${locationResult.latLng.latitude}," +
           "${locationResult.latLng.longitude}";
     }
+
     LocationUtils.getAppHeaders()
         .then((headers) => http.get(endpoint, headers: headers))
         .then((response) {
