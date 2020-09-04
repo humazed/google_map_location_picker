@@ -217,22 +217,23 @@ class MapPickerState extends State<MapPicker> {
                   Flexible(
                     flex: 20,
                     child: FutureLoadingBuilder<Map<String, String>>(
-                        future: getAddress(locationProvider.lastIdleLocation),
-                        mutable: true,
-                        loadingIndicator: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            CircularProgressIndicator(),
-                          ],
-                        ),
-                        builder: (context, data) {
-                          _address = data["address"];
-                          _placeId = data["placeId"];
-                          return Text(
-                            _address ?? 'Unnamed place',
-                            style: TextStyle(fontSize: 18),
-                          );
-                        }),
+                      future: getAddress(locationProvider.lastIdleLocation),
+                      mutable: true,
+                      loadingIndicator: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          CircularProgressIndicator(),
+                        ],
+                      ),
+                      builder: (context, data) {
+                        _address = data["address"];
+                        _placeId = data["placeId"];
+                        return Text(
+                          _address ?? 'Unnamed place',
+                          style: TextStyle(fontSize: 18),
+                        );
+                      },
+                    ),
                   ),
                   Spacer(),
                   FloatingActionButton(
@@ -259,8 +260,10 @@ class MapPickerState extends State<MapPicker> {
 
   Future<Map<String, String>> getAddress(LatLng location) async {
     try {
-      var endPoint =
-          'https://maps.googleapis.com/maps/api/geocode/json?latlng=${location?.latitude},${location?.longitude}&key=${widget.apiKey}&language=${widget.language}';
+      final endPoint =
+          'https://maps.googleapis.com/maps/api/geocode/json?latlng=${location?.latitude},${location?.longitude}'
+          '&key=${widget.apiKey}&language=${widget.language}';
+
       var response = jsonDecode((await http.get(endPoint,
               headers: await LocationUtils.getAppHeaders()))
           .body);
