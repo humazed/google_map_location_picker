@@ -1,4 +1,5 @@
-{  
+{
+  "@@locale": "tr",
   "please_check_your_connection": "Lütfen bağlantınızı kontrol edin",
   "server_error": "Sunucu hatası",
   "access_to_location_denied": "Konum erişimi reddedildi",

@@ -1,4 +1,5 @@
 {
+  "@@locale": "ru",
   "please_check_your_connection": "Пожалуйста, проверьте ваше соединение",
   "server_error": "Ошибка сервера",
   "access_to_location_denied": "Доступ к местоположению запрещен",

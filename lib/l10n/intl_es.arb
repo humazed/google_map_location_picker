@@ -1,4 +1,5 @@
 {
+  "@@locale": "es",
   "please_check_your_connection": "Por favor, verifique su conexión",
   "server_error": "Error del servidor",
   "access_to_location_denied": "Acceso a la ubicación denegado",

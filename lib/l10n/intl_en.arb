@@ -1,4 +1,6 @@
-{  "please_check_your_connection": "Please check your connection",
+{
+  "@@locale": "en",
+  "please_check_your_connection": "Please check your connection",
   "server_error": "Server error",
   "access_to_location_denied": "Access to location denied",
   "allow_access_to_the_location_services": "Allow access to the location services.",

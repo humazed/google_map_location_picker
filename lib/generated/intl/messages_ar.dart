@@ -24,11 +24,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "access_to_location_denied" : MessageLookupByLibrary.simpleMessage("تم رفض إذن الوصل الي الموقع الجغرافي"),
     "allow_access_to_the_location_services" : MessageLookupByLibrary.simpleMessage("من فضلك قم بقبول إذن الوصول الي الموقع الجغرافي"),
     "cant_get_current_location" : MessageLookupByLibrary.simpleMessage("لا يمكن الحصول علي الموقع الجغرافي الحالي"),
-    "finding_place" : MessageLookupByLibrary.simpleMessage("Finding place..."),
-    "no_result_found" : MessageLookupByLibrary.simpleMessage("No result found"),
+    "finding_place" : MessageLookupByLibrary.simpleMessage("جاري البحث..."),
+    "no_result_found" : MessageLookupByLibrary.simpleMessage("لم يتم العثور على نتائج"),
     "ok" : MessageLookupByLibrary.simpleMessage("حسنا"),
     "please_check_your_connection" : MessageLookupByLibrary.simpleMessage("تأكد من وجود انترنت"),
-    "please_make_sure_you_enable_gps_and_try_again" : MessageLookupByLibrary.simpleMessage("الرجاء التاكد من تفعيل الGPS و المحاولة مرة أخري"),
+    "please_make_sure_you_enable_gps_and_try_again" : MessageLookupByLibrary.simpleMessage("الرجاء التاكد من تفعيل الـGPS و المحاولة مرة أخري"),
     "search_place" : MessageLookupByLibrary.simpleMessage("إبحث بإسم المكان"),
     "server_error" : MessageLookupByLibrary.simpleMessage("خطأ من الخادم حاول مرة اخري")
   };
