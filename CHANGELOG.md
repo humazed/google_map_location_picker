@@ -1,3 +1,9 @@
+## 3.3.5
+
+* Added language parameter thanks to @JFtechOfficial.
+* Add placeId to Location Result thanks to @Faizaan.
+* Fixed: without supplying 'countries' autoCompleteSearch crashes while country is not mandatory #103.
+
 ## 3.3.4
 
 * Added Italian language thanks to @JFtechOfficial.
