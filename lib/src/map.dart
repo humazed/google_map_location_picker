@@ -92,7 +92,7 @@ class MapPickerState extends State<MapPicker> {
     Position currentPosition;
     try {
       currentPosition = await Geolocator()
-          .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.best, locationPermissionLevel: GeolocationPermission.locationWhenInUse);
 
       d("position = $currentPosition");
 
