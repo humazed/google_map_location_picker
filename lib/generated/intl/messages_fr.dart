@@ -22,7 +22,9 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "access_to_location_denied" : MessageLookupByLibrary.simpleMessage("Accès à l\'emplacement refusé"),
+    "access_to_location_permanently_denied" : MessageLookupByLibrary.simpleMessage("Accès à l\'emplacement refusé définitivement"),
     "allow_access_to_the_location_services" : MessageLookupByLibrary.simpleMessage("Autoriser l\'accès aux services de localisation."),
+    "allow_access_to_the_location_services_from_settings" : MessageLookupByLibrary.simpleMessage("Autorisez l\'accès aux services de localisation pour cette application à l\'aide des paramètres de l\'appareil."),
     "cant_get_current_location" : MessageLookupByLibrary.simpleMessage("Impossible d\'obtenir l\'emplacement actuel"),
     "finding_place" : MessageLookupByLibrary.simpleMessage("En train de trouver un lieu..."),
     "no_result_found" : MessageLookupByLibrary.simpleMessage("Aucun résultat trouvé"),
@@ -30,6 +32,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "please_check_your_connection" : MessageLookupByLibrary.simpleMessage("Veuillez vérifier votre connexion"),
     "please_make_sure_you_enable_gps_and_try_again" : MessageLookupByLibrary.simpleMessage("Veuillez vous assurer d\'activer le GPS et de réessayer"),
     "search_place" : MessageLookupByLibrary.simpleMessage("Rechercher un lieu"),
-    "server_error" : MessageLookupByLibrary.simpleMessage("Erreur du serveur")
+    "server_error" : MessageLookupByLibrary.simpleMessage("Erreur du serveur"),
+    "unnamedPlace" : MessageLookupByLibrary.simpleMessage("Luogo senza nome")
   };
 }

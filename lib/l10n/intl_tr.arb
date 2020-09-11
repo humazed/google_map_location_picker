@@ -4,10 +4,13 @@
   "server_error": "Sunucu hatası",
   "access_to_location_denied": "Konum erişimi reddedildi",
   "allow_access_to_the_location_services": "Konum servislerine izin verin.",
+  "access_to_location_permanently_denied": "Konuma erişim kalıcı olarak reddedildi",
+  "allow_access_to_the_location_services_from_settings": "Cihaz ayarlarını kullanarak bu Uygulama için konum hizmetlerine erişime izin verin.",
   "ok": "Tamam",
   "cant_get_current_location": "Geçerli konum alınamıyor",
   "please_make_sure_you_enable_gps_and_try_again": "Lütfen GPS’i etkinleştirin ve tekrar deneyin.",
   "search_place": "Konum ara",
   "finding_place": "Yer aranıyor...",
-  "no_result_found": "Sonuç Bulunamadı" 
+  "no_result_found": "Sonuç Bulunamadı" ,
+  "unnamedPlace": "Adsız yer"
 }

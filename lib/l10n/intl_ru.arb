@@ -4,8 +4,11 @@
   "server_error": "Ошибка сервера",
   "access_to_location_denied": "Доступ к местоположению запрещен",
   "allow_access_to_the_location_services": "Разрешить доступ к службам определения местоположения.",
+  "access_to_location_permanently_denied": "Доступ к местоположению запрещен навсегда",
+  "allow_access_to_the_location_services_from_settings": "Разрешите доступ к службам определения местоположения для этого приложения в настройках устройства.",
   "ok": "ОК",
   "cant_get_current_location": "Невозможно получить текущее местоположение",
   "please_make_sure_you_enable_gps_and_try_again": "Пожалуйста, убедитесь, что вы включили GPS и попробуйте снова",
-  "search_place": "Поиск места"
+  "search_place": "Поиск места",
+  "unnamedPlace": "Место без названия"
 }

@@ -4,10 +4,13 @@
   "server_error": "Error del servidor",
   "access_to_location_denied": "Acceso a la ubicación denegado",
   "allow_access_to_the_location_services": "Permitir acceso a los servicios de ubicación",
+  "access_to_location_permanently_denied": "Acceso a la ubicación denegado permanentemente",
+  "allow_access_to_the_location_services_from_settings": "Permita el acceso a los servicios de ubicación para esta aplicación usando la configuración del dispositivo.",
   "ok": "Ok",
   "cant_get_current_location": "No se puede obtener la ubicación actual",
   "please_make_sure_you_enable_gps_and_try_again": "Asegúrese de habilitar el GPS y vuelva a intentarlo",
   "search_place": "Buscar lugar",
   "finding_place": "Buscando lugar ...",
-  "no_result_found": "No se encontraron resultados"
+  "no_result_found": "No se encontraron resultados",
+  "unnamedPlace": "Lugar sin nombre"
 }

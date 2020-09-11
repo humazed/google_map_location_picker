@@ -91,13 +91,11 @@ class MapPickerState extends State<MapPicker> {
   Future<void> _initCurrentLocation() async {
     Position currentPosition;
     try {
-      currentPosition = await Geolocator()
-          .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-
+      currentPosition = await getCurrentPosition();
       d("position = $currentPosition");
 
       setState(() => _currentPosition = currentPosition);
-    } on PlatformException catch (e) {
+    } catch (e) {
       currentPosition = null;
       d("_initCurrentLocation#e = $e");
     }
@@ -112,6 +110,7 @@ class MapPickerState extends State<MapPicker> {
   }
 
   Future moveToCurrentLocation(LatLng currentLocation) async {
+    d('MapPickerState.moveToCurrentLocation "currentLocation = [$currentLocation]"');
     final controller = await mapController.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(
       CameraPosition(target: currentLocation, zoom: 16),
@@ -135,6 +134,7 @@ class MapPickerState extends State<MapPicker> {
     if (widget.requiredGPS) {
       _checkGps();
       _checkGeolocationPermission();
+      if (_currentPosition == null) _initCurrentLocation();
     }
     return Scaffold(
       body: Builder(builder: (context) {
@@ -229,7 +229,9 @@ class MapPickerState extends State<MapPicker> {
                         _address = data["address"];
                         _placeId = data["placeId"];
                         return Text(
-                          _address ?? 'Unnamed place',
+                          _address ??
+                              S.of(context)?.unnamedPlace ??
+                              'Unnamed place',
                           style: TextStyle(fontSize: 18),
                         );
                       },
@@ -312,16 +314,37 @@ class MapPickerState extends State<MapPicker> {
   var dialogOpen;
 
   Future _checkGeolocationPermission() async {
-    var geolocationStatus =
-        await Geolocator().checkGeolocationPermissionStatus();
+    final geolocationStatus = await checkPermission();
+    d("geolocationStatus = $geolocationStatus");
 
-    if (geolocationStatus == GeolocationStatus.denied && dialogOpen == null) {
-      d('showDialog');
-      dialogOpen = showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) {
-          return AlertDialog(
+    if (geolocationStatus == LocationPermission.denied && dialogOpen == null) {
+      dialogOpen = _showDeniedDialog();
+    } else if (geolocationStatus == LocationPermission.deniedForever &&
+        dialogOpen == null) {
+      dialogOpen = _showDeniedForeverDialog();
+    } else if (geolocationStatus == LocationPermission.whileInUse ||
+        geolocationStatus == LocationPermission.always) {
+      d('GeolocationStatus.granted');
+
+      if (dialogOpen != null) {
+        Navigator.of(context, rootNavigator: true).pop();
+        dialogOpen = null;
+      }
+    }
+  }
+
+  Future _showDeniedDialog() {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return WillPopScope(
+          onWillPop: () async {
+            Navigator.of(context, rootNavigator: true).pop();
+            Navigator.of(context, rootNavigator: true).pop();
+            return true;
+          },
+          child: AlertDialog(
             title: Text(S.of(context)?.access_to_location_denied ??
                 'Access to location denied'),
             content: Text(
@@ -337,22 +360,48 @@ class MapPickerState extends State<MapPicker> {
                 },
               ),
             ],
-          );
-        },
-      );
-    } else if (geolocationStatus == GeolocationStatus.disabled) {
-      // FIXME: handle this case
-    } else if (geolocationStatus == GeolocationStatus.granted) {
-      d('GeolocationStatus.granted');
-      if (dialogOpen != null) {
-        Navigator.of(context, rootNavigator: true).pop();
-        dialogOpen = null;
-      }
-    }
+          ),
+        );
+      },
+    );
+  }
+
+  Future _showDeniedForeverDialog() {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return WillPopScope(
+          onWillPop: () async {
+            Navigator.of(context, rootNavigator: true).pop();
+            Navigator.of(context, rootNavigator: true).pop();
+            return true;
+          },
+          child: AlertDialog(
+            title: Text(S.of(context)?.access_to_location_permanently_denied ??
+                'Access to location permanently denied'),
+            content: Text(S
+                    .of(context)
+                    ?.allow_access_to_the_location_services_from_settings ??
+                'Allow access to the location services for this App using the device settings.'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text(S.of(context)?.ok ?? 'Ok'),
+                onPressed: () {
+                  Navigator.of(context, rootNavigator: true).pop();
+                  openAppSettings();
+                  dialogOpen = null;
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Future _checkGps() async {
-    if (!(await Geolocator().isLocationServiceEnabled())) {
+    if (!(await isLocationServiceEnabled())) {
       if (Theme.of(context).platform == TargetPlatform.android) {
         showDialog(
           context: context,

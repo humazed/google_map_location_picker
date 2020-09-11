@@ -56,6 +56,7 @@ class _MyAppState extends State<MyApp> {
 //                      automaticallyAnimateToCurrentLocation: true,
 //                      mapStylePath: 'assets/mapStyle.json',
                       myLocationButtonEnabled: true,
+                      requiredGPS: true,
                       layersButtonEnabled: true,
                       // countries: ['AE', 'NG']
 

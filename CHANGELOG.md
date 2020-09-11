@@ -1,3 +1,7 @@
+## 4.0.0-rc.1
+
+* Updated to geolocator: 6.0.0 which provides better location handling.
+
 ## 3.3.5
 
 * Added language parameter thanks to @JFtechOfficial.

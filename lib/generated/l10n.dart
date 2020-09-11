@@ -73,6 +73,26 @@ class S {
     );
   }
 
+  /// `Access to location permanently denied`
+  String get access_to_location_permanently_denied {
+    return Intl.message(
+      'Access to location permanently denied',
+      name: 'access_to_location_permanently_denied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Allow access to the location services for this App using the device settings.`
+  String get allow_access_to_the_location_services_from_settings {
+    return Intl.message(
+      'Allow access to the location services for this App using the device settings.',
+      name: 'allow_access_to_the_location_services_from_settings',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Ok`
   String get ok {
     return Intl.message(
@@ -128,6 +148,16 @@ class S {
     return Intl.message(
       'No result found',
       name: 'no_result_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unnamed place`
+  String get unnamedPlace {
+    return Intl.message(
+      'Unnamed place',
+      name: 'unnamedPlace',
       desc: '',
       args: [],
     );

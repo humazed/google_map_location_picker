@@ -22,12 +22,15 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "access_to_location_denied" : MessageLookupByLibrary.simpleMessage("Доступ к местоположению запрещен"),
+    "access_to_location_permanently_denied" : MessageLookupByLibrary.simpleMessage("Доступ к местоположению запрещен навсегда"),
     "allow_access_to_the_location_services" : MessageLookupByLibrary.simpleMessage("Разрешить доступ к службам определения местоположения."),
+    "allow_access_to_the_location_services_from_settings" : MessageLookupByLibrary.simpleMessage("Разрешите доступ к службам определения местоположения для этого приложения в настройках устройства."),
     "cant_get_current_location" : MessageLookupByLibrary.simpleMessage("Невозможно получить текущее местоположение"),
     "ok" : MessageLookupByLibrary.simpleMessage("ОК"),
     "please_check_your_connection" : MessageLookupByLibrary.simpleMessage("Пожалуйста, проверьте ваше соединение"),
     "please_make_sure_you_enable_gps_and_try_again" : MessageLookupByLibrary.simpleMessage("Пожалуйста, убедитесь, что вы включили GPS и попробуйте снова"),
     "search_place" : MessageLookupByLibrary.simpleMessage("Поиск места"),
-    "server_error" : MessageLookupByLibrary.simpleMessage("Ошибка сервера")
+    "server_error" : MessageLookupByLibrary.simpleMessage("Ошибка сервера"),
+    "unnamedPlace" : MessageLookupByLibrary.simpleMessage("Место без названия")
   };
 }
