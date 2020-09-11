@@ -439,7 +439,7 @@ Future<LocationResult> showLocationPicker(
   String apiKey, {
   LatLng initialCenter = const LatLng(45.521563, -122.677433),
   double initialZoom = 16,
-  bool requiredGPS = true,
+  bool requiredGPS = false,
   List<String> countries,
   bool myLocationButtonEnabled = false,
   bool layersButtonEnabled = false,

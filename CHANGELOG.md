@@ -1,3 +1,7 @@
+## 4.0.0-rc.2
+
+* requiredGPS now defaults to false, because the permission handling is sufficient.
+
 ## 4.0.0-rc.1
 
 * Updated to geolocator: 6.0.0 which provides better location handling.
