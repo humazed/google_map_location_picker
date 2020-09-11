@@ -14,10 +14,23 @@ I made This plugin because google deprecated [Place Picker](https://developers.g
 
 ## Using
 
+Pubspec changes:
+
+```
+      dependencies: 
+      
+        google_maps_flutter: ^0.5.30
+        google_map_location_picker: ^3.3.4
+        flutter_localizations:
+          sdk: flutter
+```
+
+
 For message localization inside the library please add in `MaterialApp`
 
 ```dart
 import 'package:google_map_location_picker/generated/l10n.dart' as location_picker;
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 MaterialApp(
   localizationsDelegates: const [
