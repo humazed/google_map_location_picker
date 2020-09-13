@@ -1,3 +1,7 @@
+## 4.0.0-rc.3
+
+* Improve the behavior when `requiredGPS` is set to true and the location permission id denied.
+
 ## 4.0.0-rc.2
 
 * requiredGPS now defaults to false, because the permission handling is sufficient.

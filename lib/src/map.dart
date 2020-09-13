@@ -120,7 +120,8 @@ class MapPickerState extends State<MapPicker> {
   @override
   void initState() {
     super.initState();
-    if (widget.automaticallyAnimateToCurrentLocation) _initCurrentLocation();
+    if (widget.automaticallyAnimateToCurrentLocation && !widget.requiredGPS)
+      _initCurrentLocation();
 
     if (widget.mapStylePath != null) {
       rootBundle.loadString(widget.mapStylePath).then((string) {
@@ -132,20 +133,25 @@ class MapPickerState extends State<MapPicker> {
   @override
   Widget build(BuildContext context) {
     if (widget.requiredGPS) {
-      _checkGps();
       _checkGeolocationPermission();
       if (_currentPosition == null) _initCurrentLocation();
     }
-    return Scaffold(
-      body: Builder(builder: (context) {
-        if (_currentPosition == null &&
-            widget.automaticallyAnimateToCurrentLocation &&
-            widget.requiredGPS) {
-          return const Center(child: CircularProgressIndicator());
-        }
 
-        return buildMap();
-      }),
+    if (_currentPosition != null && dialogOpen != null)
+      Navigator.of(context, rootNavigator: true).pop();
+
+    return Scaffold(
+      body: Builder(
+        builder: (context) {
+          if (_currentPosition == null &&
+              widget.automaticallyAnimateToCurrentLocation &&
+              widget.requiredGPS) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          return buildMap();
+        },
+      ),
     );
   }
 
@@ -400,6 +406,7 @@ class MapPickerState extends State<MapPicker> {
     );
   }
 
+  // TODO: 9/12/2020 this is no longer needed, remove in the next release
   Future _checkGps() async {
     if (!(await isLocationServiceEnabled())) {
       if (Theme.of(context).platform == TargetPlatform.android) {
