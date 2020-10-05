@@ -61,6 +61,7 @@ class _MyAppState extends State<MyApp> {
                       // countries: ['AE', 'NG']
 
 //                      resultCardAlignment: Alignment.bottomCenter,
+                      desiredAccuracy: LocationAccuracy.best,
                     );
                     print("result = $result");
                     setState(() => _pickedLocation = result);

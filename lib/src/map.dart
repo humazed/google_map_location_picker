@@ -37,6 +37,7 @@ class MapPicker extends StatefulWidget {
     this.resultCardDecoration,
     this.resultCardPadding,
     this.language,
+    this.desiredAccuracy,
   }) : super(key: key);
 
   final String apiKey;
@@ -60,6 +61,8 @@ class MapPicker extends StatefulWidget {
   final EdgeInsets resultCardPadding;
 
   final String language;
+
+  final LocationAccuracy desiredAccuracy;
 
   @override
   MapPickerState createState() => MapPickerState();
@@ -91,7 +94,8 @@ class MapPickerState extends State<MapPicker> {
   Future<void> _initCurrentLocation() async {
     Position currentPosition;
     try {
-      currentPosition = await getCurrentPosition();
+      currentPosition =
+          await getCurrentPosition(desiredAccuracy: widget.desiredAccuracy);
       d("position = $currentPosition");
 
       setState(() => _currentPosition = currentPosition);

@@ -1,3 +1,8 @@
+## 4.0.0
+
+* Updated `google_maps_flutter: ^1.0.2`
+* Added `desiredAccuracy` from `geolocator` package.
+
 ## 4.0.0-rc.3
 
 * Improve the behavior when `requiredGPS` is set to true and the location permission id denied.
