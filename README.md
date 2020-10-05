@@ -56,15 +56,16 @@ LocationResult result = await showLocationPicker(context, apiKey);
 
 ## Getting Started
 
-Get an API key at <https://cloud.google.com/maps-platform/>.
+- Get an API key at <https://cloud.google.com/maps-platform/>.
 
-and don't forget to enable in <https://console.cloud.google.com/google/maps-apis/>
+- And don't forget to enable the following APIs in <https://console.cloud.google.com/google/maps-apis/>
+  - Maps SDK for Android
+  - Maps SDK for iOS
+  - Places API
+  - Geolocation API
+  - Geocoding API
 
-- Maps SDK for Android
-- Maps SDK for iOS
-- Places API
-- Geolocation API
-- Geocoding API
+- And ensure to enable billing for the project.
 
 ### Android
 
