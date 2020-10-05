@@ -40,6 +40,7 @@ class LocationPicker extends StatefulWidget {
     this.countries,
     this.language,
     this.desiredAccuracy,
+    this.markerColor,
   });
 
   final String apiKey;
@@ -54,7 +55,7 @@ class LocationPicker extends StatefulWidget {
   final bool automaticallyAnimateToCurrentLocation;
 
   final String mapStylePath;
-
+  final Color markerColor;
   final Color appBarColor;
   final BoxDecoration searchBarBoxDecoration;
   final String hintText;
@@ -90,6 +91,7 @@ class LocationPickerState extends State<LocationPicker> {
   var searchInputKey = GlobalKey<SearchInputState>();
 
   bool hasSearchTerm = false;
+  bool showSugesstion = true;
 
   /// Hides the autocomplete overlay
   void clearOverlay() {
@@ -200,6 +202,8 @@ class LocationPickerState extends State<LocationPicker> {
 
             suggestions.add(RichSuggestion(aci, () {
               decodeAndSelectPlace(aci.id);
+              FocusScope.of(context).unfocus();
+              showSugesstion = false;
             }));
           }
         }
@@ -352,6 +356,7 @@ class LocationPickerState extends State<LocationPicker> {
         locationResult.address = road;
         locationResult.latLng = latLng;
         locationResult.placeId = placeId;
+        showSugesstion = true;
       });
     }
   }
@@ -396,7 +401,10 @@ class LocationPickerState extends State<LocationPicker> {
             backgroundColor: widget.appBarColor,
             key: appBarKey,
             title: SearchInput(
-              (input) => searchPlace(input),
+              (input) {
+                print("input : $input");
+                if (showSugesstion) searchPlace(input.trim());
+              },
               key: searchInputKey,
               boxDecoration: widget.searchBarBoxDecoration,
               hintText: widget.hintText,
@@ -422,6 +430,7 @@ class LocationPickerState extends State<LocationPicker> {
             key: mapKey,
             language: widget.language,
             desiredAccuracy: widget.desiredAccuracy,
+            markerColor: widget.markerColor,
           ),
         );
       }),
@@ -459,6 +468,7 @@ Future<LocationResult> showLocationPicker(
   Decoration resultCardDecoration,
   String language = 'en',
   LocationAccuracy desiredAccuracy = LocationAccuracy.best,
+  Color markerColor,
 }) async {
   final results = await Navigator.of(context).push(
     MaterialPageRoute<dynamic>(
@@ -484,6 +494,7 @@ Future<LocationResult> showLocationPicker(
           countries: countries,
           language: language,
           desiredAccuracy: desiredAccuracy,
+          markerColor: markerColor,
         );
       },
     ),
