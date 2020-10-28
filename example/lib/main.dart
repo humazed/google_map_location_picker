@@ -53,13 +53,14 @@ class _MyAppState extends State<MyApp> {
                       context,
                       api_key,
                       initialCenter: null,
+                      automaticallyImplyLeading: true, // by default true
                       automaticallyAnimateToCurrentLocation: true,
 //                      mapStylePath: 'assets/mapStyle.json',
                       myLocationButtonEnabled: true,
                       // requiredGPS: true,
                       layersButtonEnabled: true,
                       //markerColor: Colors.green,
-                     // countries: ['SA'],
+                      // countries: ['SA'],
 
 //                      resultCardAlignment: Alignment.bottomCenter,
                       desiredAccuracy: LocationAccuracy.low,

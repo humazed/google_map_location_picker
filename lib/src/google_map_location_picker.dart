@@ -20,28 +20,27 @@ import 'model/nearby_place.dart';
 import 'utils/location_utils.dart';
 
 class LocationPicker extends StatefulWidget {
-  LocationPicker(
-    this.apiKey, {
-    Key key,
-    this.initialCenter,
-    this.initialZoom,
-    this.requiredGPS,
-    this.myLocationButtonEnabled,
-    this.layersButtonEnabled,
-    this.automaticallyAnimateToCurrentLocation,
-    this.mapStylePath,
-    this.appBarColor,
-    this.searchBarBoxDecoration,
-    this.hintText,
-    this.resultCardConfirmIcon,
-    this.resultCardAlignment,
-    this.resultCardDecoration,
-    this.resultCardPadding,
-    this.countries,
-    this.language,
-    this.desiredAccuracy,
-    this.markerColor,
-  });
+  LocationPicker(this.apiKey,
+      {Key key,
+      this.initialCenter,
+      this.initialZoom,
+      this.requiredGPS,
+      this.myLocationButtonEnabled,
+      this.layersButtonEnabled,
+      this.automaticallyAnimateToCurrentLocation,
+      this.mapStylePath,
+      this.appBarColor,
+      this.searchBarBoxDecoration,
+      this.hintText,
+      this.resultCardConfirmIcon,
+      this.resultCardAlignment,
+      this.resultCardDecoration,
+      this.resultCardPadding,
+      this.countries,
+      this.language,
+      this.desiredAccuracy,
+      this.markerColor,
+      this.automaticallyImplyLeading});
 
   final String apiKey;
 
@@ -53,7 +52,7 @@ class LocationPicker extends StatefulWidget {
   final bool myLocationButtonEnabled;
   final bool layersButtonEnabled;
   final bool automaticallyAnimateToCurrentLocation;
-
+  final bool automaticallyImplyLeading;
   final String mapStylePath;
   final Color markerColor;
   final Color appBarColor;
@@ -421,6 +420,7 @@ class LocationPickerState extends State<LocationPicker> {
                 widget.automaticallyAnimateToCurrentLocation,
             mapStylePath: widget.mapStylePath,
             appBarColor: widget.appBarColor,
+            automaticallyImplyLeading: widget.automaticallyImplyLeading,
             searchBarBoxDecoration: widget.searchBarBoxDecoration,
             hintText: widget.hintText,
             resultCardConfirmIcon: widget.resultCardConfirmIcon,
@@ -458,6 +458,7 @@ Future<LocationResult> showLocationPicker(
   bool myLocationButtonEnabled = false,
   bool layersButtonEnabled = false,
   bool automaticallyAnimateToCurrentLocation = true,
+  bool automaticallyImplyLeading = true,
   String mapStylePath,
   Color appBarColor = Colors.transparent,
   BoxDecoration searchBarBoxDecoration,
@@ -485,6 +486,7 @@ Future<LocationResult> showLocationPicker(
               automaticallyAnimateToCurrentLocation,
           mapStylePath: mapStylePath,
           appBarColor: appBarColor,
+          automaticallyImplyLeading: automaticallyImplyLeading,
           hintText: hintText,
           searchBarBoxDecoration: searchBarBoxDecoration,
           resultCardConfirmIcon: resultCardConfirmIcon,

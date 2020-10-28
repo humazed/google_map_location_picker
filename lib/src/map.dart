@@ -39,6 +39,7 @@ class MapPicker extends StatefulWidget {
     this.language,
     this.desiredAccuracy,
     this.markerColor,
+    this.automaticallyImplyLeading
   }) : super(key: key);
 
   final String apiKey;
@@ -50,8 +51,10 @@ class MapPicker extends StatefulWidget {
   final bool myLocationButtonEnabled;
   final bool layersButtonEnabled;
   final bool automaticallyAnimateToCurrentLocation;
+  final bool automaticallyImplyLeading;
 
   final String mapStylePath;
+ 
 
   final Color appBarColor;
   final BoxDecoration searchBarBoxDecoration;
