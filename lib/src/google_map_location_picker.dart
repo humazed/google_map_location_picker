@@ -392,46 +392,49 @@ class LocationPickerState extends State<LocationPicker> {
         ChangeNotifierProvider(create: (_) => LocationProvider()),
       ],
       child: Builder(builder: (context) {
-        return Scaffold(
-          extendBodyBehindAppBar: true,
-          appBar: AppBar(
-            iconTheme: Theme.of(context).iconTheme,
-            elevation: 0,
-            backgroundColor: widget.appBarColor,
-            automaticallyImplyLeading: widget.automaticallyImplyLeading,
-            key: appBarKey,
-            title: SearchInput(
-              (input) {
-                print("input : $input");
-                if (showSugesstion) searchPlace(input.trim());
-              },
-              key: searchInputKey,
-              boxDecoration: widget.searchBarBoxDecoration,
-              hintText: widget.hintText,
+        return WillPopScope(
+          onWillPop: () async => widget.automaticallyImplyLeading,
+          child: Scaffold(
+            extendBodyBehindAppBar: true,
+            appBar: AppBar(
+              iconTheme: Theme.of(context).iconTheme,
+              elevation: 0,
+              backgroundColor: widget.appBarColor,
+              automaticallyImplyLeading: widget.automaticallyImplyLeading,
+              key: appBarKey,
+              title: SearchInput(
+                (input) {
+                  print("input : $input");
+                  if (showSugesstion) searchPlace(input.trim());
+                },
+                key: searchInputKey,
+                boxDecoration: widget.searchBarBoxDecoration,
+                hintText: widget.hintText,
+              ),
             ),
-          ),
-          body: MapPicker(
-            widget.apiKey,
-            initialCenter: widget.initialCenter,
-            initialZoom: widget.initialZoom,
-            requiredGPS: widget.requiredGPS,
-            myLocationButtonEnabled: widget.myLocationButtonEnabled,
-            layersButtonEnabled: widget.layersButtonEnabled,
-            automaticallyAnimateToCurrentLocation:
-                widget.automaticallyAnimateToCurrentLocation,
-            mapStylePath: widget.mapStylePath,
-            appBarColor: widget.appBarColor,
-            automaticallyImplyLeading: widget.automaticallyImplyLeading,
-            searchBarBoxDecoration: widget.searchBarBoxDecoration,
-            hintText: widget.hintText,
-            resultCardConfirmIcon: widget.resultCardConfirmIcon,
-            resultCardAlignment: widget.resultCardAlignment,
-            resultCardDecoration: widget.resultCardDecoration,
-            resultCardPadding: widget.resultCardPadding,
-            key: mapKey,
-            language: widget.language,
-            desiredAccuracy: widget.desiredAccuracy,
-            markerColor: widget.markerColor,
+            body: MapPicker(
+              widget.apiKey,
+              initialCenter: widget.initialCenter,
+              initialZoom: widget.initialZoom,
+              requiredGPS: widget.requiredGPS,
+              myLocationButtonEnabled: widget.myLocationButtonEnabled,
+              layersButtonEnabled: widget.layersButtonEnabled,
+              automaticallyAnimateToCurrentLocation:
+                  widget.automaticallyAnimateToCurrentLocation,
+              mapStylePath: widget.mapStylePath,
+              appBarColor: widget.appBarColor,
+              automaticallyImplyLeading: widget.automaticallyImplyLeading,
+              searchBarBoxDecoration: widget.searchBarBoxDecoration,
+              hintText: widget.hintText,
+              resultCardConfirmIcon: widget.resultCardConfirmIcon,
+              resultCardAlignment: widget.resultCardAlignment,
+              resultCardDecoration: widget.resultCardDecoration,
+              resultCardPadding: widget.resultCardPadding,
+              key: mapKey,
+              language: widget.language,
+              desiredAccuracy: widget.desiredAccuracy,
+              markerColor: widget.markerColor,
+            ),
           ),
         );
       }),
