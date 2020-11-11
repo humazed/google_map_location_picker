@@ -117,7 +117,7 @@ class MapPickerState extends State<MapPicker> {
     d('MapPickerState.moveToCurrentLocation "currentLocation = [$currentLocation]"');
     final controller = await mapController.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(
-      CameraPosition(target: currentLocation, zoom: 16),
+      CameraPosition(target: currentLocation, zoom: widget.initialZoom),
     ));
   }
 
