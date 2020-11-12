@@ -398,14 +398,11 @@ class LocationPickerState extends State<LocationPicker> {
       child: Builder(builder: (context) {
         return Scaffold(
           extendBodyBehindAppBar: true,
-          resizeToAvoidBottomInset: true,
           appBar: AppBar(
             iconTheme: Theme.of(context).iconTheme,
             elevation: 0,
-            automaticallyImplyLeading: false,
             backgroundColor: widget.appBarColor,
             key: appBarKey,
-            titleSpacing: 0.0,
             title: SearchInput(
               (input) => searchPlace(input),
               key: searchInputKey,
