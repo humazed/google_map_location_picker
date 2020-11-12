@@ -30,6 +30,10 @@ class MapPicker extends StatefulWidget {
     this.automaticallyAnimateToCurrentLocation,
     this.mapStylePath,
     this.appBarColor,
+    this.layersIconColor,
+    this.layersButtonColor,
+    this.myLocationIconColor,
+    this.myLocationButtonColor,
     this.searchBarBoxDecoration,
     this.hintText,
     this.resultCardConfirmIcon,
@@ -53,6 +57,10 @@ class MapPicker extends StatefulWidget {
   final String mapStylePath;
 
   final Color appBarColor;
+  final Color layersIconColor;
+  final Color layersButtonColor;
+  final Color myLocationIconColor;
+  final Color myLocationButtonColor;
   final BoxDecoration searchBarBoxDecoration;
   final String hintText;
   final Widget resultCardConfirmIcon;
@@ -165,6 +173,7 @@ class MapPickerState extends State<MapPicker> {
         children: <Widget>[
           GoogleMap(
             myLocationButtonEnabled: false,
+            zoomControlsEnabled: false,
             initialCameraPosition: CameraPosition(
               target: widget.initialCenter,
               zoom: widget.initialZoom,
@@ -202,6 +211,10 @@ class MapPickerState extends State<MapPicker> {
             layersButtonEnabled: widget.layersButtonEnabled,
             onToggleMapTypePressed: _onToggleMapTypePressed,
             onMyLocationPressed: _initCurrentLocation,
+            layersIconColor: widget.layersIconColor,
+            layersButtonColor: widget.layersButtonColor,
+            myLocationIconColor: widget.myLocationIconColor,
+            myLocationButtonColor: widget.myLocationButtonColor,
           ),
           pin(),
           locationCard(),
@@ -409,40 +422,6 @@ class MapPickerState extends State<MapPicker> {
       },
     );
   }
-
-  // TODO: 9/12/2020 this is no longer needed, remove in the next release
-  Future _checkGps() async {
-    if (!(await isLocationServiceEnabled())) {
-      if (Theme.of(context).platform == TargetPlatform.android) {
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text(S.of(context)?.cant_get_current_location ??
-                  "Can't get current location"),
-              content: Text(S
-                      .of(context)
-                      ?.please_make_sure_you_enable_gps_and_try_again ??
-                  'Please make sure you enable GPS and try again'),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text('Ok'),
-                  onPressed: () {
-                    final AndroidIntent intent = AndroidIntent(
-                        action: 'android.settings.LOCATION_SOURCE_SETTINGS');
-
-                    intent.launch();
-                    Navigator.of(context, rootNavigator: true).pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );
-      }
-    }
-  }
 }
 
 class _MapFabs extends StatelessWidget {
@@ -452,6 +431,10 @@ class _MapFabs extends StatelessWidget {
     @required this.layersButtonEnabled,
     @required this.onToggleMapTypePressed,
     @required this.onMyLocationPressed,
+    this.layersIconColor,
+    this.layersButtonColor,
+    this.myLocationIconColor,
+    this.myLocationButtonColor,
   })  : assert(onToggleMapTypePressed != null),
         super(key: key);
 
@@ -461,30 +444,46 @@ class _MapFabs extends StatelessWidget {
   final VoidCallback onToggleMapTypePressed;
   final VoidCallback onMyLocationPressed;
 
+  final Color layersIconColor;
+  final Color layersButtonColor;
+
+  final Color myLocationIconColor;
+  final Color myLocationButtonColor;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.topRight,
-      margin: const EdgeInsets.only(top: kToolbarHeight + 24, right: 8),
-      child: Column(
-        children: <Widget>[
-          if (layersButtonEnabled)
-            FloatingActionButton(
-              onPressed: onToggleMapTypePressed,
-              materialTapTargetSize: MaterialTapTargetSize.padded,
-              mini: true,
-              child: const Icon(Icons.layers),
-              heroTag: "layers",
-            ),
-          if (myLocationButtonEnabled)
-            FloatingActionButton(
-              onPressed: onMyLocationPressed,
-              materialTapTargetSize: MaterialTapTargetSize.padded,
-              mini: true,
-              child: const Icon(Icons.my_location),
-              heroTag: "myLocation",
-            ),
-        ],
+    return SafeArea(
+      child: Container(
+        alignment: Alignment.topRight,
+        margin: const EdgeInsets.only(right: 8),
+        child: Column(
+          children: <Widget>[
+            if (layersButtonEnabled)
+              FloatingActionButton(
+                onPressed: onToggleMapTypePressed,
+                materialTapTargetSize: MaterialTapTargetSize.padded,
+                mini: true,
+                child: Icon(
+                  Icons.layers,
+                  color: layersIconColor,
+                ),
+                heroTag: "layers",
+                backgroundColor: layersButtonColor,
+              ),
+            if (myLocationButtonEnabled)
+              FloatingActionButton(
+                onPressed: onMyLocationPressed,
+                materialTapTargetSize: MaterialTapTargetSize.padded,
+                mini: true,
+                child: Icon(
+                  Icons.my_location,
+                  color: myLocationIconColor,
+                ),
+                heroTag: "myLocation",
+                backgroundColor: myLocationButtonColor,
+              ),
+          ],
+        ),
       ),
     );
   }
