@@ -89,6 +89,8 @@ class LocationPickerState extends State<LocationPicker> {
   /// Result returned after user completes selection
   LocationResult locationResult;
 
+  LatLng currentLocation;
+
   /// Overlay to display autocomplete suggestions
   OverlayEntry overlayEntry;
 
@@ -185,9 +187,9 @@ class LocationPickerState extends State<LocationPicker> {
             "input={$place}$regionParam&sessiontoken=$sessionToken&" +
             "language=${widget.language}";
 
-    if (locationResult != null) {
-      endpoint += "&location=${locationResult.latLng.latitude}," +
-          "${locationResult.latLng.longitude}";
+    if (currentLocation != null) {
+      endpoint += "&location=${currentLocation.latitude}," +
+          "${currentLocation.longitude}&radius=1000";
     }
 
     LocationUtils.getAppHeaders()
@@ -209,7 +211,7 @@ class LocationPickerState extends State<LocationPicker> {
         } else {
           for (dynamic t in predictions) {
             AutoCompleteItem aci = AutoCompleteItem();
-
+            print(t.toString());
             aci.id = t['place_id'];
             aci.text = t['description'];
             aci.offset = t['matched_substrings'][0]['offset'];
@@ -292,14 +294,14 @@ class LocationPickerState extends State<LocationPicker> {
 //    if (locationResult == null) {
 //      return "Unnamed location";
 //    }
-//
+
 //    for (NearbyPlace np in nearbyPlaces) {
 //      if (np.latLng == locationResult.latLng) {
 //        locationResult.name = np.name;
 //        return np.name;
 //      }
 //    }
-//
+
 //    return "${locationResult.name}, ${locationResult.locality}";
 //  }
 
@@ -384,7 +386,7 @@ class LocationPickerState extends State<LocationPicker> {
         CameraUpdate.newCameraPosition(
           CameraPosition(
             target: latLng,
-            zoom: 16,
+            zoom: widget.initialZoom,
           ),
         ),
       );
@@ -392,7 +394,7 @@ class LocationPickerState extends State<LocationPicker> {
 
     reverseGeocodeLatLng(latLng);
 
-    getNearbyPlaces(latLng);
+    // getNearbyPlaces(latLng);
   }
 
   @override
@@ -452,6 +454,9 @@ class LocationPickerState extends State<LocationPicker> {
             key: mapKey,
             language: widget.language,
             desiredAccuracy: widget.desiredAccuracy,
+            locationChangedCallback: (LatLng latLng) {
+              currentLocation = latLng;
+            },
           ),
         );
       }),

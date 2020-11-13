@@ -45,7 +45,10 @@ class MapPicker extends StatefulWidget {
     this.resultCardPadding,
     this.language,
     this.desiredAccuracy,
+    this.locationChangedCallback,
   }) : super(key: key);
+
+  final Function locationChangedCallback;
 
   final String apiKey;
 
@@ -122,9 +125,12 @@ class MapPickerState extends State<MapPicker> {
 
     setState(() => _currentPosition = currentPosition);
 
-    if (currentPosition != null)
+    if (currentPosition != null) {
+      widget.locationChangedCallback(
+          LatLng(currentPosition.latitude, currentPosition.longitude));
       moveToCurrentLocation(
           LatLng(currentPosition.latitude, currentPosition.longitude));
+    }
   }
 
   Future moveToCurrentLocation(LatLng currentLocation) async {

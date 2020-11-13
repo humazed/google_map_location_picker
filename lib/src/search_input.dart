@@ -55,7 +55,7 @@ class SearchInputState extends State<SearchInput> {
       debouncer.cancel();
     }
 
-    debouncer = Timer(Duration(milliseconds: 500), () {
+    debouncer = Timer(Duration(milliseconds: 1000), () {
       widget.onSearchInput(editController.text);
     });
   }
