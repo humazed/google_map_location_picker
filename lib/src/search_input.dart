@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:google_map_location_picker/generated/l10n.dart';
@@ -61,49 +62,73 @@ class SearchInputState extends State<SearchInput> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: widget.boxDecoration ??
-          BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            color: Theme.of(context).brightness == Brightness.dark
-                ? Colors.black54
-                : Colors.white,
-          ),
-      padding: EdgeInsets.symmetric(horizontal: 8),
-      child: Row(
-        children: <Widget>[
-          Icon(Icons.search),
-          SizedBox(width: 8),
-          Expanded(
-            child: TextField(
-              controller: editController,
-              decoration: InputDecoration(
-                hintText: widget.hintText ??
-                    S.of(context)?.search_place ??
-                    'Search place',
-                border: InputBorder.none,
+    Color color = Theme.of(context).brightness == Brightness.dark
+        ? Colors.black45
+        : Colors.white;
+    BorderRadius borderRadius = BorderRadius.circular(30);
+    return Row(
+      children: [
+        IconButton(
+            onPressed: () => Navigator.maybePop(context),
+            icon: Icon(
+              Platform.isIOS ? Icons.arrow_back_ios : Icons.arrow_back,
+            ),
+            padding: EdgeInsets.zero),
+        Expanded(
+          child: Container(
+            height: 40,
+            child: Material(
+              type: color == Colors.transparent
+                  ? MaterialType.transparency
+                  : MaterialType.canvas,
+              color: color,
+              shape: RoundedRectangleBorder(
+                  borderRadius: borderRadius,
+                  side: BorderSide(color: Colors.transparent)),
+              elevation: 4.0,
+              child: ClipRRect(
+                borderRadius: borderRadius,
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(width: 20),
+                    Expanded(
+                      child: TextField(
+                        controller: editController,
+                        decoration: InputDecoration(
+                          hintText: widget.hintText ??
+                              S.of(context)?.search_place ??
+                              'Search place',
+                          border: InputBorder.none,
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            hasSearchEntry = value.isNotEmpty;
+                          });
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: hasSearchEntry
+                          ? GestureDetector(
+                              child: Icon(Icons.clear),
+                              onTap: () {
+                                editController.clear();
+                                setState(() {
+                                  hasSearchEntry = false;
+                                });
+                              },
+                            )
+                          : Icon(Icons.search),
+                    )
+                  ],
+                ),
               ),
-              onChanged: (value) {
-                setState(() {
-                  hasSearchEntry = value.isNotEmpty;
-                });
-              },
             ),
           ),
-          SizedBox(width: 8),
-          hasSearchEntry
-              ? GestureDetector(
-                  child: Icon(Icons.clear),
-                  onTap: () {
-                    editController.clear();
-                    setState(() {
-                      hasSearchEntry = false;
-                    });
-                  },
-                )
-              : SizedBox(),
-        ],
-      ),
+        ),
+        SizedBox(width: 16),
+      ],
     );
   }
 }

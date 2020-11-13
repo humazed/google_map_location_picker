@@ -34,6 +34,9 @@ class MapPicker extends StatefulWidget {
     this.layersButtonColor,
     this.myLocationIconColor,
     this.myLocationButtonColor,
+    this.selectButtonText,
+    this.selectButtonColor,
+    this.selectButtonFontColor,
     this.searchBarBoxDecoration,
     this.hintText,
     this.resultCardConfirmIcon,
@@ -61,8 +64,11 @@ class MapPicker extends StatefulWidget {
   final Color layersButtonColor;
   final Color myLocationIconColor;
   final Color myLocationButtonColor;
+  final Color selectButtonColor;
+  final Color selectButtonFontColor;
   final BoxDecoration searchBarBoxDecoration;
   final String hintText;
+  final String selectButtonText;
   final Widget resultCardConfirmIcon;
   final Alignment resultCardAlignment;
   final Decoration resultCardDecoration;
@@ -229,51 +235,79 @@ class MapPickerState extends State<MapPicker> {
       child: Padding(
         padding: widget.resultCardPadding ?? EdgeInsets.all(16.0),
         child: Card(
+          elevation: 4,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           child: Consumer<LocationProvider>(
               builder: (context, locationProvider, _) {
             return Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Flexible(
-                    flex: 20,
-                    child: FutureLoadingBuilder<Map<String, String>>(
-                      future: getAddress(locationProvider.lastIdleLocation),
-                      mutable: true,
-                      loadingIndicator: Row(
+              child: Wrap(
+                children: [
+                  Column(
+                    children: [
+                      FutureLoadingBuilder<Map<String, String>>(
+                        future: getAddress(locationProvider.lastIdleLocation),
+                        mutable: true,
+                        loadingIndicator: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            CircularProgressIndicator(),
+                          ],
+                        ),
+                        builder: (context, data) {
+                          _address = data["address"];
+                          _placeId = data["placeId"];
+                          return Padding(
+                            padding:
+                                const EdgeInsets.only(top: 7.0, bottom: 8.0),
+                            child: Text(
+                              _address ??
+                                  S.of(context)?.no_result_found ??
+                                  'No result found',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          );
+                        },
+                      ),
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          CircularProgressIndicator(),
+                        children: [
+                          RaisedButton(
+                            elevation: 1,
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            child: Text(
+                              widget.selectButtonText ?? "USE THIS LOCATION",
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: widget.selectButtonFontColor ??
+                                    Theme.of(context)
+                                        .accentTextTheme
+                                        .button
+                                        .color,
+                              ),
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            color: widget.selectButtonColor ??
+                                Theme.of(context)
+                                    .buttonTheme
+                                    .colorScheme
+                                    .primary,
+                            onPressed: () {
+                              Navigator.of(context).pop({
+                                'location': LocationResult(
+                                  latLng: locationProvider.lastIdleLocation,
+                                  address: _address,
+                                  placeId: _placeId,
+                                )
+                              });
+                            },
+                          ),
                         ],
                       ),
-                      builder: (context, data) {
-                        _address = data["address"];
-                        _placeId = data["placeId"];
-                        return Text(
-                          _address ??
-                              S.of(context)?.unnamedPlace ??
-                              'Unnamed place',
-                          style: TextStyle(fontSize: 18),
-                        );
-                      },
-                    ),
-                  ),
-                  Spacer(),
-                  FloatingActionButton(
-                    onPressed: () {
-                      Navigator.of(context).pop({
-                        'location': LocationResult(
-                          latLng: locationProvider.lastIdleLocation,
-                          address: _address,
-                          placeId: _placeId,
-                        )
-                      });
-                    },
-                    child: widget.resultCardConfirmIcon ??
-                        Icon(Icons.arrow_forward),
-                  ),
+                    ],
+                  )
                 ],
               ),
             );
@@ -460,6 +494,7 @@ class _MapFabs extends StatelessWidget {
           children: <Widget>[
             if (layersButtonEnabled)
               FloatingActionButton(
+                elevation: 4,
                 onPressed: onToggleMapTypePressed,
                 materialTapTargetSize: MaterialTapTargetSize.padded,
                 mini: true,
@@ -472,6 +507,7 @@ class _MapFabs extends StatelessWidget {
               ),
             if (myLocationButtonEnabled)
               FloatingActionButton(
+                elevation: 4,
                 onPressed: onMyLocationPressed,
                 materialTapTargetSize: MaterialTapTargetSize.padded,
                 mini: true,

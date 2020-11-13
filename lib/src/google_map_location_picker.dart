@@ -35,6 +35,9 @@ class LocationPicker extends StatefulWidget {
     this.layersButtonColor,
     this.myLocationIconColor,
     this.myLocationButtonColor,
+    this.selectButtonColor,
+    this.selectButtonFontColor,
+    this.selectButtonText,
     this.searchBarBoxDecoration,
     this.hintText,
     this.resultCardConfirmIcon,
@@ -64,6 +67,8 @@ class LocationPicker extends StatefulWidget {
   final Color layersButtonColor;
   final Color myLocationIconColor;
   final Color myLocationButtonColor;
+  final Color selectButtonColor;
+  final Color selectButtonFontColor;
   final BoxDecoration searchBarBoxDecoration;
   final String hintText;
   final Widget resultCardConfirmIcon;
@@ -72,6 +77,7 @@ class LocationPicker extends StatefulWidget {
   final EdgeInsets resultCardPadding;
 
   final String language;
+  final String selectButtonText;
 
   final LocationAccuracy desiredAccuracy;
 
@@ -129,25 +135,28 @@ class LocationPickerState extends State<LocationPicker> {
       builder: (context) => Positioned(
         top: appBarBox.size.height,
         width: size.width,
-        child: Material(
-          elevation: 1,
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-            child: Row(
-              children: <Widget>[
-                SizedBox(
-                  height: 24,
-                  width: 24,
-                  child: CircularProgressIndicator(strokeWidth: 3),
-                ),
-                SizedBox(width: 24),
-                Expanded(
-                  child: Text(
-                    S.of(context)?.finding_place ?? 'Finding place...',
-                    style: TextStyle(fontSize: 16),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+          child: Material(
+            elevation: 4,
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+              child: Row(
+                children: <Widget>[
+                  SizedBox(
+                    height: 24,
+                    width: 24,
+                    child: CircularProgressIndicator(strokeWidth: 3),
                   ),
-                )
-              ],
+                  SizedBox(width: 24),
+                  Expanded(
+                    child: Text(
+                      S.of(context)?.finding_place ?? 'Finding place...',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -259,10 +268,13 @@ class LocationPickerState extends State<LocationPicker> {
       builder: (context) => Positioned(
         width: size.width,
         top: appBarBox.size.height,
-        child: Material(
-          elevation: 1,
-          child: Column(
-            children: suggestions,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+          child: Material(
+            elevation: 4,
+            child: Column(
+              children: suggestions,
+            ),
           ),
         ),
       ),
@@ -339,7 +351,7 @@ class LocationPickerState extends State<LocationPicker> {
 
     if (response.statusCode == 200) {
       Map<String, dynamic> responseJson = jsonDecode(response.body);
-
+      print("Location Response::::::::::::: $responseJson");
       String road;
 
       String placeId = responseJson['results'][0]['place_id'];
@@ -398,11 +410,14 @@ class LocationPickerState extends State<LocationPicker> {
       child: Builder(builder: (context) {
         return Scaffold(
           extendBodyBehindAppBar: true,
+          resizeToAvoidBottomInset: true,
           appBar: AppBar(
             iconTheme: Theme.of(context).iconTheme,
             elevation: 0,
+            automaticallyImplyLeading: false,
             backgroundColor: widget.appBarColor,
             key: appBarKey,
+            titleSpacing: 0.0,
             title: SearchInput(
               (input) => searchPlace(input),
               key: searchInputKey,
@@ -426,6 +441,9 @@ class LocationPickerState extends State<LocationPicker> {
             myLocationIconColor: widget.myLocationIconColor,
             myLocationButtonColor: widget.myLocationButtonColor,
             searchBarBoxDecoration: widget.searchBarBoxDecoration,
+            selectButtonColor: widget.selectButtonColor,
+            selectButtonFontColor: widget.selectButtonFontColor,
+            selectButtonText: widget.selectButtonText,
             hintText: widget.hintText,
             resultCardConfirmIcon: widget.resultCardConfirmIcon,
             resultCardAlignment: widget.resultCardAlignment,
@@ -467,6 +485,9 @@ Future<LocationResult> showLocationPicker(
   Color layersButtonColor,
   Color myLocationIconColor,
   Color myLocationButtonColor,
+  Color selectButtonColor,
+  Color selectButtonFontColor,
+  String selectButtonText,
   BoxDecoration searchBarBoxDecoration,
   String hintText,
   Widget resultCardConfirmIcon,
@@ -495,6 +516,9 @@ Future<LocationResult> showLocationPicker(
           myLocationButtonColor: myLocationButtonColor,
           layersIconColor: layersIconColor,
           layersButtonColor: layersButtonColor,
+          selectButtonColor: selectButtonColor,
+          selectButtonFontColor: selectButtonFontColor,
+          selectButtonText: selectButtonText,
           hintText: hintText,
           searchBarBoxDecoration: searchBarBoxDecoration,
           resultCardConfirmIcon: resultCardConfirmIcon,
