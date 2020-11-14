@@ -1,18 +1,21 @@
-name: Publish to Pub.dev
+name: Publish plugin
 
-on: push
+on:
+  release:
+    types: [published]
 
 jobs:
-  publishing:
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Checkout'
-        uses: actions/checkout@v2 # required!
+  publish:
 
-      - name: google_map_location_picker
-        uses: k-paxian/dart-package-publisher@master
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Publish
+        uses: sakebook/actions-flutter-pub-publisher@v1.3.1
         with:
-          flutter: true
-          suppressBuildRunner: true
-          accessToken: ${{ secrets.ACCESSTOKEN }}
-          refreshToken: ${{ secrets.REFRESHTOKEN }}
+          credential: ${{ secrets.CREDENTIAL_JSON }}
+          flutter_package: true
+          skip_test: false
+          dry_run: false
