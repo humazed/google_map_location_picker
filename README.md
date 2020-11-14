@@ -118,14 +118,11 @@ import GoogleMaps
 }
 ```
 
-Opt-in to the embedded views preview by adding a boolean property to the app's `Info.plist` file
-with the key `io.flutter.embedded_views_preview` and the value `YES`; you need also to define `NSLocationWhenInUseUsageDescription`
+you need also to define `NSLocationWhenInUseUsageDescription`
 
 ```
   <key>NSLocationWhenInUseUsageDescription</key>
   <string>This app needs your location to test the location feature of the Google Maps location picker plugin.</string>
-  <key>io.flutter.embedded_views_preview</key>
-  <true/>
 ```
 
 ### Note
