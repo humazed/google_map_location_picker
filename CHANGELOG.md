@@ -1,3 +1,7 @@
+## 4.1.1
+
+* Remove io.flutter.embedded_views_preview requirement from readme and example
+
 ## 4.1.0
 
 * Updated `geolocator: ^6.1.6`
