@@ -12,5 +12,7 @@ jobs:
       - name: google_map_location_picker
         uses: k-paxian/dart-package-publisher@master
         with:
+          flutter: true
+          suppressBuildRunner: true
           accessToken: ${{ secrets.ACCESSTOKEN }}
           refreshToken: ${{ secrets.REFRESHTOKEN }}
