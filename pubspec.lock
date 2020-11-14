@@ -21,7 +21,7 @@ packages:
       name: android_intent
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.7+4"
+    version: "0.3.7+7"
   args:
     dependency: transitive
     description:
@@ -141,14 +141,14 @@ packages:
       name: geolocator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.0+4"
+    version: "6.1.6"
   geolocator_platform_interface:
     dependency: transitive
     description:
       name: geolocator_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.4"
+    version: "1.0.8"
   glob:
     dependency: transitive
     description:
@@ -162,7 +162,7 @@ packages:
       name: google_maps_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.2"
+    version: "1.0.6"
   google_maps_flutter_platform_interface:
     dependency: transitive
     description:

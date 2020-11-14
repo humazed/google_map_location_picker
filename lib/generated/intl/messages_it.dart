@@ -22,7 +22,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "access_to_location_denied" : MessageLookupByLibrary.simpleMessage("Accesso alla posizione rifiutato"),
-    "access_to_location_permanently_denied" : MessageLookupByLibrary.simpleMessage("Access to location permanently denied"),
+    "access_to_location_permanently_denied" : MessageLookupByLibrary.simpleMessage("Accesso alla posizione rifiutato permanentemente"),
     "allow_access_to_the_location_services" : MessageLookupByLibrary.simpleMessage("Permetti l\'accesso ai servizi di localizzazione."),
     "allow_access_to_the_location_services_from_settings" : MessageLookupByLibrary.simpleMessage("Consenti l\'accesso ai servizi di localizzazione per questa app utilizzando le impostazioni del dispositivo."),
     "cant_get_current_location" : MessageLookupByLibrary.simpleMessage("Impossibile ottenere la posizione attuale"),
@@ -33,6 +33,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "please_make_sure_you_enable_gps_and_try_again" : MessageLookupByLibrary.simpleMessage("Assicurati di aver attivato il GPS e prova di nuovo"),
     "search_place" : MessageLookupByLibrary.simpleMessage("Ricerca luogo"),
     "server_error" : MessageLookupByLibrary.simpleMessage("Errore del server"),
-    "unnamedPlace" : MessageLookupByLibrary.simpleMessage("Unnamed place")
+    "unnamedPlace" : MessageLookupByLibrary.simpleMessage("Località senza nome")
   };
 }

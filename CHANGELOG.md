@@ -1,3 +1,8 @@
+## 4.1.0
+
+* Updated `geolocator: ^6.1.6`
+* Added german translation thanks to @pwiesinge.
+
 ## 4.0.0
 
 * Updated `google_maps_flutter: ^1.0.2`
