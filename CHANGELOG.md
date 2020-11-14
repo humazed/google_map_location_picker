@@ -1,3 +1,7 @@
+## 4.1.2
+
+* Added serbian language thanks to @aleksandar-radivojevic
+
 ## 4.1.1
 
 * Remove io.flutter.embedded_views_preview requirement from readme and example

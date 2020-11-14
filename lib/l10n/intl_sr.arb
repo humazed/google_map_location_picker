@@ -1,0 +1,14 @@
+{
+  "@@locale": "sr",
+  "please_check_your_connection": "Proverite svoju internet konekciju",
+  "server_error": "Greška na serveru.",
+  "access_to_location_denied": "Onemogućen pristup lokaciji",
+  "allow_access_to_the_location_services": "Omogućite pristup Vašoj lokaciji",
+  "ok": "U redu",
+  "cant_get_current_location": "Ne možemo da pristupimo Vašoj lokaciji, pokušajte ponovo",
+  "please_make_sure_you_enable_gps_and_try_again": "Proverite da li ste omogućili GPS i pokušajte ponovo",
+  "search_place": "Pretraži",
+  "finding_place": "Pronalaženje mesta ...",
+  "no_result_found": "Nema rezultata"
+}
+
