@@ -353,7 +353,6 @@ class LocationPickerState extends State<LocationPicker> {
 
     if (response.statusCode == 200) {
       Map<String, dynamic> responseJson = jsonDecode(response.body);
-      print("Location Response::::::::::::: $responseJson");
       String road;
 
       String placeId = responseJson['results'][0]['place_id'];
