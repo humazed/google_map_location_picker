@@ -1,3 +1,7 @@
+## 4.1.2+1
+
+* Fixed an issue with the sample app.
+
 ## 4.1.2
 
 * Added serbian language thanks to @aleksandar-radivojevic
