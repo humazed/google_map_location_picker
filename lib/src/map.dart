@@ -38,6 +38,8 @@ class MapPicker extends StatefulWidget {
     this.resultCardPadding,
     this.language,
     this.desiredAccuracy,
+    this.markerColor,
+    this.automaticallyImplyLeading
   }) : super(key: key);
 
   final String apiKey;
@@ -49,8 +51,10 @@ class MapPicker extends StatefulWidget {
   final bool myLocationButtonEnabled;
   final bool layersButtonEnabled;
   final bool automaticallyAnimateToCurrentLocation;
+  final bool automaticallyImplyLeading;
 
   final String mapStylePath;
+ 
 
   final Color appBarColor;
   final BoxDecoration searchBarBoxDecoration;
@@ -59,7 +63,7 @@ class MapPicker extends StatefulWidget {
   final Alignment resultCardAlignment;
   final Decoration resultCardDecoration;
   final EdgeInsets resultCardPadding;
-
+  final Color markerColor;
   final String language;
 
   final LocationAccuracy desiredAccuracy;
@@ -153,7 +157,9 @@ class MapPickerState extends State<MapPicker> {
             return const Center(child: CircularProgressIndicator());
           }
 
-          return buildMap();
+          return _currentPosition == null
+              ? const Center(child: CircularProgressIndicator())
+              : buildMap();
         },
       ),
     );
@@ -166,7 +172,8 @@ class MapPickerState extends State<MapPicker> {
           GoogleMap(
             myLocationButtonEnabled: false,
             initialCameraPosition: CameraPosition(
-              target: widget.initialCenter,
+              target: widget.initialCenter ??
+                  LatLng(_currentPosition.latitude, _currentPosition.longitude),
               zoom: widget.initialZoom,
             ),
             onMapCreated: (GoogleMapController controller) {
@@ -176,7 +183,8 @@ class MapPickerState extends State<MapPicker> {
                 controller.setMapStyle(_mapStyle);
               }
 
-              _lastMapPosition = widget.initialCenter;
+              _lastMapPosition =
+                  LatLng(_currentPosition.latitude, _currentPosition.longitude);
               LocationProvider.of(context, listen: false)
                   .setLastIdleLocation(_lastMapPosition);
             },
@@ -292,12 +300,17 @@ class MapPickerState extends State<MapPicker> {
   }
 
   Widget pin() {
+    print("markerColor : ${widget.markerColor}");
     return IgnorePointer(
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(Icons.place, size: 56),
+            Icon(
+              Icons.place,
+              size: 56,
+              color: widget.markerColor ?? Colors.black,
+            ),
             Container(
               decoration: ShapeDecoration(
                 shadows: [
@@ -465,7 +478,7 @@ class _MapFabs extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.topRight,
-      margin: const EdgeInsets.only(top: kToolbarHeight + 24, right: 8),
+      margin: const EdgeInsets.only(top: kToolbarHeight + 50, right: 8),
       child: Column(
         children: <Widget>[
           if (layersButtonEnabled)

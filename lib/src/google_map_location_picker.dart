@@ -20,27 +20,27 @@ import 'model/nearby_place.dart';
 import 'utils/location_utils.dart';
 
 class LocationPicker extends StatefulWidget {
-  LocationPicker(
-    this.apiKey, {
-    Key key,
-    this.initialCenter,
-    this.initialZoom,
-    this.requiredGPS,
-    this.myLocationButtonEnabled,
-    this.layersButtonEnabled,
-    this.automaticallyAnimateToCurrentLocation,
-    this.mapStylePath,
-    this.appBarColor,
-    this.searchBarBoxDecoration,
-    this.hintText,
-    this.resultCardConfirmIcon,
-    this.resultCardAlignment,
-    this.resultCardDecoration,
-    this.resultCardPadding,
-    this.countries,
-    this.language,
-    this.desiredAccuracy,
-  });
+  LocationPicker(this.apiKey,
+      {Key key,
+      this.initialCenter,
+      this.initialZoom,
+      this.requiredGPS,
+      this.myLocationButtonEnabled,
+      this.layersButtonEnabled,
+      this.automaticallyAnimateToCurrentLocation,
+      this.mapStylePath,
+      this.appBarColor,
+      this.searchBarBoxDecoration,
+      this.hintText,
+      this.resultCardConfirmIcon,
+      this.resultCardAlignment,
+      this.resultCardDecoration,
+      this.resultCardPadding,
+      this.countries,
+      this.language,
+      this.desiredAccuracy,
+      this.markerColor,
+      this.automaticallyImplyLeading});
 
   final String apiKey;
 
@@ -52,9 +52,9 @@ class LocationPicker extends StatefulWidget {
   final bool myLocationButtonEnabled;
   final bool layersButtonEnabled;
   final bool automaticallyAnimateToCurrentLocation;
-
+  final bool automaticallyImplyLeading;
   final String mapStylePath;
-
+  final Color markerColor;
   final Color appBarColor;
   final BoxDecoration searchBarBoxDecoration;
   final String hintText;
@@ -90,6 +90,7 @@ class LocationPickerState extends State<LocationPicker> {
   var searchInputKey = GlobalKey<SearchInputState>();
 
   bool hasSearchTerm = false;
+  bool showSugesstion = true;
 
   /// Hides the autocomplete overlay
   void clearOverlay() {
@@ -200,6 +201,8 @@ class LocationPickerState extends State<LocationPicker> {
 
             suggestions.add(RichSuggestion(aci, () {
               decodeAndSelectPlace(aci.id);
+              FocusScope.of(context).unfocus();
+              showSugesstion = false;
             }));
           }
         }
@@ -352,6 +355,7 @@ class LocationPickerState extends State<LocationPicker> {
         locationResult.address = road;
         locationResult.latLng = latLng;
         locationResult.placeId = placeId;
+        showSugesstion = true;
       });
     }
   }
@@ -388,40 +392,49 @@ class LocationPickerState extends State<LocationPicker> {
         ChangeNotifierProvider(create: (_) => LocationProvider()),
       ],
       child: Builder(builder: (context) {
-        return Scaffold(
-          extendBodyBehindAppBar: true,
-          appBar: AppBar(
-            iconTheme: Theme.of(context).iconTheme,
-            elevation: 0,
-            backgroundColor: widget.appBarColor,
-            key: appBarKey,
-            title: SearchInput(
-              (input) => searchPlace(input),
-              key: searchInputKey,
-              boxDecoration: widget.searchBarBoxDecoration,
-              hintText: widget.hintText,
+        return WillPopScope(
+          onWillPop: () async => widget.automaticallyImplyLeading,
+          child: Scaffold(
+            extendBodyBehindAppBar: true,
+            appBar: AppBar(
+              iconTheme: Theme.of(context).iconTheme,
+              elevation: 0,
+              backgroundColor: widget.appBarColor,
+              automaticallyImplyLeading: widget.automaticallyImplyLeading,
+              key: appBarKey,
+              title: SearchInput(
+                (input) {
+                  print("input : $input");
+                  if (showSugesstion) searchPlace(input.trim());
+                },
+                key: searchInputKey,
+                boxDecoration: widget.searchBarBoxDecoration,
+                hintText: widget.hintText,
+              ),
             ),
-          ),
-          body: MapPicker(
-            widget.apiKey,
-            initialCenter: widget.initialCenter,
-            initialZoom: widget.initialZoom,
-            requiredGPS: widget.requiredGPS,
-            myLocationButtonEnabled: widget.myLocationButtonEnabled,
-            layersButtonEnabled: widget.layersButtonEnabled,
-            automaticallyAnimateToCurrentLocation:
-                widget.automaticallyAnimateToCurrentLocation,
-            mapStylePath: widget.mapStylePath,
-            appBarColor: widget.appBarColor,
-            searchBarBoxDecoration: widget.searchBarBoxDecoration,
-            hintText: widget.hintText,
-            resultCardConfirmIcon: widget.resultCardConfirmIcon,
-            resultCardAlignment: widget.resultCardAlignment,
-            resultCardDecoration: widget.resultCardDecoration,
-            resultCardPadding: widget.resultCardPadding,
-            key: mapKey,
-            language: widget.language,
-            desiredAccuracy: widget.desiredAccuracy,
+            body: MapPicker(
+              widget.apiKey,
+              initialCenter: widget.initialCenter,
+              initialZoom: widget.initialZoom,
+              requiredGPS: widget.requiredGPS,
+              myLocationButtonEnabled: widget.myLocationButtonEnabled,
+              layersButtonEnabled: widget.layersButtonEnabled,
+              automaticallyAnimateToCurrentLocation:
+                  widget.automaticallyAnimateToCurrentLocation,
+              mapStylePath: widget.mapStylePath,
+              appBarColor: widget.appBarColor,
+              automaticallyImplyLeading: widget.automaticallyImplyLeading,
+              searchBarBoxDecoration: widget.searchBarBoxDecoration,
+              hintText: widget.hintText,
+              resultCardConfirmIcon: widget.resultCardConfirmIcon,
+              resultCardAlignment: widget.resultCardAlignment,
+              resultCardDecoration: widget.resultCardDecoration,
+              resultCardPadding: widget.resultCardPadding,
+              key: mapKey,
+              language: widget.language,
+              desiredAccuracy: widget.desiredAccuracy,
+              markerColor: widget.markerColor,
+            ),
           ),
         );
       }),
@@ -449,6 +462,7 @@ Future<LocationResult> showLocationPicker(
   bool myLocationButtonEnabled = false,
   bool layersButtonEnabled = false,
   bool automaticallyAnimateToCurrentLocation = true,
+  bool automaticallyImplyLeading = true,
   String mapStylePath,
   Color appBarColor = Colors.transparent,
   BoxDecoration searchBarBoxDecoration,
@@ -459,6 +473,7 @@ Future<LocationResult> showLocationPicker(
   Decoration resultCardDecoration,
   String language = 'en',
   LocationAccuracy desiredAccuracy = LocationAccuracy.best,
+  Color markerColor,
 }) async {
   final results = await Navigator.of(context).push(
     MaterialPageRoute<dynamic>(
@@ -475,6 +490,7 @@ Future<LocationResult> showLocationPicker(
               automaticallyAnimateToCurrentLocation,
           mapStylePath: mapStylePath,
           appBarColor: appBarColor,
+          automaticallyImplyLeading: automaticallyImplyLeading,
           hintText: hintText,
           searchBarBoxDecoration: searchBarBoxDecoration,
           resultCardConfirmIcon: resultCardConfirmIcon,
@@ -484,6 +500,7 @@ Future<LocationResult> showLocationPicker(
           countries: countries,
           language: language,
           desiredAccuracy: desiredAccuracy,
+          markerColor: markerColor,
         );
       },
     ),
