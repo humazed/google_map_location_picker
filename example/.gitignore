@@ -53,8 +53,6 @@
 **/ios/**/profile
 **/ios/**/xcuserdata
 **/ios/.generated/
-**/ios/Flutter/App.framework
-**/ios/Flutter/Flutter.framework
 **/ios/Flutter/Generated.xcconfig
 **/ios/Flutter/app.flx
 **/ios/Flutter/app.zip
@@ -69,4 +67,4 @@
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 android/app/src/main/res/values/keys.xml
-!/lib/keys.dart
+/lib/keys.dart
