@@ -1,3 +1,7 @@
+## 4.1.3
+
+* Updated deps.
+
 ## 4.1.2+1
 
 * Fixed an issue with the sample app.
