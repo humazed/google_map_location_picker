@@ -1,3 +1,8 @@
+## 4.1.4
+
+* remove `intl_translation` because it was not needed and was blocking migrating to nullsafety.
+* updated `intl` so support nullsafety.
+
 ## 4.1.3
 
 * Updated deps.
