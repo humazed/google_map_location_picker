@@ -1,3 +1,7 @@
+## 4.1.5
+
+* remove the upper bound for flutter
+
 ## 4.1.4
 
 * remove `intl_translation` because it was not needed and was blocking migrating to nullsafety.
