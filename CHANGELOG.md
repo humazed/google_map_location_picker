@@ -1,3 +1,7 @@
+## 4.1.6
+
+* use  `http: '>=0.12.2 <=0.13.0-nullsafety.0'`
+
 ## 4.1.5
 
 * remove the upper bound for flutter
