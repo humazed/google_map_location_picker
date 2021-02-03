@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:google_map_location_picker/generated/i18n.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_map_location_picker/generated/l10n.dart';
 import 'package:google_map_location_picker/src/map.dart';
 import 'package:google_map_location_picker/src/providers/location_provider.dart';
 import 'package:google_map_location_picker/src/rich_suggestion.dart';
@@ -35,12 +37,16 @@ class LocationPicker extends StatefulWidget {
     this.resultCardAlignment,
     this.resultCardDecoration,
     this.resultCardPadding,
+    this.countries,
+    this.language,
+    this.desiredAccuracy,
   });
 
   final String apiKey;
 
   final LatLng initialCenter;
   final double initialZoom;
+  final List<String> countries;
 
   final bool requiredGPS;
   final bool myLocationButtonEnabled;
@@ -56,6 +62,10 @@ class LocationPicker extends StatefulWidget {
   final Alignment resultCardAlignment;
   final Decoration resultCardDecoration;
   final EdgeInsets resultCardPadding;
+
+  final String language;
+
+  final LocationAccuracy desiredAccuracy;
 
   @override
   LocationPickerState createState() => LocationPickerState();
@@ -144,15 +154,25 @@ class LocationPickerState extends State<LocationPicker> {
   /// Fetches the place autocomplete list with the query [place].
   void autoCompleteSearch(String place) {
     place = place.replaceAll(" ", "+");
+
+    final countries = widget.countries;
+
+    // Currently, you can use components to filter by up to 5 countries. from https://developers.google.com/places/web-service/autocomplete
+    String regionParam = countries?.isNotEmpty == true
+        ? "&components=country:${countries.sublist(0, min(countries.length, 5)).join('|country:')}"
+        : "";
+
     var endpoint =
         "https://maps.googleapis.com/maps/api/place/autocomplete/json?" +
             "key=${widget.apiKey}&" +
-            "input={$place}&sessiontoken=$sessionToken";
+            "input={$place}$regionParam&sessiontoken=$sessionToken&" +
+            "language=${widget.language}";
 
     if (locationResult != null) {
       endpoint += "&location=${locationResult.latLng.latitude}," +
           "${locationResult.latLng.longitude}";
     }
+
     LocationUtils.getAppHeaders()
         .then((headers) => http.get(endpoint, headers: headers))
         .then((response) {
@@ -199,7 +219,8 @@ class LocationPickerState extends State<LocationPicker> {
 
     String endpoint =
         "https://maps.googleapis.com/maps/api/place/details/json?key=${widget.apiKey}" +
-            "&placeid=$placeId";
+            "&placeid=$placeId" +
+            '&language=${widget.language}';
 
     LocationUtils.getAppHeaders()
         .then((headers) => http.get(endpoint, headers: headers))
@@ -268,7 +289,8 @@ class LocationPickerState extends State<LocationPicker> {
         .then((headers) => http.get(
             "https://maps.googleapis.com/maps/api/place/nearbysearch/json?" +
                 "key=${widget.apiKey}&" +
-                "location=${latLng.latitude},${latLng.longitude}&radius=150",
+                "location=${latLng.latitude},${latLng.longitude}&radius=150" +
+                "&language=${widget.language}",
             headers: headers))
         .then((response) {
       if (response.statusCode == 200) {
@@ -302,14 +324,17 @@ class LocationPickerState extends State<LocationPicker> {
   /// to be the road name and the locality.
   Future reverseGeocodeLatLng(LatLng latLng) async {
     var response = await http.get(
-        "https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng.latitude},${latLng.longitude}"
-        "&key=${widget.apiKey}",
+        "https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng.latitude},${latLng.longitude}" +
+            "&key=${widget.apiKey}" +
+            "&language=${widget.language}",
         headers: await LocationUtils.getAppHeaders());
 
     if (response.statusCode == 200) {
       Map<String, dynamic> responseJson = jsonDecode(response.body);
 
       String road;
+
+      String placeId = responseJson['results'][0]['place_id'];
 
       if (responseJson['status'] == 'REQUEST_DENIED') {
         road = 'REQUEST DENIED = please see log for more details';
@@ -326,6 +351,7 @@ class LocationPickerState extends State<LocationPicker> {
         locationResult = LocationResult();
         locationResult.address = road;
         locationResult.latLng = latLng;
+        locationResult.placeId = placeId;
       });
     }
   }
@@ -394,6 +420,8 @@ class LocationPickerState extends State<LocationPicker> {
             resultCardDecoration: widget.resultCardDecoration,
             resultCardPadding: widget.resultCardPadding,
             key: mapKey,
+            language: widget.language,
+            desiredAccuracy: widget.desiredAccuracy,
           ),
         );
       }),
@@ -416,7 +444,8 @@ Future<LocationResult> showLocationPicker(
   String apiKey, {
   LatLng initialCenter = const LatLng(45.521563, -122.677433),
   double initialZoom = 16,
-  bool requiredGPS = true,
+  bool requiredGPS = false,
+  List<String> countries,
   bool myLocationButtonEnabled = false,
   bool layersButtonEnabled = false,
   bool automaticallyAnimateToCurrentLocation = true,
@@ -428,10 +457,13 @@ Future<LocationResult> showLocationPicker(
   AlignmentGeometry resultCardAlignment,
   EdgeInsetsGeometry resultCardPadding,
   Decoration resultCardDecoration,
+  String language = 'en',
+  LocationAccuracy desiredAccuracy = LocationAccuracy.best,
 }) async {
   final results = await Navigator.of(context).push(
     MaterialPageRoute<dynamic>(
       builder: (BuildContext context) {
+        // print('[LocationPicker] [countries] ${countries.join(', ')}');
         return LocationPicker(
           apiKey,
           initialCenter: initialCenter,
@@ -449,6 +481,9 @@ Future<LocationResult> showLocationPicker(
           resultCardAlignment: resultCardAlignment,
           resultCardPadding: resultCardPadding,
           resultCardDecoration: resultCardDecoration,
+          countries: countries,
+          language: language,
+          desiredAccuracy: desiredAccuracy,
         );
       },
     ),

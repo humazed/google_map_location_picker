@@ -7,13 +7,16 @@ class LocationResult {
   /// places list, we use the <b>name</b> provided on the list item.
   String address; // or road
 
+  /// Google Maps place ID
+  String placeId;
+
   /// Latitude/Longitude of the selected location.
   LatLng latLng;
 
-  LocationResult({this.latLng, this.address});
+  LocationResult({this.latLng, this.address, this.placeId});
 
   @override
   String toString() {
-    return 'LocationResult{address: $address, latLng: $latLng}';
+    return 'LocationResult{address: $address, latLng: $latLng, placeId: $placeId}';
   }
 }

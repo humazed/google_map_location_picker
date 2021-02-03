@@ -1,11 +1,16 @@
-{  "please_check_your_connection": "Please check your connection",
+{
+  "@@locale": "en",
+  "please_check_your_connection": "Please check your connection",
   "server_error": "Server error",
   "access_to_location_denied": "Access to location denied",
   "allow_access_to_the_location_services": "Allow access to the location services.",
+  "access_to_location_permanently_denied": "Access to location permanently denied",
+  "allow_access_to_the_location_services_from_settings": "Allow access to the location services for this App using the device settings.",
   "ok": "Ok",
   "cant_get_current_location": "Can't get current location",
   "please_make_sure_you_enable_gps_and_try_again": "Please make sure you enable GPS and try again",
   "search_place": "Search place",
   "finding_place": "Finding place...",
-  "no_result_found": "No result found"
+  "no_result_found": "No result found",
+  "unnamedPlace": "Unnamed place"
 }

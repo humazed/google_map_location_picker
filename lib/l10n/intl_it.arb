@@ -1,0 +1,16 @@
+{
+  "@@locale": "it",
+  "please_check_your_connection": "Controlla la tua connessione di rete",
+  "server_error": "Errore del server",
+  "access_to_location_denied": "Accesso alla posizione rifiutato",
+  "allow_access_to_the_location_services": "Permetti l'accesso ai servizi di localizzazione.",
+  "access_to_location_permanently_denied": "Accesso alla posizione rifiutato permanentemente",
+  "allow_access_to_the_location_services_from_settings": "Consenti l'accesso ai servizi di localizzazione per questa app utilizzando le impostazioni del dispositivo.",
+  "ok": "Ok",
+  "cant_get_current_location": "Impossibile ottenere la posizione attuale",
+  "please_make_sure_you_enable_gps_and_try_again": "Assicurati di aver attivato il GPS e prova di nuovo",
+  "search_place": "Ricerca luogo",
+  "finding_place": "Cercando il luogo...",
+  "no_result_found": "Nessun risultato trovato",
+  "unnamedPlace": "Località senza nome"
+}

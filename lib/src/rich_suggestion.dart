@@ -12,6 +12,7 @@ class RichSuggestion extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: InkWell(
+        onTap: onTap,
         child: Container(
             margin: EdgeInsets.all(5),
             padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -24,7 +25,6 @@ class RichSuggestion extends StatelessWidget {
                 )
               ],
             )),
-        onTap: onTap,
       ),
     );
   }
