@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string
+        name="GOOGLE_MAPS_API_KEY"
+        >AIzaSyCR0eNmhoJ5lf6NJb5oodwFGHLYqDKtqqA</string>
+    <string
+        name="facebook_app_id"
+        >745664766307915</string>
+</resources>
