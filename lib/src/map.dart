@@ -154,11 +154,11 @@ class MapPickerState extends State<MapPicker> {
           if (_currentPosition == null &&
               widget.automaticallyAnimateToCurrentLocation &&
               widget.requiredGPS) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child:   CircularProgressIndicator(strokeWidth: 3,backgroundColor:widget.markerColor??Colors.blue),);
           }
 
           return _currentPosition == null
-              ? const Center(child: CircularProgressIndicator())
+              ? const Center(child:   CircularProgressIndicator(strokeWidth: 3,backgroundColor:widget.markerColor??Colors.blue),)
               : buildMap();
         },
       ),
@@ -240,7 +240,7 @@ class MapPickerState extends State<MapPicker> {
                       loadingIndicator: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          CircularProgressIndicator(),
+                          CircularProgressIndicator(strokeWidth: 3,backgroundColor:widget.markerColor??Colors.blue),
                         ],
                       ),
                       builder: (context, data) {
