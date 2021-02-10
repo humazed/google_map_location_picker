@@ -131,7 +131,7 @@ class LocationPickerState extends State<LocationPicker> {
                 SizedBox(
                   height: 24,
                   width: 24,
-                  child: CircularProgressIndicator(strokeWidth: 3),
+                  child: CircularProgressIndicator(strokeWidth: 3,backgroundColor:widget.markerColor??Colors.blue),
                 ),
                 SizedBox(width: 24),
                 Expanded(
