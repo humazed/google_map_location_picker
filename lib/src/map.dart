@@ -154,11 +154,11 @@ class MapPickerState extends State<MapPicker> {
           if (_currentPosition == null &&
               widget.automaticallyAnimateToCurrentLocation &&
               widget.requiredGPS) {
-            return const Center(child:   CircularProgressIndicator(strokeWidth: 3,backgroundColor:widget.markerColor??Colors.blue),);
+            return  Center(child:   CircularProgressIndicator(strokeWidth: 3,backgroundColor:widget.markerColor??Colors.blue),);
           }
 
           return _currentPosition == null
-              ? const Center(child:   CircularProgressIndicator(strokeWidth: 3,backgroundColor:widget.markerColor??Colors.blue),)
+              ?  Center(child:   CircularProgressIndicator(strokeWidth: 3,backgroundColor:widget.markerColor??Colors.blue),)
               : buildMap();
         },
       ),
