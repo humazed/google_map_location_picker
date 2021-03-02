@@ -40,6 +40,7 @@ class LocationPicker extends StatefulWidget {
     this.countries,
     this.language,
     this.desiredAccuracy,
+    this.polygons
   });
 
   final String apiKey;
@@ -66,6 +67,7 @@ class LocationPicker extends StatefulWidget {
   final String language;
 
   final LocationAccuracy desiredAccuracy;
+  final Set<Polygon> polygons;
 
   @override
   LocationPickerState createState() => LocationPickerState();
@@ -422,6 +424,7 @@ class LocationPickerState extends State<LocationPicker> {
             key: mapKey,
             language: widget.language,
             desiredAccuracy: widget.desiredAccuracy,
+            polygons: widget.polygons
           ),
         );
       }),
@@ -459,6 +462,7 @@ Future<LocationResult> showLocationPicker(
   Decoration resultCardDecoration,
   String language = 'en',
   LocationAccuracy desiredAccuracy = LocationAccuracy.best,
+  Set<Polygon> polygons,
 }) async {
   final results = await Navigator.of(context).push(
     MaterialPageRoute<dynamic>(
@@ -484,6 +488,7 @@ Future<LocationResult> showLocationPicker(
           countries: countries,
           language: language,
           desiredAccuracy: desiredAccuracy,
+          polygons: polygons
         );
       },
     ),

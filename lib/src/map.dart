@@ -38,6 +38,7 @@ class MapPicker extends StatefulWidget {
     this.resultCardPadding,
     this.language,
     this.desiredAccuracy,
+    this.polygons
   }) : super(key: key);
 
   final String apiKey;
@@ -63,6 +64,7 @@ class MapPicker extends StatefulWidget {
   final String language;
 
   final LocationAccuracy desiredAccuracy;
+  final Set<Polygon> polygons;
 
   @override
   MapPickerState createState() => MapPickerState();
@@ -196,6 +198,7 @@ class MapPickerState extends State<MapPicker> {
 //            },
             mapType: _currentMapType,
             myLocationEnabled: true,
+            polygons: widget.polygons,
           ),
           _MapFabs(
             myLocationButtonEnabled: widget.myLocationButtonEnabled,
