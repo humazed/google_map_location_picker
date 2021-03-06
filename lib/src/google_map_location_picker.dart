@@ -174,7 +174,7 @@ class LocationPickerState extends State<LocationPicker> {
     }
 
     LocationUtils.getAppHeaders()
-        .then((headers) => http.get(endpoint, headers: headers))
+        .then((headers) => http.get(Uri.parse(endpoint), headers: headers))
         .then((response) {
       if (response.statusCode == 200) {
         Map<String, dynamic> data = jsonDecode(response.body);
@@ -217,13 +217,13 @@ class LocationPickerState extends State<LocationPicker> {
   void decodeAndSelectPlace(String placeId) {
     clearOverlay();
 
-    String endpoint =
+    final endpoint =
         "https://maps.googleapis.com/maps/api/place/details/json?key=${widget.apiKey}" +
             "&placeid=$placeId" +
             '&language=${widget.language}';
 
     LocationUtils.getAppHeaders()
-        .then((headers) => http.get(endpoint, headers: headers))
+        .then((headers) => http.get(Uri.parse(endpoint), headers: headers))
         .then((response) {
       if (response.statusCode == 200) {
         Map<String, dynamic> location =
@@ -285,14 +285,15 @@ class LocationPickerState extends State<LocationPicker> {
 
   /// Fetches and updates the nearby places to the provided lat,lng
   void getNearbyPlaces(LatLng latLng) {
-    LocationUtils.getAppHeaders()
-        .then((headers) => http.get(
-            "https://maps.googleapis.com/maps/api/place/nearbysearch/json?" +
-                "key=${widget.apiKey}&" +
-                "location=${latLng.latitude},${latLng.longitude}&radius=150" +
-                "&language=${widget.language}",
-            headers: headers))
-        .then((response) {
+    LocationUtils.getAppHeaders().then((headers) {
+      var endpoint =
+          "https://maps.googleapis.com/maps/api/place/nearbysearch/json?" +
+              "key=${widget.apiKey}&" +
+              "location=${latLng.latitude},${latLng.longitude}&radius=150" +
+              "&language=${widget.language}";
+
+      return http.get(Uri.parse(endpoint), headers: headers);
+    }).then((response) {
       if (response.statusCode == 200) {
         nearbyPlaces.clear();
         for (Map<String, dynamic> item
@@ -323,10 +324,12 @@ class LocationPickerState extends State<LocationPicker> {
   /// This method gets the human readable name of the location. Mostly appears
   /// to be the road name and the locality.
   Future reverseGeocodeLatLng(LatLng latLng) async {
-    var response = await http.get(
+    final endpoint =
         "https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng.latitude},${latLng.longitude}" +
             "&key=${widget.apiKey}" +
-            "&language=${widget.language}",
+            "&language=${widget.language}";
+
+    final response = await http.get(Uri.parse(endpoint),
         headers: await LocationUtils.getAppHeaders());
 
     if (response.statusCode == 200) {

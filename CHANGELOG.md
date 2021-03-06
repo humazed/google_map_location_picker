@@ -1,3 +1,7 @@
+## 4.1.7
+
+* Updated deps to work with flutter stable 2.0.1
+
 ## 4.1.6
 
 * use  `http: '>=0.12.2 <=0.13.0-nullsafety.0'`
