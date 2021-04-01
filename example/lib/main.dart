@@ -16,7 +16,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  LocationResult _pickedLocation;
+  LocationResult? _pickedLocation;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
               children: <Widget>[
                 ElevatedButton(
                   onPressed: () async {
-                    LocationResult result = await showLocationPicker(
+                    LocationResult? result = await showLocationPicker(
                       context,
                       apiKey,
                       initialCenter: LatLng(31.1975844, 29.9598339),
