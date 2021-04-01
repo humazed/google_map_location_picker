@@ -21,7 +21,7 @@ import 'utils/location_utils.dart';
 class MapPicker extends StatefulWidget {
   const MapPicker(
     this.apiKey, {
-    Key key,
+    Key? key,
     this.initialCenter,
     this.initialZoom,
     this.requiredGPS,
@@ -42,27 +42,27 @@ class MapPicker extends StatefulWidget {
 
   final String apiKey;
 
-  final LatLng initialCenter;
-  final double initialZoom;
+  final LatLng? initialCenter;
+  final double? initialZoom;
 
-  final bool requiredGPS;
-  final bool myLocationButtonEnabled;
-  final bool layersButtonEnabled;
-  final bool automaticallyAnimateToCurrentLocation;
+  final bool? requiredGPS;
+  final bool? myLocationButtonEnabled;
+  final bool? layersButtonEnabled;
+  final bool? automaticallyAnimateToCurrentLocation;
 
-  final String mapStylePath;
+  final String? mapStylePath;
 
-  final Color appBarColor;
-  final BoxDecoration searchBarBoxDecoration;
-  final String hintText;
-  final Widget resultCardConfirmIcon;
-  final Alignment resultCardAlignment;
-  final Decoration resultCardDecoration;
-  final EdgeInsets resultCardPadding;
+  final Color? appBarColor;
+  final BoxDecoration? searchBarBoxDecoration;
+  final String? hintText;
+  final Widget? resultCardConfirmIcon;
+  final Alignment? resultCardAlignment;
+  final Decoration? resultCardDecoration;
+  final EdgeInsets? resultCardPadding;
 
-  final String language;
+  final String? language;
 
-  final LocationAccuracy desiredAccuracy;
+  final LocationAccuracy? desiredAccuracy;
 
   @override
   MapPickerState createState() => MapPickerState();
@@ -73,15 +73,15 @@ class MapPickerState extends State<MapPicker> {
 
   MapType _currentMapType = MapType.normal;
 
-  String _mapStyle;
+  String? _mapStyle;
 
-  LatLng _lastMapPosition;
+  LatLng? _lastMapPosition;
 
-  Position _currentPosition;
+  Position? _currentPosition;
 
-  String _address;
+  String? _address;
 
-  String _placeId;
+  String? _placeId;
 
   void _onToggleMapTypePressed() {
     final MapType nextType =
@@ -92,11 +92,10 @@ class MapPickerState extends State<MapPicker> {
 
   // this also checks for location permission.
   Future<void> _initCurrentLocation() async {
-    Position currentPosition;
+    Position? currentPosition;
     try {
-      currentPosition =
-          await getCurrentPosition(desiredAccuracy: widget.desiredAccuracy);
-      d("position = $currentPosition");
+      currentPosition = await Geolocator.getCurrentPosition(
+          desiredAccuracy: widget.desiredAccuracy!);
 
       setState(() => _currentPosition = currentPosition);
     } catch (e) {
@@ -124,11 +123,11 @@ class MapPickerState extends State<MapPicker> {
   @override
   void initState() {
     super.initState();
-    if (widget.automaticallyAnimateToCurrentLocation && !widget.requiredGPS)
+    if (widget.automaticallyAnimateToCurrentLocation! && !widget.requiredGPS!)
       _initCurrentLocation();
 
     if (widget.mapStylePath != null) {
-      rootBundle.loadString(widget.mapStylePath).then((string) {
+      rootBundle.loadString(widget.mapStylePath!).then((string) {
         _mapStyle = string;
       });
     }
@@ -136,7 +135,7 @@ class MapPickerState extends State<MapPicker> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.requiredGPS) {
+    if (widget.requiredGPS!) {
       _checkGeolocationPermission();
       if (_currentPosition == null) _initCurrentLocation();
     }
@@ -148,8 +147,8 @@ class MapPickerState extends State<MapPicker> {
       body: Builder(
         builder: (context) {
           if (_currentPosition == null &&
-              widget.automaticallyAnimateToCurrentLocation &&
-              widget.requiredGPS) {
+              widget.automaticallyAnimateToCurrentLocation! &&
+              widget.requiredGPS!) {
             return const Center(child: CircularProgressIndicator());
           }
 
@@ -164,10 +163,11 @@ class MapPickerState extends State<MapPicker> {
       child: Stack(
         children: <Widget>[
           GoogleMap(
+            zoomControlsEnabled: false,
             myLocationButtonEnabled: false,
             initialCameraPosition: CameraPosition(
-              target: widget.initialCenter,
-              zoom: widget.initialZoom,
+              target: widget.initialCenter!,
+              zoom: widget.initialZoom!,
             ),
             onMapCreated: (GoogleMapController controller) {
               mapController.complete(controller);
@@ -226,7 +226,7 @@ class MapPickerState extends State<MapPicker> {
                 children: <Widget>[
                   Flexible(
                     flex: 20,
-                    child: FutureLoadingBuilder<Map<String, String>>(
+                    child: FutureLoadingBuilder<Map<String, String?>>(
                       future: getAddress(locationProvider.lastIdleLocation),
                       mutable: true,
                       loadingIndicator: Row(
@@ -270,14 +270,14 @@ class MapPickerState extends State<MapPicker> {
     );
   }
 
-  Future<Map<String, String>> getAddress(LatLng location) async {
+  Future<Map<String, String?>> getAddress(LatLng? location) async {
     try {
       final endpoint =
           'https://maps.googleapis.com/maps/api/geocode/json?latlng=${location?.latitude},${location?.longitude}'
           '&key=${widget.apiKey}&language=${widget.language}';
 
       final response = jsonDecode((await http.get(Uri.parse(endpoint),
-              headers: await LocationUtils.getAppHeaders()))
+              headers: await (LocationUtils.getAppHeaders() as FutureOr<Map<String, String>?>)))
           .body);
 
       return {
@@ -324,7 +324,7 @@ class MapPickerState extends State<MapPicker> {
   var dialogOpen;
 
   Future _checkGeolocationPermission() async {
-    final geolocationStatus = await checkPermission();
+    final geolocationStatus = await Geolocator.checkPermission();
     d("geolocationStatus = $geolocationStatus");
 
     if (geolocationStatus == LocationPermission.denied && dialogOpen == null) {
@@ -361,7 +361,7 @@ class MapPickerState extends State<MapPicker> {
                 S.of(context)?.allow_access_to_the_location_services ??
                     'Allow access to the location services.'),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text(S.of(context)?.ok ?? 'Ok'),
                 onPressed: () {
                   Navigator.of(context, rootNavigator: true).pop();
@@ -395,11 +395,11 @@ class MapPickerState extends State<MapPicker> {
                     ?.allow_access_to_the_location_services_from_settings ??
                 'Allow access to the location services for this App using the device settings.'),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text(S.of(context)?.ok ?? 'Ok'),
                 onPressed: () {
                   Navigator.of(context, rootNavigator: true).pop();
-                  openAppSettings();
+                  Geolocator.openAppSettings();
                   dialogOpen = null;
                 },
               ),
@@ -412,7 +412,7 @@ class MapPickerState extends State<MapPicker> {
 
   // TODO: 9/12/2020 this is no longer needed, remove in the next release
   Future _checkGps() async {
-    if (!(await isLocationServiceEnabled())) {
+    if (!(await Geolocator.isLocationServiceEnabled())) {
       if (Theme.of(context).platform == TargetPlatform.android) {
         showDialog(
           context: context,
@@ -426,7 +426,7 @@ class MapPickerState extends State<MapPicker> {
                       ?.please_make_sure_you_enable_gps_and_try_again ??
                   'Please make sure you enable GPS and try again'),
               actions: <Widget>[
-                FlatButton(
+                TextButton(
                   child: Text('Ok'),
                   onPressed: () {
                     final AndroidIntent intent = AndroidIntent(
@@ -447,16 +447,16 @@ class MapPickerState extends State<MapPicker> {
 
 class _MapFabs extends StatelessWidget {
   const _MapFabs({
-    Key key,
-    @required this.myLocationButtonEnabled,
-    @required this.layersButtonEnabled,
-    @required this.onToggleMapTypePressed,
-    @required this.onMyLocationPressed,
+    Key? key,
+    required this.myLocationButtonEnabled,
+    required this.layersButtonEnabled,
+    required this.onToggleMapTypePressed,
+    required this.onMyLocationPressed,
   })  : assert(onToggleMapTypePressed != null),
         super(key: key);
 
-  final bool myLocationButtonEnabled;
-  final bool layersButtonEnabled;
+  final bool? myLocationButtonEnabled;
+  final bool? layersButtonEnabled;
 
   final VoidCallback onToggleMapTypePressed;
   final VoidCallback onMyLocationPressed;
@@ -465,10 +465,10 @@ class _MapFabs extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.topRight,
-      margin: const EdgeInsets.only(top: kToolbarHeight + 24, right: 8),
+      margin: const EdgeInsets.only(top: kToolbarHeight + 35, right: 8), //24
       child: Column(
         children: <Widget>[
-          if (layersButtonEnabled)
+          if (layersButtonEnabled!)
             FloatingActionButton(
               onPressed: onToggleMapTypePressed,
               materialTapTargetSize: MaterialTapTargetSize.padded,
@@ -476,7 +476,7 @@ class _MapFabs extends StatelessWidget {
               child: const Icon(Icons.layers),
               heroTag: "layers",
             ),
-          if (myLocationButtonEnabled)
+          if (myLocationButtonEnabled!)
             FloatingActionButton(
               onPressed: onMyLocationPressed,
               materialTapTargetSize: MaterialTapTargetSize.padded,
