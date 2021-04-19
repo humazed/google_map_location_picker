@@ -48,20 +48,14 @@ class _MyAppState extends State<MyApp> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                RaisedButton(
+                ElevatedButton(
                   onPressed: () async {
                     LocationResult result = await showLocationPicker(
                       context,
                       apiKey,
                       initialCenter: LatLng(31.1975844, 29.9598339),
-//                      automaticallyAnimateToCurrentLocation: true,
-//                      mapStylePath: 'assets/mapStyle.json',
                       myLocationButtonEnabled: true,
-                      // requiredGPS: true,
                       layersButtonEnabled: true,
-                      // countries: ['AE', 'NG']
-
-//                      resultCardAlignment: Alignment.bottomCenter,
                       desiredAccuracy: LocationAccuracy.best,
                     );
                     print("result = $result");
