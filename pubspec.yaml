@@ -14,16 +14,16 @@ dependencies:
 
   flutter_localizations:
     sdk: flutter
-  intl: '>=0.16.0 <=0.16.1'
-  intl_translation: '>=0.17.9 <=0.17.10'
+  # intl: '>=0.16.0 <=0.16.1'
+  # intl_translation: '>=0.17.9 <=0.17.10'
 
-  google_maps_flutter: ^1.0.2
-  geolocator: ^6.0.0+4
-  android_intent: ^0.3.7+4
-  provider: ^4.3.2+2
-  http: ^0.12.2
-  stack_trace: ^1.9.5
-  package_info: '>=0.4.0+14 <2.0.0'
+  google_maps_flutter: ^ 2.0.3
+  geolocator: ^7.0.3
+  android_intent: ^2.0.0
+  provider: ^5.0.0
+  http: ^0.13.3
+  stack_trace: ^1.10.0
+  package_info: ^2.0.0
 
 dev_dependencies:
   flutter_test:

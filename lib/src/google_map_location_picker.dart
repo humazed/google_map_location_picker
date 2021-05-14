@@ -94,7 +94,7 @@ class LocationPickerState extends State<LocationPicker> {
   /// Overlay to display autocomplete suggestions
   OverlayEntry overlayEntry;
 
-  List<NearbyPlace> nearbyPlaces = List();
+  List<NearbyPlace> nearbyPlaces = [];
 
   /// Session token required for autocomplete API call
   String sessionToken = Uuid().generateV4();
@@ -193,7 +193,7 @@ class LocationPickerState extends State<LocationPicker> {
     }
 
     LocationUtils.getAppHeaders()
-        .then((headers) => http.get(endpoint, headers: headers))
+        .then((headers) => http.get(Uri.parse(endpoint), headers: headers))
         .then((response) {
       if (response.statusCode == 200) {
         Map<String, dynamic> data = jsonDecode(response.body);
@@ -242,7 +242,7 @@ class LocationPickerState extends State<LocationPicker> {
             '&language=${widget.language}';
 
     LocationUtils.getAppHeaders()
-        .then((headers) => http.get(endpoint, headers: headers))
+        .then((headers) => http.get(Uri.parse(endpoint), headers: headers))
         .then((response) {
       if (response.statusCode == 200) {
         Map<String, dynamic> location =
@@ -309,10 +309,11 @@ class LocationPickerState extends State<LocationPicker> {
   void getNearbyPlaces(LatLng latLng) {
     LocationUtils.getAppHeaders()
         .then((headers) => http.get(
-            "https://maps.googleapis.com/maps/api/place/nearbysearch/json?" +
-                "key=${widget.apiKey}&" +
-                "location=${latLng.latitude},${latLng.longitude}&radius=150" +
-                "&language=${widget.language}",
+            Uri.parse(
+                "https://maps.googleapis.com/maps/api/place/nearbysearch/json?" +
+                    "key=${widget.apiKey}&" +
+                    "location=${latLng.latitude},${latLng.longitude}&radius=150" +
+                    "&language=${widget.language}"),
             headers: headers))
         .then((response) {
       if (response.statusCode == 200) {
@@ -346,9 +347,10 @@ class LocationPickerState extends State<LocationPicker> {
   /// to be the road name and the locality.
   Future reverseGeocodeLatLng(LatLng latLng) async {
     var response = await http.get(
-        "https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng.latitude},${latLng.longitude}" +
-            "&key=${widget.apiKey}" +
-            "&language=${widget.language}",
+        Uri.parse(
+            "https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng.latitude},${latLng.longitude}" +
+                "&key=${widget.apiKey}" +
+                "&language=${widget.language}"),
         headers: await LocationUtils.getAppHeaders());
 
     if (response.statusCode == 200) {

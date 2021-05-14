@@ -277,9 +277,19 @@ class MapPickerState extends State<MapPicker> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          RaisedButton(
-                            elevation: 1,
-                            padding: EdgeInsets.symmetric(horizontal: 16),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              elevation: 1,
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              primary: widget.selectButtonColor ??
+                                  Theme.of(context)
+                                      .buttonTheme
+                                      .colorScheme
+                                      .primary,
+                            ),
                             child: Text(
                               widget.selectButtonText ?? "USE THIS LOCATION",
                               style: TextStyle(
@@ -291,14 +301,6 @@ class MapPickerState extends State<MapPicker> {
                                         .color,
                               ),
                             ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            color: widget.selectButtonColor ??
-                                Theme.of(context)
-                                    .buttonTheme
-                                    .colorScheme
-                                    .primary,
                             onPressed: () {
                               Navigator.of(context).pop({
                                 'location': LocationResult(
@@ -328,7 +330,7 @@ class MapPickerState extends State<MapPicker> {
           'https://maps.googleapis.com/maps/api/geocode/json?latlng=${location?.latitude},${location?.longitude}'
           '&key=${widget.apiKey}&language=${widget.language}';
 
-      var response = jsonDecode((await http.get(endPoint,
+      var response = jsonDecode((await http.get(Uri.parse(endPoint),
               headers: await LocationUtils.getAppHeaders()))
           .body);
 
@@ -413,7 +415,7 @@ class MapPickerState extends State<MapPicker> {
                 S.of(context)?.allow_access_to_the_location_services ??
                     'Allow access to the location services.'),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text(S.of(context)?.ok ?? 'Ok'),
                 onPressed: () {
                   Navigator.of(context, rootNavigator: true).pop();
@@ -447,7 +449,7 @@ class MapPickerState extends State<MapPicker> {
                     ?.allow_access_to_the_location_services_from_settings ??
                 'Allow access to the location services for this App using the device settings.'),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text(S.of(context)?.ok ?? 'Ok'),
                 onPressed: () {
                   Navigator.of(context, rootNavigator: true).pop();
