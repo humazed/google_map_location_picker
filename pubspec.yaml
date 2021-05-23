@@ -23,6 +23,7 @@ dependencies:
   http: ^0.13.0
   stack_trace: ^1.10.0
   package_info: ^2.0.0
+  google_maps_webservice: ^0.0.19
 
 dev_dependencies:
   flutter_test:

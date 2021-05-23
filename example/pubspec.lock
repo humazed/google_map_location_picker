@@ -118,7 +118,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "4.1.6"
+    version: "4.1.7"
   google_maps_flutter:
     dependency: transitive
     description:
@@ -133,6 +133,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  google_maps_webservice:
+    dependency: transitive
+    description:
+      name: google_maps_webservice
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.19"
   http:
     dependency: transitive
     description:
