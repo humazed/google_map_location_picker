@@ -1,5 +1,4 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_webservice/directions.dart';
 
 /// The result returned after completing location selection.
 class LocationResult {
@@ -20,13 +19,11 @@ class LocationResult {
   /// google map country
   String country;
 
-  /// google map's geometry
-  Geometry geometry;
-
-  LocationResult({this.latLng, this.address, this.placeId,this.country,this.city});
+  LocationResult(
+      {this.latLng, this.address, this.placeId, this.country, this.city});
 
   @override
   String toString() {
-    return 'LocationResult{address: $address, latLng: $latLng, placeId: $placeId}';
+    return 'LocationResult{address: $address, latLng: $latLng, placeId: $placeId, country: $country, city: $city}';
   }
 }
