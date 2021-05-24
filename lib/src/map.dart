@@ -13,6 +13,7 @@ import 'package:google_map_location_picker/src/utils/loading_builder.dart';
 import 'package:google_map_location_picker/src/utils/log.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/geocoding.dart';
+import 'package:google_maps_webservice/places.dart';
 import 'package:provider/provider.dart';
 
 import 'model/location_result.dart';
@@ -264,11 +265,14 @@ class MapPickerState extends State<MapPicker> {
     try {
       final googleMapsGeocoding =
           new GoogleMapsGeocoding(apiKey: widget.apiKey);
+      final places = new GoogleMapsPlaces(apiKey: widget.apiKey);
       final geocodingResponse = await googleMapsGeocoding.searchByLocation(
           Location(lat: location?.latitude, lng: location?.longitude),
           language: widget.language);
       final results = geocodingResponse.results;
+      final placeDetails = await places.getDetailsByPlaceId(results[0].placeId);
       return LocationResult(
+          placeDetails: placeDetails.result,
           address: results[0].formattedAddress,
           placeId: results[0].placeId,
           country: extractCountryName(results[0]),
