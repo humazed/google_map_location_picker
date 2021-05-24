@@ -246,7 +246,12 @@ class MapPickerState extends State<MapPicker> {
                   ),
                   Spacer(),
                   FloatingActionButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      final places =
+                          new GoogleMapsPlaces(apiKey: widget.apiKey);
+                      final placeDetails = await places
+                          .getDetailsByPlaceId(_locationResult.placeId);
+                      _locationResult.placeDetails = placeDetails.result;
                       Navigator.of(context).pop({'location': _locationResult});
                     },
                     child: widget.resultCardConfirmIcon ??
@@ -265,14 +270,11 @@ class MapPickerState extends State<MapPicker> {
     try {
       final googleMapsGeocoding =
           new GoogleMapsGeocoding(apiKey: widget.apiKey);
-      final places = new GoogleMapsPlaces(apiKey: widget.apiKey);
       final geocodingResponse = await googleMapsGeocoding.searchByLocation(
           Location(lat: location?.latitude, lng: location?.longitude),
           language: widget.language);
       final results = geocodingResponse.results;
-      final placeDetails = await places.getDetailsByPlaceId(results[0].placeId);
       return LocationResult(
-          placeDetails: placeDetails.result,
           address: results[0].formattedAddress,
           placeId: results[0].placeId,
           country: extractCountryName(results[0]),
