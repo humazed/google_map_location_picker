@@ -19,7 +19,7 @@ dependencies:
   google_maps_flutter: ^2.0.1
   geolocator: ^7.0.3
   android_intent: ^2.0.0
-  provider: ^5.0.0
+  provider: ^4.0.1
   http: ^0.13.0
   stack_trace: ^1.10.0
   package_info: ^2.0.0
