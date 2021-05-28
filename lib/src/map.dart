@@ -38,6 +38,7 @@ class MapPicker extends StatefulWidget {
     this.resultCardPadding,
     this.language,
     this.desiredAccuracy,
+    this.buttonMargin,
   }) : super(key: key);
 
   final String apiKey;
@@ -63,6 +64,8 @@ class MapPicker extends StatefulWidget {
   final String language;
 
   final LocationAccuracy desiredAccuracy;
+
+  final EdgeInsets buttonMargin;
 
   @override
   MapPickerState createState() => MapPickerState();
@@ -202,6 +205,7 @@ class MapPickerState extends State<MapPicker> {
             layersButtonEnabled: widget.layersButtonEnabled,
             onToggleMapTypePressed: _onToggleMapTypePressed,
             onMyLocationPressed: _initCurrentLocation,
+            buttonMargin: widget.buttonMargin,
           ),
           pin(),
           locationCard(),
@@ -452,6 +456,7 @@ class _MapFabs extends StatelessWidget {
     @required this.layersButtonEnabled,
     @required this.onToggleMapTypePressed,
     @required this.onMyLocationPressed,
+    @required this.buttonMargin,
   })  : assert(onToggleMapTypePressed != null),
         super(key: key);
 
@@ -460,12 +465,12 @@ class _MapFabs extends StatelessWidget {
 
   final VoidCallback onToggleMapTypePressed;
   final VoidCallback onMyLocationPressed;
-
+  final EdgeInsets buttonMargin;
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.topRight,
-      margin: const EdgeInsets.only(top: kToolbarHeight + 24, right: 8),
+      margin: buttonMargin,
       child: Column(
         children: <Widget>[
           if (layersButtonEnabled)
