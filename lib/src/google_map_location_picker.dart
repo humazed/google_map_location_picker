@@ -69,7 +69,6 @@ class LocationPicker extends StatefulWidget {
   final LocationAccuracy desiredAccuracy;
   final EdgeInsets buttonMargin;
 
-
   @override
   LocationPickerState createState() => LocationPickerState();
 }
@@ -466,7 +465,8 @@ Future<LocationResult> showLocationPicker(
   Decoration resultCardDecoration,
   String language = 'en',
   LocationAccuracy desiredAccuracy = LocationAccuracy.best,
-  EdgeInsets buttonMargin = EdgeInsets.only(top: kToolbarHeight + 50, right: 8),
+  EdgeInsets buttonMargin =
+      const EdgeInsets.only(top: kToolbarHeight + 50, right: 8),
 }) async {
   final results = await Navigator.of(context).push(
     MaterialPageRoute<dynamic>(
