@@ -40,6 +40,7 @@ class LocationPicker extends StatefulWidget {
     this.countries,
     this.language,
     this.desiredAccuracy,
+    this.buttonMargin,
   });
 
   final String apiKey;
@@ -66,6 +67,8 @@ class LocationPicker extends StatefulWidget {
   final String language;
 
   final LocationAccuracy desiredAccuracy;
+  final EdgeInsets buttonMargin;
+
 
   @override
   LocationPickerState createState() => LocationPickerState();
@@ -425,6 +428,7 @@ class LocationPickerState extends State<LocationPicker> {
             key: mapKey,
             language: widget.language,
             desiredAccuracy: widget.desiredAccuracy,
+            buttonMargin: widget.buttonMargin,
           ),
         );
       }),
@@ -462,6 +466,7 @@ Future<LocationResult> showLocationPicker(
   Decoration resultCardDecoration,
   String language = 'en',
   LocationAccuracy desiredAccuracy = LocationAccuracy.best,
+  EdgeInsets buttonMargin = EdgeInsets.only(top: kToolbarHeight + 50, right: 8),
 }) async {
   final results = await Navigator.of(context).push(
     MaterialPageRoute<dynamic>(
@@ -487,6 +492,7 @@ Future<LocationResult> showLocationPicker(
           countries: countries,
           language: language,
           desiredAccuracy: desiredAccuracy,
+          buttonMargin: buttonMargin,
         );
       },
     ),
