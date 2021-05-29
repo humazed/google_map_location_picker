@@ -24,10 +24,26 @@ class LocationResult {
   PlaceDetails placeDetails;
 
   LocationResult(
-      {this.latLng, this.address, this.placeId, this.country, this.city,this.placeDetails});
+      {this.latLng,
+      this.address,
+      this.placeId,
+      this.country,
+      this.city,
+      this.placeDetails});
 
   @override
   String toString() {
     return 'LocationResult{address: $address, latLng: $latLng, placeId: $placeId, country: $country, city: $city}';
+  }
+
+  Map<dynamic, dynamic> toJson() {
+    return {
+      "address": address,
+      "placedId": placeId,
+      "latLng": latLng?.toJson(),
+      "city": city,
+      "country": country,
+      "placeDetails": placeDetails?.toJson(),
+    };
   }
 }
