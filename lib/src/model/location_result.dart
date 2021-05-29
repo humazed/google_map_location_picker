@@ -36,10 +36,20 @@ class LocationResult {
     return 'LocationResult{address: $address, latLng: $latLng, placeId: $placeId, country: $country, city: $city}';
   }
 
+  static LocationResult fromMap(Map<dynamic, dynamic> json) {
+    return LocationResult(
+        latLng: LatLng.fromJson(json["latLng"]),
+        city: json["city"],
+        country: json["country"],
+        address: json["address"],
+        placeId: json["placeId"],
+        placeDetails: PlaceDetails.fromJson(json["placeDetails"]));
+  }
+
   Map<dynamic, dynamic> toJson() {
     return {
       "address": address,
-      "placedId": placeId,
+      "placeId": placeId,
       "latLng": latLng?.toJson(),
       "city": city,
       "country": country,
