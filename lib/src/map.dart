@@ -12,11 +12,11 @@ import 'package:google_map_location_picker/src/providers/location_provider.dart'
 import 'package:google_map_location_picker/src/utils/loading_builder.dart';
 import 'package:google_map_location_picker/src/utils/log.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:http/http.dart' as http;
+import 'package:google_maps_webservice/geocoding.dart';
+import 'package:google_maps_webservice/places.dart';
 import 'package:provider/provider.dart';
 
 import 'model/location_result.dart';
-import 'utils/location_utils.dart';
 
 class MapPicker extends StatefulWidget {
   const MapPicker(
@@ -79,9 +79,7 @@ class MapPickerState extends State<MapPicker> {
 
   Position _currentPosition;
 
-  String _address;
-
-  String _placeId;
+  LocationResult _locationResult;
 
   void _onToggleMapTypePressed() {
     final MapType nextType =
@@ -94,8 +92,8 @@ class MapPickerState extends State<MapPicker> {
   Future<void> _initCurrentLocation() async {
     Position currentPosition;
     try {
-      currentPosition =
-          await getCurrentPosition(desiredAccuracy: widget.desiredAccuracy);
+      currentPosition = await Geolocator.getCurrentPosition(
+          desiredAccuracy: widget.desiredAccuracy);
       d("position = $currentPosition");
 
       setState(() => _currentPosition = currentPosition);
@@ -226,7 +224,7 @@ class MapPickerState extends State<MapPicker> {
                 children: <Widget>[
                   Flexible(
                     flex: 20,
-                    child: FutureLoadingBuilder<Map<String, String>>(
+                    child: FutureLoadingBuilder<LocationResult>(
                       future: getAddress(locationProvider.lastIdleLocation),
                       mutable: true,
                       loadingIndicator: Row(
@@ -236,10 +234,9 @@ class MapPickerState extends State<MapPicker> {
                         ],
                       ),
                       builder: (context, data) {
-                        _address = data["address"];
-                        _placeId = data["placeId"];
+                        _locationResult = data;
                         return Text(
-                          _address ??
+                          data?.address ??
                               S.of(context)?.unnamedPlace ??
                               'Unnamed place',
                           style: TextStyle(fontSize: 18),
@@ -249,14 +246,13 @@ class MapPickerState extends State<MapPicker> {
                   ),
                   Spacer(),
                   FloatingActionButton(
-                    onPressed: () {
-                      Navigator.of(context).pop({
-                        'location': LocationResult(
-                          latLng: locationProvider.lastIdleLocation,
-                          address: _address,
-                          placeId: _placeId,
-                        )
-                      });
+                    onPressed: () async {
+                      final places =
+                          new GoogleMapsPlaces(apiKey: widget.apiKey);
+                      final placeDetails = await places
+                          .getDetailsByPlaceId(_locationResult.placeId);
+                      _locationResult.placeDetails = placeDetails.result;
+                      Navigator.of(context).pop({'location': _locationResult});
                     },
                     child: widget.resultCardConfirmIcon ??
                         Icon(Icons.arrow_forward),
@@ -270,25 +266,40 @@ class MapPickerState extends State<MapPicker> {
     );
   }
 
-  Future<Map<String, String>> getAddress(LatLng location) async {
+  Future<LocationResult> getAddress(LatLng location) async {
     try {
-      final endpoint =
-          'https://maps.googleapis.com/maps/api/geocode/json?latlng=${location?.latitude},${location?.longitude}'
-          '&key=${widget.apiKey}&language=${widget.language}';
-
-      final response = jsonDecode((await http.get(Uri.parse(endpoint),
-              headers: await LocationUtils.getAppHeaders()))
-          .body);
-
-      return {
-        "placeId": response['results'][0]['place_id'],
-        "address": response['results'][0]['formatted_address']
-      };
+      final googleMapsGeocoding =
+          new GoogleMapsGeocoding(apiKey: widget.apiKey);
+      final geocodingResponse = await googleMapsGeocoding.searchByLocation(
+          Location(lat: location?.latitude, lng: location?.longitude),
+          language: widget.language);
+      final results = geocodingResponse.results;
+      return LocationResult(
+          address: results[0].formattedAddress,
+          placeId: results[0].placeId,
+          country: extractCountryName(results[0]),
+          city: extractCityName(results[0]));
     } catch (e) {
       print(e);
     }
 
-    return {"placeId": null, "address": null};
+    return LocationResult();
+  }
+
+  String extractCountryName(GeocodingResult result) {
+    return result.addressComponents
+        .firstWhere((address) => address.types.contains("country"),
+            orElse: () =>
+                AddressComponent(types: [], longName: "", shortName: ""))
+        .longName;
+  }
+
+  String extractCityName(GeocodingResult result) {
+    return result.addressComponents
+        .firstWhere((address) => address.types.contains("locality"),
+            orElse: () =>
+                AddressComponent(types: [], longName: "", shortName: ""))
+        .longName;
   }
 
   Widget pin() {
@@ -324,7 +335,7 @@ class MapPickerState extends State<MapPicker> {
   var dialogOpen;
 
   Future _checkGeolocationPermission() async {
-    final geolocationStatus = await checkPermission();
+    final geolocationStatus = await Geolocator.checkPermission();
     d("geolocationStatus = $geolocationStatus");
 
     if (geolocationStatus == LocationPermission.denied && dialogOpen == null) {
@@ -399,7 +410,7 @@ class MapPickerState extends State<MapPicker> {
                 child: Text(S.of(context)?.ok ?? 'Ok'),
                 onPressed: () {
                   Navigator.of(context, rootNavigator: true).pop();
-                  openAppSettings();
+                  Geolocator.openAppSettings();
                   dialogOpen = null;
                 },
               ),
@@ -412,7 +423,7 @@ class MapPickerState extends State<MapPicker> {
 
   // TODO: 9/12/2020 this is no longer needed, remove in the next release
   Future _checkGps() async {
-    if (!(await isLocationServiceEnabled())) {
+    if (!(await Geolocator.isLocationServiceEnabled())) {
       if (Theme.of(context).platform == TargetPlatform.android) {
         showDialog(
           context: context,
