@@ -19,7 +19,7 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'es';
 
-  final messages = _notInlinedMessages(_notInlinedMessages);
+  final Map<String, dynamic> messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "access_to_location_denied" : MessageLookupByLibrary.simpleMessage("Acceso a la ubicación denegado"),
     "access_to_location_permanently_denied" : MessageLookupByLibrary.simpleMessage("Acceso a la ubicación denegado permanentemente"),

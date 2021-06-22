@@ -7,16 +7,16 @@ import 'package:google_map_location_picker/generated/l10n.dart';
 class SearchInput extends StatefulWidget {
   SearchInput(
     this.onSearchInput, {
-    Key key,
+    Key? key,
     this.searchInputKey,
     this.boxDecoration,
     this.hintText,
   }) : super(key: key);
 
   final ValueChanged<String> onSearchInput;
-  final Key searchInputKey;
-  final BoxDecoration boxDecoration;
-  final String hintText;
+  final Key? searchInputKey;
+  final BoxDecoration? boxDecoration;
+  final String? hintText;
 
   @override
   State<StatefulWidget> createState() => SearchInputState();
@@ -25,7 +25,7 @@ class SearchInput extends StatefulWidget {
 class SearchInputState extends State<SearchInput> {
   TextEditingController editController = TextEditingController();
 
-  Timer debouncer;
+  Timer? debouncer;
 
   bool hasSearchEntry = false;
 
@@ -51,7 +51,7 @@ class SearchInputState extends State<SearchInput> {
     }
 
     if (debouncer?.isActive ?? false) {
-      debouncer.cancel();
+      debouncer!.cancel();
     }
 
     debouncer = Timer(Duration(milliseconds: 500), () {

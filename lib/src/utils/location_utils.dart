@@ -7,7 +7,7 @@ class LocationUtils {
   static const _platform = const MethodChannel('google_map_location_picker');
   static Map<String, String> _appHeaderCache = {};
 
-  static Future<Map<String, String>> getAppHeaders() async {
+  static Future<Map<String, String>?> getAppHeaders() async {
     if (_appHeaderCache.isEmpty) {
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
@@ -16,7 +16,7 @@ class LocationUtils {
           "X-Ios-Bundle-Identifier": packageInfo.packageName,
         };
       } else if (Platform.isAndroid) {
-        String sha1;
+        String sha1="";
         try {
           sha1 = await _platform.invokeMethod(
               'getSigningCertSha1', packageInfo.packageName);

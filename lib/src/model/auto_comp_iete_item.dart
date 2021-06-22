@@ -2,17 +2,17 @@
 /// into this model.
 class AutoCompleteItem {
   /// The id of the place. This helps to fetch the lat,lng of the place.
-  String id;
+  String? id;
 
   /// The text (name of place) displayed in the autocomplete suggestions list.
-  String text;
+  String? text;
 
   /// Assistive index to begin highlight of matched part of the [text] with
   /// the original query
-  int offset;
+  int? offset;
 
   /// Length of matched part of the [text]
-  int length;
+  int? length;
 
   @override
   String toString() {
