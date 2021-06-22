@@ -6,11 +6,11 @@ class LocationProvider extends ChangeNotifier {
   static LocationProvider of(BuildContext context, {bool listen = true}) =>
       Provider.of<LocationProvider>(context, listen: listen);
 
-  LatLng _lastIdleLocation;
+  LatLng? _lastIdleLocation;
 
-  LatLng get lastIdleLocation => _lastIdleLocation;
+  LatLng? get lastIdleLocation => _lastIdleLocation;
 
-  void setLastIdleLocation(LatLng lastIdleLocation) {
+  void setLastIdleLocation(LatLng? lastIdleLocation) {
     if (_lastIdleLocation != lastIdleLocation) {
       _lastIdleLocation = lastIdleLocation;
       notifyListeners();
