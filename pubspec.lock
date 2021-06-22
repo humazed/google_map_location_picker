@@ -84,13 +84,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  geocode:
-    dependency: "direct main"
-    description:
-      name: geocode
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.1"
   geolocator:
     dependency: "direct main"
     description:
