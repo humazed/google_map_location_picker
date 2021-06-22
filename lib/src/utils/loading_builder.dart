@@ -26,7 +26,7 @@ class FutureLoadingBuilder<T> extends StatefulWidget {
   /// null, the data provided to the [builder] will be set to [initialData].
   final Future<T> future;
 
-  final WidgetBuilder<T> builder;
+  final WidgetBuilder<T>? builder;
 
   /// The data that will be used to create the snapshots provided until a
   /// non-null [future] has completed.
@@ -96,9 +96,9 @@ class _FutureLoadingBuilderState<T> extends State<FutureLoadingBuilder<T?>> {
               }
             }
 
-            return widget.builder(context, snapshot.data);
+            return widget.builder!(context, snapshot.data);
         }
-        return widget.builder(context, snapshot.data);
+        return widget.builder!(context, snapshot.data);
       },
     );
   }
