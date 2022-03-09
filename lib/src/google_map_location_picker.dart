@@ -115,7 +115,8 @@ class LocationPickerState extends State<LocationPicker> {
     final RenderBox renderBox = context.findRenderObject() as RenderBox;
     Size size = renderBox.size;
 
-    final RenderBox? appBarBox = appBarKey.currentContext!.findRenderObject() as RenderBox?;
+    final RenderBox? appBarBox =
+        appBarKey.currentContext!.findRenderObject() as RenderBox?;
 
     overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
@@ -174,7 +175,8 @@ class LocationPickerState extends State<LocationPicker> {
     }
 
     LocationUtils.getAppHeaders()
-        .then((headers) => http.get(Uri.parse(endpoint), headers: headers as Map<String, String>?))
+        .then((headers) => http.get(Uri.parse(endpoint),
+            headers: headers as Map<String, String>?))
         .then((response) {
       if (response.statusCode == 200) {
         Map<String, dynamic> data = jsonDecode(response.body);
@@ -223,7 +225,8 @@ class LocationPickerState extends State<LocationPicker> {
             '&language=${widget.language}';
 
     LocationUtils.getAppHeaders()
-        .then((headers) => http.get(Uri.parse(endpoint), headers: headers as Map<String, String>?))
+        .then((headers) => http.get(Uri.parse(endpoint),
+            headers: headers as Map<String, String>?))
         .then((response) {
       if (response.statusCode == 200) {
         Map<String, dynamic> location =
@@ -243,7 +246,8 @@ class LocationPickerState extends State<LocationPicker> {
     final RenderBox renderBox = context.findRenderObject() as RenderBox;
     Size size = renderBox.size;
 
-    final RenderBox? appBarBox = appBarKey.currentContext!.findRenderObject() as RenderBox?;
+    final RenderBox? appBarBox =
+        appBarKey.currentContext!.findRenderObject() as RenderBox?;
 
     clearOverlay();
 
@@ -292,7 +296,8 @@ class LocationPickerState extends State<LocationPicker> {
               "location=${latLng.latitude},${latLng.longitude}&radius=150" +
               "&language=${widget.language}";
 
-      return http.get(Uri.parse(endpoint), headers: headers as Map<String, String>?);
+      return http.get(Uri.parse(endpoint),
+          headers: headers as Map<String, String>?);
     }).then((response) {
       if (response.statusCode == 200) {
         nearbyPlaces.clear();
@@ -330,21 +335,24 @@ class LocationPickerState extends State<LocationPicker> {
             "&language=${widget.language}";
 
     final response = await http.get(Uri.parse(endpoint),
-        headers: await (LocationUtils.getAppHeaders() as FutureOr<Map<String, String>?>));
+        headers: await (LocationUtils.getAppHeaders()
+            as FutureOr<Map<String, String>?>));
 
     if (response.statusCode == 200) {
       Map<String, dynamic> responseJson = jsonDecode(response.body);
 
-      String? road;
+      String? formattedAddress;
+      List<Map<String, String>>? addressComponents;
+      //see https://developers.google.com/maps/documentation/geocoding/start
 
       String? placeId = responseJson['results'][0]['place_id'];
 
       if (responseJson['status'] == 'REQUEST_DENIED') {
-        road = 'REQUEST DENIED = please see log for more details';
+        formattedAddress = 'REQUEST DENIED = please see log for more details';
         print(responseJson['error_message']);
       } else {
-        road =
-            responseJson['results'][0]['address_components'][0]['short_name'];
+        addressComponents = responseJson['results'][0]['address_components'];
+        formattedAddress = responseJson['results'][0]['formatted_address'];
       }
 
 //      String locality =
@@ -352,9 +360,42 @@ class LocationPickerState extends State<LocationPicker> {
 
       setState(() {
         locationResult = LocationResult();
-        locationResult!.address = road;
+        locationResult!.formattedAddress = formattedAddress;
         locationResult!.latLng = latLng;
         locationResult!.placeId = placeId;
+        if (addressComponents != null) {
+          addressComponents.forEach((element) {
+            switch (element['types']) {
+              case 'street_number':
+                locationResult!.streetNumber = element['types'];
+                break;
+              case 'route':
+                locationResult!.route = element['types'];
+                break;
+              case 'sublocality':
+              case 'sublocality_level_1':
+                locationResult!.subLocality = element['types'];
+                break;
+              case 'locality':
+                locationResult!.locality = element['types'];
+                break;
+              case 'administrative_area_level_1':
+                locationResult!.administrativeAreaLevel1 = element['types'];
+                break;
+              case 'administrative_area_level_2':
+                locationResult!.administrativeAreaLevel2 = element['types'];
+                break;
+              case 'country':
+                locationResult!.country = element['types'];
+                break;
+              case 'postal_code':
+                locationResult!.postalCode = element['types'];
+                break;
+              default:
+                break;
+            }
+          });
+        }
       });
     }
   }

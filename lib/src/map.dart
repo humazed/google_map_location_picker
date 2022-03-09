@@ -253,7 +253,7 @@ class MapPickerState extends State<MapPicker> {
                       Navigator.of(context).pop({
                         'location': LocationResult(
                           latLng: locationProvider.lastIdleLocation,
-                          address: _address,
+                          formattedAddress: _address,
                           placeId: _placeId,
                         )
                       });
