@@ -365,7 +365,7 @@ class LocationPickerState extends State<LocationPicker> {
         locationResult!.placeId = placeId;
         if (addressComponents != null) {
           addressComponents.forEach((element) {
-            switch (element['types']) {
+            switch (element['types'][0]) {
               case 'street_number':
                 locationResult!.streetNumber = element['types'];
                 break;
