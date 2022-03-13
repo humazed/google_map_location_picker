@@ -362,9 +362,10 @@ class LocationPickerState extends State<LocationPicker> {
         locationResult = LocationResult();
         if (addressComponents != null) {
           addressComponents.forEach((item) {
-            if (item['types'] != null && item['types']!.length > 0) {
-              print('reverseGeocodeLatLng ${item['types']}');
-              switch (item['types']![0]) {
+            List<String>? types = item['types'];
+            if (types != null && types.length > 0) {
+              print('reverseGeocodeLatLng ${types}');
+              switch (types[0]) {
                 case 'street_number':
                   locationResult!.streetNumber = item['long_name'];
                   break;
