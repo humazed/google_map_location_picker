@@ -80,7 +80,7 @@ class MapPickerState extends State<MapPicker> {
   Position? _currentPosition;
 
   String? _address;
-  List<Map<String, dynamic>?>? _addressComponents;
+  List<dynamic>? _addressComponents;
 
   String? _placeId;
 
@@ -239,7 +239,8 @@ class MapPickerState extends State<MapPicker> {
                       builder: (context, data) {
                         _address = data!["address"];
                         _placeId = data["placeId"];
-                        _addressComponents = (data["address_components"]);
+                        dynamic _addressComponents =
+                            (data["address_components"]);
 
                         return Text(
                           _address ??
@@ -258,11 +259,12 @@ class MapPickerState extends State<MapPicker> {
                         formattedAddress: _address,
                         placeId: _placeId,
                       );
-                      /* if (_addressComponents != null) {
-                        _addressComponents!.forEach((item) {
-                          List<String>? types = item['types'];
-                          if (types != null && types.length > 0) {
-                            switch (types[0]) {
+                      if (_addressComponents != null) {
+                        _addressComponents!.forEach((element) {
+                          Map<String, dynamic> item = element;
+                          if (item['types'] != null &&
+                              item['types'].length > 0) {
+                            switch (item['types'][0]) {
                               case 'street_number':
                                 locationResult.streetNumber = item['long_name'];
                                 break;
@@ -295,7 +297,7 @@ class MapPickerState extends State<MapPicker> {
                             }
                           }
                         });
-                      }*/
+                      }
                       Navigator.of(context).pop({'location': locationResult});
                     },
                     child: widget.resultCardConfirmIcon ??
