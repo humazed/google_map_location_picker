@@ -360,18 +360,18 @@ class LocationPickerState extends State<LocationPicker> {
 
       setState(() {
         locationResult = LocationResult();
-        locationResult!.formattedAddress = 'formattedAddress';
+        locationResult!.formattedAddress = 'not an address';
         locationResult!.latLng = latLng;
-        locationResult!.placeId = placeId;
+        locationResult!.placeId = 'placeId';
         locationResult!.streetNumber = 'test test';
-        if (addressComponents != null) {
+        /* if (addressComponents != null) {
           addressComponents.forEach((item) {
             List<String>? types = item['types'];
             if (types != null && types.length > 0) {
               switch (types[0]) {
-                /*   case 'street_number':
+                   case 'street_number':
                   locationResult!.streetNumber = item['long_name'];
-                  break;*/
+                  break;
                 case 'route':
                   locationResult!.route = item['long_name'];
                   break;
@@ -399,7 +399,7 @@ class LocationPickerState extends State<LocationPicker> {
               }
             }
           });
-        }
+        }*/
       });
     }
   }
