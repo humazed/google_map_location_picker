@@ -420,7 +420,7 @@ class LocationPickerState extends State<LocationPicker> {
 
     reverseGeocodeLatLng(latLng);
 
-    getNearbyPlaces(latLng);
+    // getNearbyPlaces(latLng);//db 18/03 no need here
   }
 
   @override
