@@ -368,29 +368,31 @@ class LocationPickerState extends State<LocationPicker> {
             if (element['types'] != null) {
               switch (element['types']![0]) {
                 case 'street_number':
-                  locationResult!.streetNumber = element['types'];
+                  locationResult!.streetNumber = element['long_name'];
                   break;
                 case 'route':
-                  locationResult!.route = element['types'];
+                  locationResult!.route = element['long_name'];
                   break;
                 case 'sublocality':
                 case 'sublocality_level_1':
-                  locationResult!.subLocality = element['types'];
+                  locationResult!.subLocality = element['long_name'];
                   break;
                 case 'locality':
-                  locationResult!.locality = element['types'];
+                  locationResult!.locality = element['long_name'];
                   break;
                 case 'administrative_area_level_1':
-                  locationResult!.administrativeAreaLevel1 = element['types'];
+                  locationResult!.administrativeAreaLevel1 =
+                      element['long_name'];
                   break;
                 case 'administrative_area_level_2':
-                  locationResult!.administrativeAreaLevel2 = element['types'];
+                  locationResult!.administrativeAreaLevel2 =
+                      element['long_name'];
                   break;
                 case 'country':
-                  locationResult!.country = element['types'];
+                  locationResult!.country = element['long_name'];
                   break;
                 case 'postal_code':
-                  locationResult!.postalCode = element['types'];
+                  locationResult!.postalCode = element['long_name'];
                   break;
                 default:
                   break;
