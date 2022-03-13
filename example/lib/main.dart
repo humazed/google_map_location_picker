@@ -53,8 +53,7 @@ class _MyAppState extends State<MyApp> {
                     LocationResult? result = await showLocationPicker(
                       context,
                       googleMapsApiKeyAndroid,
-                      initialCenter:
-                          LatLng(48.81573732077871, 2.277692232201326),
+                      initialCenter: LatLng(31.1975844, 29.9598339),
 //                      automaticallyAnimateToCurrentLocation: true,
 //                      mapStylePath: 'assets/mapStyle.json',
                       myLocationButtonEnabled: true,
