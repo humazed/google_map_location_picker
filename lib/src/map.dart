@@ -80,6 +80,7 @@ class MapPickerState extends State<MapPicker> {
   Position? _currentPosition;
 
   String? _address;
+  List<Map<String, dynamic>>? _addressComponents;
 
   String? _placeId;
 
@@ -238,6 +239,8 @@ class MapPickerState extends State<MapPicker> {
                       builder: (context, data) {
                         _address = data!["address"];
                         _placeId = data["placeId"];
+                        // _addressComponents = data["address_components"];
+
                         return Text(
                           _address ??
                               S.of(context)?.unnamedPlace ??
@@ -250,13 +253,50 @@ class MapPickerState extends State<MapPicker> {
                   Spacer(),
                   FloatingActionButton(
                     onPressed: () {
-                      Navigator.of(context).pop({
-                        'location': LocationResult(
-                          latLng: locationProvider.lastIdleLocation,
-                          formattedAddress: _address,
-                          placeId: _placeId,
-                        )
-                      });
+                      LocationResult locationResult = LocationResult(
+                        latLng: locationProvider.lastIdleLocation,
+                        formattedAddress: _address,
+                        placeId: _placeId,
+                      );
+                      if (_addressComponents != null) {
+                        _addressComponents!.forEach((item) {
+                          List<String>? types = item['types'];
+                          if (types != null && types.length > 0) {
+                            switch (types[0]) {
+                              case 'street_number':
+                                locationResult.streetNumber = item['long_name'];
+                                break;
+                              case 'route':
+                                locationResult.route = item['long_name'];
+                                break;
+                              case 'sublocality':
+                              case 'sublocality_level_1':
+                                locationResult.subLocality = item['long_name'];
+                                break;
+                              case 'locality':
+                                locationResult.locality = item['long_name'];
+                                break;
+                              case 'administrative_area_level_1':
+                                locationResult.administrativeAreaLevel1 =
+                                    item['long_name'];
+                                break;
+                              case 'administrative_area_level_2':
+                                locationResult.administrativeAreaLevel2 =
+                                    item['long_name'];
+                                break;
+                              case 'country':
+                                locationResult.country = item['long_name'];
+                                break;
+                              case 'postal_code':
+                                locationResult.postalCode = item['long_name'];
+                                break;
+                              default:
+                                break;
+                            }
+                          }
+                        });
+                      }
+                      Navigator.of(context).pop({'location': locationResult});
                     },
                     child: widget.resultCardConfirmIcon ??
                         Icon(Icons.arrow_forward),
@@ -284,7 +324,8 @@ class MapPickerState extends State<MapPicker> {
 
       return {
         "placeId": response['results'][0]['place_id'],
-        "address": response['results'][0]['formatted_address']
+        "address": response['results'][0]['formatted_address'],
+        "address_components": response['results'][0]['address_components']
       };
     } catch (e) {
       print("BLB $e");
