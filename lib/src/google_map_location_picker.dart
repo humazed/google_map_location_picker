@@ -365,34 +365,36 @@ class LocationPickerState extends State<LocationPicker> {
         locationResult!.placeId = placeId;
         if (addressComponents != null) {
           addressComponents.forEach((element) {
-            switch (element['types'][0]) {
-              case 'street_number':
-                locationResult!.streetNumber = element['types'];
-                break;
-              case 'route':
-                locationResult!.route = element['types'];
-                break;
-              case 'sublocality':
-              case 'sublocality_level_1':
-                locationResult!.subLocality = element['types'];
-                break;
-              case 'locality':
-                locationResult!.locality = element['types'];
-                break;
-              case 'administrative_area_level_1':
-                locationResult!.administrativeAreaLevel1 = element['types'];
-                break;
-              case 'administrative_area_level_2':
-                locationResult!.administrativeAreaLevel2 = element['types'];
-                break;
-              case 'country':
-                locationResult!.country = element['types'];
-                break;
-              case 'postal_code':
-                locationResult!.postalCode = element['types'];
-                break;
-              default:
-                break;
+            if (element['types'] != null) {
+              switch (element['types']![0]) {
+                case 'street_number':
+                  locationResult!.streetNumber = element['types'];
+                  break;
+                case 'route':
+                  locationResult!.route = element['types'];
+                  break;
+                case 'sublocality':
+                case 'sublocality_level_1':
+                  locationResult!.subLocality = element['types'];
+                  break;
+                case 'locality':
+                  locationResult!.locality = element['types'];
+                  break;
+                case 'administrative_area_level_1':
+                  locationResult!.administrativeAreaLevel1 = element['types'];
+                  break;
+                case 'administrative_area_level_2':
+                  locationResult!.administrativeAreaLevel2 = element['types'];
+                  break;
+                case 'country':
+                  locationResult!.country = element['types'];
+                  break;
+                case 'postal_code':
+                  locationResult!.postalCode = element['types'];
+                  break;
+                default:
+                  break;
+              }
             }
           });
         }
