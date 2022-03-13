@@ -364,35 +364,34 @@ class LocationPickerState extends State<LocationPicker> {
         locationResult!.latLng = latLng;
         locationResult!.placeId = placeId;
         if (addressComponents != null) {
-          addressComponents.forEach((element) {
-            if (element['types'] != null) {
-              switch (element['types']![0]) {
+          addressComponents.forEach((item) {
+            if (item['types'] != null && item['types']!.length > 0) {
+              print('reverseGeocodeLatLng ${item['types']}');
+              switch (item['types']![0]) {
                 case 'street_number':
-                  locationResult!.streetNumber = element['long_name'];
+                  locationResult!.streetNumber = item['long_name'];
                   break;
                 case 'route':
-                  locationResult!.route = element['long_name'];
+                  locationResult!.route = item['long_name'];
                   break;
                 case 'sublocality':
                 case 'sublocality_level_1':
-                  locationResult!.subLocality = element['long_name'];
+                  locationResult!.subLocality = item['long_name'];
                   break;
                 case 'locality':
-                  locationResult!.locality = element['long_name'];
+                  locationResult!.locality = item['long_name'];
                   break;
                 case 'administrative_area_level_1':
-                  locationResult!.administrativeAreaLevel1 =
-                      element['long_name'];
+                  locationResult!.administrativeAreaLevel1 = item['long_name'];
                   break;
                 case 'administrative_area_level_2':
-                  locationResult!.administrativeAreaLevel2 =
-                      element['long_name'];
+                  locationResult!.administrativeAreaLevel2 = item['long_name'];
                   break;
                 case 'country':
-                  locationResult!.country = element['long_name'];
+                  locationResult!.country = item['long_name'];
                   break;
                 case 'postal_code':
-                  locationResult!.postalCode = element['long_name'];
+                  locationResult!.postalCode = item['long_name'];
                   break;
                 default:
                   break;
