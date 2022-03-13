@@ -342,7 +342,7 @@ class LocationPickerState extends State<LocationPicker> {
       Map<String, dynamic> responseJson = jsonDecode(response.body);
 
       String? formattedAddress;
-      List<Map<String, String>>? addressComponents;
+      List<Map<String, dynamic>>? addressComponents;
       //see https://developers.google.com/maps/documentation/geocoding/start
 
       String? placeId = responseJson['results'][0]['place_id'];
@@ -360,9 +360,6 @@ class LocationPickerState extends State<LocationPicker> {
 
       setState(() {
         locationResult = LocationResult();
-        locationResult!.formattedAddress = formattedAddress;
-        locationResult!.latLng = latLng;
-        locationResult!.placeId = placeId;
         if (addressComponents != null) {
           addressComponents.forEach((item) {
             if (item['types'] != null && item['types']!.length > 0) {
@@ -399,6 +396,9 @@ class LocationPickerState extends State<LocationPicker> {
             }
           });
         }
+        locationResult!.formattedAddress = formattedAddress;
+        locationResult!.latLng = latLng;
+        locationResult!.placeId = placeId;
       });
     }
   }
