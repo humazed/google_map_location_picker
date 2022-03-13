@@ -239,7 +239,8 @@ class MapPickerState extends State<MapPicker> {
                       builder: (context, data) {
                         _address = data!["address"];
                         _placeId = data["placeId"];
-                        //_addressComponents = (data["address_components"]);
+                        dynamic _addressComponents =
+                            (data["address_components"]);
 
                         return Text(
                           _address ??
