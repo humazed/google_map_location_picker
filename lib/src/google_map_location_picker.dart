@@ -360,6 +360,7 @@ class LocationPickerState extends State<LocationPicker> {
 
       setState(() {
         locationResult = LocationResult();
+        locationResult!.streetNumber = addressComponents![0]['long_name'];
         if (addressComponents != null) {
           addressComponents.forEach((item) {
             List<String>? types = item['types'];
