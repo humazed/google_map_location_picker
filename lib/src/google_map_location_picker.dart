@@ -489,7 +489,7 @@ class LocationPickerState extends State<LocationPicker> {
 Future<LocationResult?> showLocationPicker(
   BuildContext context,
   String apiKey, {
-  LatLng initialCenter = const LatLng(45.521563, -122.677433),
+  LatLng initialCenter = const LatLng(48.81573732077871, 2.277692232201326),
   double initialZoom = 16,
   bool requiredGPS = false,
   List<String>? countries,

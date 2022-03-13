@@ -255,15 +255,18 @@ class MapPickerState extends State<MapPicker> {
                   FloatingActionButton(
                     onPressed: () {
                       LocationResult locationResult = LocationResult(
-                        latLng: locationProvider.lastIdleLocation,
-                        formattedAddress: _address,
-                        placeId: _placeId,
-                      );
+                          latLng: locationProvider.lastIdleLocation,
+                          formattedAddress: _address,
+                          placeId: _placeId,
+                          streetNumber: 'test1');
                       if (_addressComponents != null) {
+                        locationResult.streetNumber = 'test2';
                         _addressComponents!.forEach((element) {
+                          locationResult.streetNumber = 'test3';
                           Map<String, dynamic> item = element;
                           if (item['types'] != null &&
                               item['types'].length > 0) {
+                            locationResult.streetNumber = 'test4';
                             switch (item['types'][0]) {
                               case 'street_number':
                                 locationResult.streetNumber = item['long_name'];
