@@ -359,12 +359,12 @@ class LocationPickerState extends State<LocationPicker> {
 //          responseJson['results'][0]['address_components'][1]['short_name'];
 
       setState(() {
-        locationResult = LocationResult();
+        /*locationResult = LocationResult();
         locationResult!.formattedAddress = 'not an address';
         locationResult!.latLng = latLng;
         locationResult!.placeId = 'placeId';
         locationResult!.streetNumber = 'test test';
-        /* if (addressComponents != null) {
+         if (addressComponents != null) {
           addressComponents.forEach((item) {
             List<String>? types = item['types'];
             if (types != null && types.length > 0) {
