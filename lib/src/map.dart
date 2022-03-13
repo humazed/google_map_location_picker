@@ -80,7 +80,7 @@ class MapPickerState extends State<MapPicker> {
   Position? _currentPosition;
 
   String? _address;
-  List<Map<String, dynamic>>? _addressComponents;
+  List<Map<String, dynamic>?>? _addressComponents;
 
   String? _placeId;
 
@@ -239,8 +239,7 @@ class MapPickerState extends State<MapPicker> {
                       builder: (context, data) {
                         _address = data!["address"];
                         _placeId = data["placeId"];
-                        dynamic _addressComponents =
-                            (data["address_components"]);
+                        _addressComponents = (data["address_components"]);
 
                         return Text(
                           _address ??
@@ -259,7 +258,7 @@ class MapPickerState extends State<MapPicker> {
                         formattedAddress: _address,
                         placeId: _placeId,
                       );
-                      if (_addressComponents != null) {
+                      /* if (_addressComponents != null) {
                         _addressComponents!.forEach((item) {
                           List<String>? types = item['types'];
                           if (types != null && types.length > 0) {
@@ -296,7 +295,7 @@ class MapPickerState extends State<MapPicker> {
                             }
                           }
                         });
-                      }
+                      }*/
                       Navigator.of(context).pop({'location': locationResult});
                     },
                     child: widget.resultCardConfirmIcon ??
