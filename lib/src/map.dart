@@ -331,7 +331,7 @@ class MapPickerState extends State<MapPicker> {
       return {
         "placeId": response['results'][0]['place_id'],
         "address": response['results'][0]['formatted_address'],
-        "address_components": response['results'][0]['address_components']
+        //"address_components": response['results'][0]['address_components']
       };
     } catch (e) {
       print("BLB $e");
