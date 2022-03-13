@@ -360,12 +360,14 @@ class LocationPickerState extends State<LocationPicker> {
 
       setState(() {
         locationResult = LocationResult();
-        locationResult!.streetNumber = 'cgngn,cc';
+        locationResult!.formattedAddress = 'formattedAddress';
+        locationResult!.latLng = latLng;
+        locationResult!.placeId = placeId;
+        locationResult!.streetNumber = 'test test';
         if (addressComponents != null) {
           addressComponents.forEach((item) {
             List<String>? types = item['types'];
             if (types != null && types.length > 0) {
-              print('reverseGeocodeLatLng ${types}');
               switch (types[0]) {
                 /*   case 'street_number':
                   locationResult!.streetNumber = item['long_name'];
@@ -398,9 +400,6 @@ class LocationPickerState extends State<LocationPicker> {
             }
           });
         }
-        locationResult!.formattedAddress = formattedAddress;
-        locationResult!.latLng = latLng;
-        locationResult!.placeId = placeId;
       });
     }
   }
