@@ -359,17 +359,16 @@ class LocationPickerState extends State<LocationPicker> {
 //          responseJson['results'][0]['address_components'][1]['short_name'];
 
       setState(() {
-        /*locationResult = LocationResult();
-        locationResult!.formattedAddress = 'not an address';
+        locationResult = LocationResult();
+        locationResult!.formattedAddress = formattedAddress;
         locationResult!.latLng = latLng;
-        locationResult!.placeId = 'placeId';
-        locationResult!.streetNumber = 'test test';
-         if (addressComponents != null) {
+        locationResult!.placeId = placeId;
+        if (addressComponents != null) {
           addressComponents.forEach((item) {
             List<String>? types = item['types'];
             if (types != null && types.length > 0) {
               switch (types[0]) {
-                   case 'street_number':
+                case 'street_number':
                   locationResult!.streetNumber = item['long_name'];
                   break;
                 case 'route':
@@ -399,7 +398,7 @@ class LocationPickerState extends State<LocationPicker> {
               }
             }
           });
-        }*/
+        }
       });
     }
   }
@@ -418,9 +417,9 @@ class LocationPickerState extends State<LocationPicker> {
       );
     });
 
-    // reverseGeocodeLatLng(latLng);
+    //reverseGeocodeLatLng(latLng); //db 13/03/22 : method interesting but not used so create Google charges for nothing
 
-    // getNearbyPlaces(latLng);//db 18/03 no need here
+    //getNearbyPlaces(latLng);//db 13/03/22 : method interesting but not used so create Google charges for nothing
   }
 
   @override
