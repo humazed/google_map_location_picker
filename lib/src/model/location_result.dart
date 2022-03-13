@@ -38,6 +38,6 @@ class LocationResult {
 
   @override
   String toString() {
-    return 'LocationResult{address: $formattedAddress, latLng: $latLng, placeId: $placeId, streetNumber: $streetNumber, route: $route, locality: $locality,subLocality $subLocality, administrativeAreaLevel2: $administrativeAreaLevel2, administrativeAreaLevel1: $administrativeAreaLevel1, country: $country, postalCode: $postalCode}';
+    return 'LocationResult{formattedAddress: $formattedAddress, latLng: $latLng, placeId: $placeId, streetNumber: $streetNumber, route: $route, locality: $locality,subLocality $subLocality, administrativeAreaLevel2: $administrativeAreaLevel2, administrativeAreaLevel1: $administrativeAreaLevel1, country: $country, postalCode: $postalCode}';
   }
 }
