@@ -296,7 +296,13 @@ class MapPickerState extends State<MapPicker> {
                           }
                         });
                       }
-                      Navigator.of(context).pop({'location': locationResult});
+                      Navigator.of(context).pop({
+                        'location': LocationResult(
+                          latLng: locationProvider.lastIdleLocation,
+                          formattedAddress: _address,
+                          placeId: _placeId,
+                        )
+                      });
                     },
                     child: widget.resultCardConfirmIcon ??
                         Icon(Icons.arrow_forward),
