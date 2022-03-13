@@ -227,7 +227,7 @@ class MapPickerState extends State<MapPicker> {
                 children: <Widget>[
                   Flexible(
                     flex: 20,
-                    child: FutureLoadingBuilder<Map<String, String?>?>(
+                    child: FutureLoadingBuilder<Map<String, dynamic>?>(
                       future: getAddress(locationProvider.lastIdleLocation),
                       mutable: true,
                       loadingIndicator: Row(
@@ -239,7 +239,7 @@ class MapPickerState extends State<MapPicker> {
                       builder: (context, data) {
                         _address = data!["address"];
                         _placeId = data["placeId"];
-                        // _addressComponents = data["address_components"];
+                        _addressComponents = data["address_components"];
 
                         return Text(
                           _address ??
@@ -296,13 +296,7 @@ class MapPickerState extends State<MapPicker> {
                           }
                         });
                       }
-                      Navigator.of(context).pop({
-                        'location': LocationResult(
-                          latLng: locationProvider.lastIdleLocation,
-                          formattedAddress: _address,
-                          placeId: _placeId,
-                        )
-                      });
+                      Navigator.of(context).pop({'location': locationResult});
                     },
                     child: widget.resultCardConfirmIcon ??
                         Icon(Icons.arrow_forward),
@@ -316,7 +310,7 @@ class MapPickerState extends State<MapPicker> {
     );
   }
 
-  Future<Map<String, String?>?> getAddress(LatLng? location) async {
+  Future<Map<String, dynamic>?> getAddress(LatLng? location) async {
     try {
       final endpoint =
           'https://maps.googleapis.com/maps/api/geocode/json?latlng=${location?.latitude},${location?.longitude}'
@@ -331,7 +325,7 @@ class MapPickerState extends State<MapPicker> {
       return {
         "placeId": response['results'][0]['place_id'],
         "address": response['results'][0]['formatted_address'],
-        //"address_components": response['results'][0]['address_components']
+        "address_components": response['results'][0]['address_components']
       };
     } catch (e) {
       print("BLB $e");
