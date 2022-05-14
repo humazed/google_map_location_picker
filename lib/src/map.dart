@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-
-import 'package:android_intent/android_intent.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+//import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:geolocator/geolocator.dart';
@@ -83,6 +81,7 @@ class MapPickerState extends State<MapPicker> {
   List<dynamic>? _addressComponents;
 
   String? _placeId;
+  late ButtonStyle flatButtonStyle;
 
   void _onToggleMapTypePressed() {
     final MapType nextType =
@@ -137,6 +136,17 @@ class MapPickerState extends State<MapPicker> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
+    flatButtonStyle = TextButton.styleFrom(
+      primary: Colors.white,
+      //minimumSize: Size(88, 44),
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(2.0)),
+      ),
+      backgroundColor: theme.primaryColor,
+    );
+
     if (widget.requiredGPS!) {
       _checkGeolocationPermission();
       if (_currentPosition == null) _initCurrentLocation();
@@ -321,7 +331,7 @@ class MapPickerState extends State<MapPicker> {
               headers: await (LocationUtils.getAppHeaders())))
           .body);
 
-      print("BLB data ${response}");
+      print("BLB data $response");
 
       return {
         "placeId": response['results'][0]['place_id'],
@@ -405,7 +415,8 @@ class MapPickerState extends State<MapPicker> {
                 S.of(context)?.allow_access_to_the_location_services ??
                     'Allow access to the location services.'),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
+                style: flatButtonStyle,
                 child: Text(S.of(context)?.ok ?? 'Ok'),
                 onPressed: () {
                   Navigator.of(context, rootNavigator: true).pop();
@@ -439,7 +450,8 @@ class MapPickerState extends State<MapPicker> {
                     ?.allow_access_to_the_location_services_from_settings ??
                 'Allow access to the location services for this App using the device settings.'),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
+                style: flatButtonStyle,
                 child: Text(S.of(context)?.ok ?? 'Ok'),
                 onPressed: () {
                   Navigator.of(context, rootNavigator: true).pop();
@@ -453,40 +465,6 @@ class MapPickerState extends State<MapPicker> {
       },
     );
   }
-
-  // TODO: 9/12/2020 this is no longer needed, remove in the next release
-  Future _checkGps() async {
-    if (!(await Geolocator.isLocationServiceEnabled())) {
-      if (Theme.of(context).platform == TargetPlatform.android) {
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text(S.of(context)?.cant_get_current_location ??
-                  "Can't get current location"),
-              content: Text(S
-                      .of(context)
-                      ?.please_make_sure_you_enable_gps_and_try_again ??
-                  'Please make sure you enable GPS and try again'),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text('Ok'),
-                  onPressed: () {
-                    final AndroidIntent intent = AndroidIntent(
-                        action: 'android.settings.LOCATION_SOURCE_SETTINGS');
-
-                    intent.launch();
-                    Navigator.of(context, rootNavigator: true).pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );
-      }
-    }
-  }
 }
 
 class _MapFabs extends StatelessWidget {
@@ -496,7 +474,7 @@ class _MapFabs extends StatelessWidget {
     required this.layersButtonEnabled,
     required this.onToggleMapTypePressed,
     required this.onMyLocationPressed,
-  })  : assert(onToggleMapTypePressed != null),
+  }) : //assert(onToggleMapTypePressed != null),
         super(key: key);
 
   final bool? myLocationButtonEnabled;
